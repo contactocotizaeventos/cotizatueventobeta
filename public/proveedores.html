@@ -258,19 +258,27 @@
     .btn-detail:hover{background:var(--border)}
 
     /* BASIC LIST */
-    .basic-section-label{display:flex;align-items:center;gap:8px;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;margin-top:6px}
+    .basic-section-label{display:flex;align-items:center;gap:8px;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;margin-top:6px}
     .basic-section-label::before,.basic-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
-    .basic-list{display:flex;flex-direction:column;gap:5px}
-    .basic-item{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:13px 16px;display:flex;align-items:center;gap:14px;transition:.18s;cursor:pointer}
-    .basic-item:hover{border-color:var(--coral-md);box-shadow:var(--shadow)}
-    .basic-ico{font-size:1.3rem;flex-shrink:0}
-    .basic-info{flex:1}
-    .basic-name{font-size:.9rem;font-weight:600;color:var(--ink)}
-    .basic-tagline{font-size:.74rem;color:var(--muted);margin-top:1px}
-    .basic-price{font-size:.78rem;color:var(--ink2);text-align:right;flex-shrink:0}
-    .basic-price span{display:block;font-size:.64rem;color:var(--muted)}
+    .basic-list{display:flex;flex-direction:column;gap:10px}
+    .basic-item{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:14px;transition:.22s var(--ease);cursor:pointer}
+    .basic-item:hover{border-color:var(--coral-md);box-shadow:0 4px 20px rgba(232,84,42,.1);transform:translateY(-1px)}
+    .basic-logo{width:52px;height:52px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.5rem;overflow:hidden;background:var(--bg2);border:1px solid var(--border)}
+    .basic-logo img{width:100%;height:100%;object-fit:cover;border-radius:11px}
+    .basic-info{flex:1;min-width:0}
+    .basic-name{font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+    .basic-tagline{font-size:.74rem;color:var(--muted);margin-bottom:5px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .basic-social-row{display:flex;flex-wrap:wrap;gap:5px}
+    .basic-soc{display:inline-flex;align-items:center;gap:3px;font-size:.67rem;color:var(--ink2);background:var(--bg2);border:1px solid var(--border);padding:2px 8px;border-radius:99px;text-decoration:none;transition:.15s;white-space:nowrap}
+    .basic-soc:hover{border-color:var(--coral);color:var(--coral)}
+    .basic-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .basic-price-val{font-family:'Fraunces',serif;font-size:.95rem;font-weight:900;color:var(--ink2)}
+    .basic-price-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);text-align:right}
+    .basic-actions{display:flex;gap:6px}
     .basic-wa{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#25D366;color:#fff;font-size:.85rem;flex-shrink:0;transition:.18s;text-decoration:none}
     .basic-wa:hover{background:#1db954;transform:scale(1.08)}
+    .basic-detail{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--bg2);color:var(--ink2);font-size:.8rem;border:1px solid var(--border);cursor:pointer;transition:.18s}
+    .basic-detail:hover{border-color:var(--coral);color:var(--coral)}
     .upgrade-cta{background:linear-gradient(135deg,var(--coral-lt),#FFF);border:1.5px dashed var(--coral-md);border-radius:12px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:14px;flex-wrap:wrap}
     .upgrade-cta p{font-size:.82rem;color:var(--ink2);line-height:1.5;flex:1}
     .upgrade-cta p strong{color:var(--coral)}
@@ -618,12 +626,14 @@ function render(groupFilter = 'all', searchQ = '') {
             <span class="cat-badge">${cat.proveedores.length} opciones</span>
           </div>
           <div class="top-positions">${paid.map(paidCardHTML).join('')}</div>
-          <div class="basic-section-label">Otras opciones disponibles</div>
-          <div class="basic-list">${basic.map(basicHTML).join('')}</div>
           <div class="upgrade-cta">
             <p>¿Eres proveedor de <strong>${cat.nombre}</strong>? Consigue una de las <strong>3 posiciones destacadas</strong> y recibe contactos directos.</p>
             <a href="form.html" class="btn btn-coral">Quiero destacarme →</a>
           </div>
+          ${basic.length ? `
+          <div class="basic-section-label">Otras opciones disponibles</div>
+          <div class="basic-list">\${basic.map(basicHTML).join('')}</div>
+          ` : ''}
         </div>`;
     });
 
@@ -744,11 +754,30 @@ function paidCardHTML(p) {
 
 function basicHTML(p) {
   const waMsg = encodeURIComponent('Hola ' + p.nombre + '! Los vi en CotizaTuFiesta.cl y quiero más información.');
+  const logoContent = p.logo_url ? `<img src="${p.logo_url}" alt="${p.nombre}" />` : p.logo;
+  const igHandle = p.instagram ? p.instagram.replace('@','') : '';
+  const socials = [
+    p.instagram ? `<a class="basic-soc" href="https://instagram.com/${igHandle}" target="_blank" onclick="event.stopPropagation()">📸 ${p.instagram}</a>` : '',
+    p.web       ? `<a class="basic-soc" href="${p.web}" target="_blank" onclick="event.stopPropagation()">🌐 Web</a>` : '',
+    p.facebook  ? `<a class="basic-soc" href="${p.facebook}" target="_blank" onclick="event.stopPropagation()">📘 Facebook</a>` : '',
+  ].filter(Boolean).join('');
   return `<div class="basic-item" onclick="openModalBasic('${p.id}')">
-    <span class="basic-ico">${p.logo}</span>
-    <div class="basic-info"><div class="basic-name">${p.nombre}</div><div class="basic-tagline">${p.tagline||''}</div></div>
-    <div class="basic-price">${p.minimo} – ${p.maximo}<span>Rango de precio</span></div>
-    <a class="basic-wa" href="https://wa.me/${p.wa}?text=${waMsg}" target="_blank" onclick="event.stopPropagation()" title="WhatsApp">💬</a>
+    <div class="basic-logo">${logoContent}</div>
+    <div class="basic-info">
+      <div class="basic-name">${p.nombre}</div>
+      <div class="basic-tagline">${p.tagline||''}</div>
+      ${socials ? `<div class="basic-social-row">${socials}</div>` : ''}
+    </div>
+    <div class="basic-right">
+      <div>
+        <div class="basic-price-label">Desde</div>
+        <div class="basic-price-val">${p.minimo}</div>
+      </div>
+      <div class="basic-actions">
+        <a class="basic-wa" href="https://wa.me/${p.wa}?text=${waMsg}" target="_blank" onclick="event.stopPropagation()" title="WhatsApp">💬</a>
+        <span class="basic-detail" title="Ver detalle">›</span>
+      </div>
+    </div>
   </div>`;
 }
 
@@ -760,7 +789,6 @@ function openModal(id) {
   document.getElementById('modal-inner').innerHTML = `
     <div class="modal-band ${r.cls}"></div>
     <div class="modal-inner">
-      ${p.cover_url ? `<div style="width:100%;height:180px;overflow:hidden;border-radius:12px;margin-bottom:16px"><img src="${p.cover_url}" style="width:100%;height:100%;object-fit:cover" /></div>` : ''}
       ${p.cover_url ? `<div style="width:100%;height:180px;overflow:hidden;border-radius:12px;margin-bottom:16px"><img src="${p.cover_url}" style="width:100%;height:100%;object-fit:cover" /></div>` : ''}
       <div class="modal-top-row">
         <div class="modal-logo ${r.cls}">${p.logo_url ? `<img src="${p.logo_url}" style="width:100%;height:100%;object-fit:cover;border-radius:14px" />` : p.logo}</div>
