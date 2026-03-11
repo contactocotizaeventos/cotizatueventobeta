@@ -222,7 +222,7 @@
 
     /* LOGO flotante */
     .pos-logo-wrap{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);z-index:4}
-    .pos-logo-circle{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+    .pos-logo-circle{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 4px 16px rgba(0,0,0,.15);overflow:hidden;background:#fff}
     .pos-1 .pos-logo-circle{background:#fff;border:2.5px solid var(--gold-bd)}
     .pos-2 .pos-logo-circle{background:#fff;border:2.5px solid #C0C0C0}
     .pos-3 .pos-logo-circle{background:#fff;border:2.5px solid #CD7F32}
@@ -709,7 +709,7 @@ function paidCardHTML(p) {
       <div class="pos-cover-overlay"></div>
       <div class="pos-ribbon">${r.stars} ${r.label}</div>
       <div class="pos-logo-wrap">
-        <div class="pos-logo-circle">${p.logo_url ? `<img src="${p.logo_url}" style="width:100%;height:100%;object-fit:cover" />` : p.logo}</div>
+        <div class="pos-logo-circle">${p.logo_url ? `<img src="${p.logo_url}" style="width:100%;height:100%;object-fit:cover;border-radius:12px" />` : p.logo}</div>
       </div>
     </div>
     <div class="pos-body">
