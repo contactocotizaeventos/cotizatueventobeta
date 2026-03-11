@@ -709,7 +709,7 @@ function paidCardHTML(p) {
       <div class="pos-cover-overlay"></div>
       <div class="pos-ribbon">${r.stars} ${r.label}</div>
       <div class="pos-logo-wrap">
-        <div class="pos-logo-circle">${p.logo}</div>
+        <div class="pos-logo-circle">${p.logo_url ? `<img src="${p.logo_url}" style="width:100%;height:100%;object-fit:cover" />` : p.logo}</div>
       </div>
     </div>
     <div class="pos-body">
@@ -760,8 +760,9 @@ function openModal(id) {
     <div class="modal-band ${r.cls}"></div>
     <div class="modal-inner">
       ${p.cover_url ? `<div style="width:100%;height:180px;overflow:hidden;border-radius:12px;margin-bottom:16px"><img src="${p.cover_url}" style="width:100%;height:100%;object-fit:cover" /></div>` : ''}
+      ${p.cover_url ? `<div style="width:100%;height:180px;overflow:hidden;border-radius:12px;margin-bottom:16px"><img src="${p.cover_url}" style="width:100%;height:100%;object-fit:cover" /></div>` : ''}
       <div class="modal-top-row">
-        <div class="modal-logo ${r.cls}">${p.logo}</div>
+        <div class="modal-logo ${r.cls}">${p.logo_url ? `<img src="${p.logo_url}" style="width:100%;height:100%;object-fit:cover;border-radius:14px" />` : p.logo}</div>
         <div class="modal-name-block">
           <div class="modal-position-tag ${r.tag}">${r.stars} ${r.label}</div>
           <h3 class="modal-name">${p.nombre}</h3>
