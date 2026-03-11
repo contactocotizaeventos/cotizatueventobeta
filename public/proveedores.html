@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proveedores – CotizaTuFiesta.cl</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --coral:#E8542A;--coral-lt:#FFF0EB;--coral-md:#FFCFC2;
+      --gold:#B8860B;--gold-lt:#FFF8E6;--gold-bd:#E8C84A;
+      --silver:#6B7280;--silver-lt:#F3F4F6;
+      --bronze:#9C6B2E;--bronze-lt:#FDF3E6;
+      --bg:#FAFAF8;--bg2:#F5F3EF;--white:#FFFFFF;
+      --ink:#1A1714;--ink2:#3D3733;--muted:#8A8278;
+      --border:#E8E4DF;--border2:#D4CFC9;
+      --r:14px;--ease:cubic-bezier(.4,0,.2,1);
+      --shadow:0 2px 12px rgba(0,0,0,.07);
+      --shadow-md:0 8px 32px rgba(0,0,0,.1);
+      --shadow-lg:0 20px 60px rgba(0,0,0,.12);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;line-height:1.6}
+    h1,h2,h3,h4,h5{font-family:'Fraunces',serif;line-height:1.15}
+    a{text-decoration:none;color:inherit}
+    ::selection{background:var(--coral);color:#fff}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:var(--bg2)}
+    ::-webkit-scrollbar-thumb{background:var(--coral);border-radius:99px}
+    .container{max-width:1080px;margin:0 auto;padding:0 24px}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:300;padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+    .logo{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:900;color:var(--ink)}
+    .logo span{color:var(--coral)}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:600;font-size:.83rem;cursor:pointer;border:none;transition:.22s var(--ease);white-space:nowrap}
+    .btn-coral{background:var(--coral);color:#fff}
+    .btn-coral:hover{background:#c94520;transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,84,42,.28)}
+    .btn-outline{background:transparent;border:1.5px solid var(--border2);color:var(--ink2)}
+    .btn-outline:hover{border-color:var(--coral);color:var(--coral)}
+    .btn-wa{background:#25D366;color:#fff}
+    .btn-wa:hover{background:#1db954;transform:translateY(-1px)}
+
+    /* PAGE HEADER */
+    .page-header{background:var(--white);border-bottom:1px solid var(--border);padding:40px 24px 36px}
+    .page-header .inner{max-width:1080px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px}
+    .ph-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:10px}
+    .page-header h1{font-size:clamp(1.6rem,3vw,2.4rem);color:var(--ink);margin-bottom:8px}
+    .page-header p{font-size:.88rem;color:var(--muted);max-width:460px}
+    .ph-legend{display:flex;flex-direction:column;gap:7px;flex-shrink:0}
+    .legend-item{display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--ink2)}
+    .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .ld-1{background:linear-gradient(135deg,#B8860B,#E8C84A)}
+    .ld-2{background:var(--silver)}
+    .ld-3{background:var(--bronze)}
+    .ld-basic{background:var(--border2)}
+
+    /* SEARCH BAR */
+    .search-header{background:var(--white);border-bottom:1px solid var(--border);padding:16px 40px;position:sticky;top:60px;z-index:200}
+    .search-inner{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .search-box{position:relative;flex:1;min-width:220px}
+    .search-box input{width:100%;padding:10px 14px 10px 40px;border:1.5px solid var(--border);border-radius:99px;font-family:'Outfit',sans-serif;font-size:.88rem;color:var(--ink);background:var(--bg);transition:.22s;outline:none}
+    .search-box input:focus{border-color:var(--coral);background:var(--coral-lt);box-shadow:0 0 0 3px rgba(232,84,42,.08)}
+    .search-box input::placeholder{color:var(--muted)}
+    .search-box .s-ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:.9rem;pointer-events:none}
+    .quick-filters{display:flex;flex-wrap:wrap;gap:6px}
+    .qf-btn{padding:6px 14px;border-radius:99px;font-size:.75rem;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--muted);transition:.18s;white-space:nowrap}
+    .qf-btn:hover{border-color:var(--coral);color:var(--coral)}
+    .qf-btn.active{background:var(--coral-lt);border-color:var(--coral);color:var(--coral)}
+
+    /* LAYOUT — sin sidebar, full width */
+    .page-body{max-width:1200px;margin:0 auto;padding:0 0 100px}
+
+    /* ═══ CATEGORY SCROLL BAR ═══ */
+    .cat-scroll-bar{
+      background:var(--white);
+      border-bottom:1px solid var(--border);
+      position:sticky;
+      top:116px; /* nav 60px + search 56px */
+      z-index:150;
+      /* full bleed — salir del max-width */
+      width:100vw;
+      margin-left:calc(-50vw + 50%);
+    }
+
+    /* Buscador dentro del cat-scroll-bar */
+    .csb-search-row{
+      display:flex;align-items:center;gap:14px;
+      padding:10px 32px 0;
+      max-width:1200px;margin:0 auto;
+    }
+    .csb-search-wrap{
+      position:relative;flex:1;max-width:380px;
+    }
+    .csb-search-wrap input{
+      width:100%;padding:9px 14px 9px 36px;
+      border:1.5px solid var(--border);border-radius:10px;
+      font-family:'Outfit',sans-serif;font-size:.84rem;color:var(--ink);
+      background:var(--bg);outline:none;transition:.2s;
+    }
+    .csb-search-wrap input:focus{
+      border-color:var(--coral);background:var(--coral-lt);
+      box-shadow:0 0 0 3px rgba(232,84,42,.08);
+    }
+    .csb-search-wrap input::placeholder{color:var(--muted)}
+    .csb-search-wrap .css-ico{
+      position:absolute;left:11px;top:50%;transform:translateY(-50%);
+      font-size:.84rem;pointer-events:none;
+    }
+    .csb-search-wrap .css-clear{
+      position:absolute;right:10px;top:50%;transform:translateY(-50%);
+      font-size:.7rem;color:var(--muted);cursor:pointer;
+      background:var(--border2);border:none;border-radius:50%;
+      width:17px;height:17px;display:none;align-items:center;justify-content:center;
+      font-weight:700;transition:.15s;
+    }
+    .csb-search-wrap.has-val .css-clear{display:flex}
+    .csb-search-wrap .css-clear:hover{background:var(--coral);color:#fff}
+    .csb-count{font-size:.75rem;color:var(--muted);white-space:nowrap;flex-shrink:0}
+    .csb-count strong{color:var(--coral)}
+
+    /* Scroll track */
+    .csb-track-wrap{
+      position:relative;
+    }
+    /* fade edges */
+    .csb-track-wrap::before,.csb-track-wrap::after{
+      content:'';position:absolute;top:0;bottom:0;width:40px;z-index:2;pointer-events:none;
+      transition:opacity .2s;
+    }
+    .csb-track-wrap::before{left:0;background:linear-gradient(to right,var(--white),transparent)}
+    .csb-track-wrap::after{right:0;background:linear-gradient(to left,var(--white),transparent)}
+
+    .csb-track{
+      display:flex;align-items:stretch;gap:0;
+      overflow-x:auto;
+      padding:10px 32px 12px;
+      scroll-behavior:smooth;
+      -webkit-overflow-scrolling:touch;
+    }
+    .csb-track::-webkit-scrollbar{height:3px}
+    .csb-track::-webkit-scrollbar-thumb{background:var(--coral-md);border-radius:99px}
+    .csb-track::-webkit-scrollbar-track{background:transparent}
+
+    /* Group divider inside track */
+    .csb-group-divider{
+      display:flex;align-items:center;
+      padding:0 10px;flex-shrink:0;
+    }
+    .csb-group-divider span{
+      font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+      color:var(--muted);white-space:nowrap;writing-mode:horizontal-tb;
+      background:var(--bg2);padding:3px 8px;border-radius:99px;
+      border:1px solid var(--border);
+    }
+
+    /* Category pill */
+    .csb-pill{
+      display:flex;align-items:center;gap:8px;
+      padding:8px 16px;border-radius:99px;
+      font-size:.85rem;font-weight:500;color:var(--ink2);
+      cursor:pointer;text-decoration:none;
+      border:1.5px solid var(--border);background:var(--white);
+      transition:.18s var(--ease);white-space:nowrap;flex-shrink:0;
+      margin-right:6px;
+    }
+    .csb-pill:hover{
+      border-color:var(--coral-md);background:var(--coral-lt);color:var(--coral);
+    }
+    .csb-pill.active{
+      border-color:var(--coral);background:var(--coral);color:#fff;
+    }
+    .csb-pill.hidden{display:none}
+    .csb-pill .cp-ico{font-size:1.05rem;flex-shrink:0}
+    .csb-pill.active .cp-ico{filter:none}
+
+    /* CONTENT AREA */
+    .content-area{padding:32px 32px 0;max-width:1200px;margin:0 auto;min-height:100vh}
+
+    /* GROUP HEADER (parent category) */
+    .group-section{margin-bottom:64px}
+    .group-section-header{display:flex;align-items:center;gap:14px;margin-bottom:28px;padding-bottom:16px;border-bottom:2px solid var(--border)}
+    .group-section-icon{width:48px;height:48px;border-radius:14px;background:var(--coral-lt);border:1.5px solid var(--coral-md);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+    .group-section-header h2{font-size:1.4rem;color:var(--ink);margin-bottom:2px}
+    .group-section-header p{font-size:.82rem;color:var(--muted)}
+
+    /* CAT SECTION (sub-category) */
+    .cat-section{margin-bottom:52px;scroll-margin-top:120px}
+    .cat-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+    .cat-icon{width:42px;height:42px;border-radius:12px;background:var(--bg2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+    .cat-header h3{font-size:1.15rem;color:var(--ink);margin-bottom:2px}
+    .cat-header p{font-size:.8rem;color:var(--muted)}
+    .cat-badge{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--bg2);color:var(--muted);border:1px solid var(--border);padding:2px 8px;border-radius:99px;margin-left:auto;flex-shrink:0}
+
+    /* PROVIDER CARDS — con foto de portada */
+    .top-positions{display:flex;flex-direction:column;gap:22px;margin-bottom:20px}
+    .pos-card{background:var(--white);border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08);transition:.3s var(--ease);cursor:pointer;position:relative;display:flex;flex-direction:column}
+    .pos-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.14)}
+    .pos-card.pos-1{border:2px solid var(--gold-bd)}
+    .pos-card.pos-2{border:1.5px solid #C0C0C0}
+    .pos-card.pos-3{border:1.5px solid #CD7F32}
+
+    /* COVER PHOTO */
+    .pos-cover{position:relative;width:100%;height:160px;overflow:hidden;flex-shrink:0}
+    .pos-cover-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s var(--ease)}
+    .pos-card:hover .pos-cover-img{transform:scale(1.04)}
+    .pos-cover-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3.5rem}
+    .pos-1 .pos-cover-placeholder{background:linear-gradient(135deg,#FFFBF0,#FFE88A,#FFF3CC)}
+    .pos-2 .pos-cover-placeholder{background:linear-gradient(135deg,#F0F0F0,#D8D8D8,#ECECEC)}
+    .pos-3 .pos-cover-placeholder{background:linear-gradient(135deg,#FFF4E8,#F5D9B0,#F5E6D0)}
+    .pos-cover-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.45) 100%)}
+
+    /* RIBBON sobre la foto */
+    .pos-ribbon{position:absolute;top:12px;left:0;z-index:3;display:inline-flex;align-items:center;gap:5px;padding:5px 14px 5px 12px;border-radius:0 99px 99px 0;font-size:.63rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;box-shadow:0 3px 12px rgba(0,0,0,.18)}
+    .pos-1 .pos-ribbon{background:linear-gradient(90deg,#8B6914,#D4A017,#E8C84A);color:#fff}
+    .pos-2 .pos-ribbon{background:linear-gradient(90deg,#555,#888,#ADADAD);color:#fff}
+    .pos-3 .pos-ribbon{background:linear-gradient(90deg,#6B3E10,#9C6B2E,#C88840);color:#fff}
+
+    /* LOGO flotante */
+    .pos-logo-wrap{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);z-index:4}
+    .pos-logo-circle{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+    .pos-1 .pos-logo-circle{background:#fff;border:2.5px solid var(--gold-bd)}
+    .pos-2 .pos-logo-circle{background:#fff;border:2.5px solid #C0C0C0}
+    .pos-3 .pos-logo-circle{background:#fff;border:2.5px solid #CD7F32}
+
+    /* CARD BODY */
+    .pos-body{padding:30px 20px 14px;flex:1;display:flex;flex-direction:column;gap:10px}
+    .pos-header-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .pos-name{font-size:1.08rem;font-weight:700;color:var(--ink);font-family:'Outfit',sans-serif;line-height:1.2}
+    .pos-tagline{font-size:.78rem;color:var(--muted);margin-top:2px;line-height:1.4}
+    .pos-stars{font-size:.72rem;letter-spacing:1px;margin-top:3px}
+    .pos-1 .pos-stars{color:var(--gold)}
+    .pos-2 .pos-stars{color:#A0A0A0}
+    .pos-3 .pos-stars{color:#CD7F32}
+    .pos-price-badge{flex-shrink:0;text-align:right;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:6px 10px}
+    .pos-price-badge .pb-label{font-size:.55rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+    .pos-price-badge .pb-min{font-family:'Fraunces',serif;font-size:1rem;font-weight:900;line-height:1}
+    .pos-1 .pb-min{color:var(--gold)}
+    .pos-2 .pb-min{color:var(--silver)}
+    .pos-3 .pb-min{color:var(--bronze)}
+    .pos-price-badge .pb-max{font-size:.65rem;color:var(--muted);margin-top:1px}
+    .pos-diff{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;padding:4px 11px;border-radius:99px;align-self:flex-start}
+    .pos-1 .pos-diff{background:var(--gold-lt);color:var(--gold);border:1px solid #E8C84A}
+    .pos-2 .pos-diff{background:var(--silver-lt);color:var(--silver);border:1px solid #C0C0C0}
+    .pos-3 .pos-diff{background:var(--bronze-lt);color:var(--bronze);border:1px solid #CD7F32}
+    .pos-desc{font-size:.8rem;color:var(--ink2);line-height:1.65;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .pos-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-top:1px solid var(--border);background:var(--bg);gap:10px;flex-wrap:wrap}
+    .pos-meta{display:flex;flex-wrap:wrap;gap:10px}
+    .pos-meta-item{font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+    .pos-cta-group{display:flex;gap:8px;flex-shrink:0}
+    .pos-cta-group .btn{padding:8px 14px;font-size:.76rem}
+    .btn-detail{background:var(--bg2);color:var(--ink2);border:1px solid var(--border2)}
+    .btn-detail:hover{background:var(--border)}
+
+    /* BASIC LIST */
+    .basic-section-label{display:flex;align-items:center;gap:8px;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;margin-top:6px}
+    .basic-section-label::before,.basic-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+    .basic-list{display:flex;flex-direction:column;gap:5px}
+    .basic-item{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:13px 16px;display:flex;align-items:center;gap:14px;transition:.18s;cursor:pointer}
+    .basic-item:hover{border-color:var(--coral-md);box-shadow:var(--shadow)}
+    .basic-ico{font-size:1.3rem;flex-shrink:0}
+    .basic-info{flex:1}
+    .basic-name{font-size:.9rem;font-weight:600;color:var(--ink)}
+    .basic-tagline{font-size:.74rem;color:var(--muted);margin-top:1px}
+    .basic-price{font-size:.78rem;color:var(--ink2);text-align:right;flex-shrink:0}
+    .basic-price span{display:block;font-size:.64rem;color:var(--muted)}
+    .basic-wa{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#25D366;color:#fff;font-size:.85rem;flex-shrink:0;transition:.18s;text-decoration:none}
+    .basic-wa:hover{background:#1db954;transform:scale(1.08)}
+    .upgrade-cta{background:linear-gradient(135deg,var(--coral-lt),#FFF);border:1.5px dashed var(--coral-md);border-radius:12px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:14px;flex-wrap:wrap}
+    .upgrade-cta p{font-size:.82rem;color:var(--ink2);line-height:1.5;flex:1}
+    .upgrade-cta p strong{color:var(--coral)}
+
+    /* MODAL */
+    #modal-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(26,23,20,.5);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px}
+    #modal-overlay.open{display:flex;animation:fadeIn .22s var(--ease)}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .modal-box{background:var(--white);border-radius:20px;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;animation:slideUp .28s var(--ease);position:relative;box-shadow:0 40px 100px rgba(0,0,0,.2)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+    .modal-box::-webkit-scrollbar{width:4px}
+    .modal-box::-webkit-scrollbar-thumb{background:var(--coral-md);border-radius:99px}
+    .modal-band{height:5px;width:100%;border-radius:20px 20px 0 0}
+    .modal-band.pos-1{background:linear-gradient(90deg,#B8860B,#E8C84A,#B8860B)}
+    .modal-band.pos-2{background:linear-gradient(90deg,#888,#C0C0C0,#888)}
+    .modal-band.pos-3{background:linear-gradient(90deg,#8B5E2A,#CD7F32,#8B5E2A)}
+    .modal-band.basic{background:var(--border2)}
+    .modal-close{position:absolute;top:14px;right:14px;z-index:10;width:32px;height:32px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);color:var(--ink2);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.18s}
+    .modal-close:hover{background:var(--coral);color:#fff;border-color:var(--coral)}
+    .modal-inner{padding:28px}
+    .modal-top-row{display:flex;align-items:flex-start;gap:16px;margin-bottom:16px}
+    .modal-logo{width:64px;height:64px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:var(--shadow-md)}
+    .modal-logo.pos-1{background:var(--gold-lt);border:2px solid var(--gold-bd)}
+    .modal-logo.pos-2{background:var(--silver-lt);border:2px solid #C0C0C0}
+    .modal-logo.pos-3{background:var(--bronze-lt);border:2px solid #CD7F32}
+    .modal-logo.basic{background:var(--bg2);border:1.5px solid var(--border2)}
+    .modal-name-block{flex:1}
+    .modal-position-tag{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:99px;margin-bottom:5px}
+    .pt-1{background:var(--gold-lt);color:var(--gold)}
+    .pt-2{background:var(--silver-lt);color:var(--silver)}
+    .pt-3{background:var(--bronze-lt);color:var(--bronze)}
+    .pt-b{background:var(--bg2);color:var(--muted)}
+    .modal-name{font-size:1.35rem;color:var(--ink);margin-bottom:3px}
+    .modal-tagline{font-size:.84rem;color:var(--muted)}
+    .modal-diff{display:inline-flex;align-items:center;gap:5px;font-size:.74rem;font-weight:600;padding:5px 12px;border-radius:99px;margin-bottom:18px}
+    .modal-diff.pos-1{background:var(--gold-lt);color:var(--gold);border:1px solid var(--gold-bd)}
+    .modal-diff.pos-2{background:var(--silver-lt);color:var(--silver);border:1px solid #C0C0C0}
+    .modal-diff.pos-3{background:var(--bronze-lt);color:var(--bronze);border:1px solid #CD7F32}
+    .modal-desc{font-size:.87rem;color:var(--ink2);line-height:1.7;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+    .modal-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+    .mig-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+    .mig-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:700;margin-bottom:3px}
+    .mig-val{font-size:.9rem;font-weight:600;color:var(--ink)}
+    .mig-val.price{font-family:'Fraunces',serif;font-size:1.05rem;color:var(--coral)}
+    .modal-socials-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
+    .soc-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:99px;font-size:.76rem;font-weight:500;border:1.5px solid var(--border);background:var(--bg);transition:.18s;color:var(--ink2)}
+    .soc-chip:hover{border-color:var(--coral);color:var(--coral)}
+    .modal-ctas{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .modal-ctas .btn{justify-content:center;padding:12px 18px}
+
+    /* EMPTY STATE */
+    .empty-state{text-align:center;padding:60px 24px;color:var(--muted)}
+    .empty-state .emoji{font-size:3rem;margin-bottom:14px;display:block}
+    .empty-state h3{font-size:1.2rem;color:var(--ink);margin-bottom:8px}
+    .empty-state p{font-size:.88rem}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .48s ease,transform .48s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    @media(max-width:900px){
+      nav{padding:0 20px}
+      .search-header{padding:12px 16px}
+      .cat-scroll-bar{top:116px}
+      .csb-search-row{padding:8px 16px 0}
+      .csb-track{padding:8px 16px 10px}
+      .content-area{padding:20px 16px 0}
+      .pos-card{flex-direction:column}
+      .pos-cover{height:130px}
+      .pos-footer{flex-direction:column;align-items:flex-start}
+      .pos-cta-group{width:100%}
+      .pos-cta-group .btn{flex:1;justify-content:center}
+      .modal-info-grid{grid-template-columns:1fr}
+      .modal-ctas{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Cotiza<span>TuFiesta</span>.cl</a>
+  <div class="nav-right">
+    <a href="index.html" class="btn btn-outline">← Volver</a>
+    <a href="index.html#cotizar" class="btn btn-coral">✦ Cotizar gratis</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="inner">
+    <div>
+      <div class="ph-eyebrow">Directorio verificado</div>
+      <h1>Proveedores para tu evento</h1>
+      <p>Encuentra el proveedor ideal por categoría. Las 3 primeras posiciones incluyen información completa y contacto directo.</p>
+    </div>
+    <div class="ph-legend">
+      <div class="legend-item"><div class="legend-dot ld-1"></div> Posición #1 — Oro</div>
+      <div class="legend-item"><div class="legend-dot ld-2"></div> Posición #2 — Plata</div>
+      <div class="legend-item"><div class="legend-dot ld-3"></div> Posición #3 — Bronce</div>
+      <div class="legend-item"><div class="legend-dot ld-basic"></div> Listado básico</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH BAR -->
+<div class="search-header">
+  <div class="search-inner">
+    <div class="search-box">
+      <span class="s-ico">🔍</span>
+      <input type="text" id="global-search" placeholder="Buscar categoría... (ej: pizza, DJ, carpas)" oninput="handleSearch()" autocomplete="off" />
+    </div>
+    <div class="quick-filters" id="quick-filters">
+      <button class="qf-btn active" onclick="filterGroup('all', this)">Todos</button>
+      <button class="qf-btn" onclick="filterGroup('catering', this)">🍽️ Catering</button>
+      <button class="qf-btn" onclick="filterGroup('entretenimiento', this)">🎵 Entretenimiento</button>
+      <button class="qf-btn" onclick="filterGroup('produccion', this)">⚙️ Producción</button>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORY SCROLL BAR — full width, sticky -->
+<div class="cat-scroll-bar" id="cat-scroll-bar">
+  <!-- Buscador de categorías -->
+  <div class="csb-search-row">
+    <div class="csb-search-wrap" id="csb-sw">
+      <span class="css-ico">🔍</span>
+      <input type="text" id="cat-search" placeholder="Buscar categoría..." autocomplete="off" oninput="filterCatBar(this.value)" />
+      <button class="css-clear" onclick="clearCatSearch()">✕</button>
+    </div>
+    <div class="csb-count" id="csb-count"></div>
+  </div>
+  <!-- Pills de categorías -->
+  <div class="csb-track-wrap">
+    <div class="csb-track" id="csb-track">
+      <!-- generado por JS -->
+    </div>
+  </div>
+</div>
+
+<div class="page-body">
+  <!-- CONTENT — ahora full width -->
+  <div class="content-area" id="content-area">
+    <!-- generated by JS -->
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-inner"></div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA — cargado dinámicamente desde Netlify Function
+═══════════════════════════════════════════ */
+let GRUPOS = [];
+let CAT_INDEX = {};
+let PROV_INDEX = {};
+
+function buildIndex() {
+  CAT_INDEX = {};
+  PROV_INDEX = {};
+  GRUPOS.forEach(g => g.categorias.forEach(cat => {
+    CAT_INDEX[cat.id] = cat;
+    cat._grupo = g.id;
+    cat.proveedores.forEach(p => { p._cat = cat.id; PROV_INDEX[p.id] = p; });
+  }));
+}
+
+async function loadProviders() {
+  const area = document.getElementById('content-area');
+  area.innerHTML = '<div style="text-align:center;padding:60px 0"><div style="width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--coral);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 14px"></div><p style="color:var(--muted);font-size:.88rem">Cargando proveedores...</p></div>';
+
+  try {
+    const res = await fetch('/.netlify/functions/get-providers');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    GRUPOS = data.grupos || [];
+    buildIndex();
+    buildCatBar();
+    render();
+    window.addEventListener('scroll', updateActivePill, { passive: true });
+    if (location.hash) {
+      setTimeout(() => {
+        const el = document.querySelector(location.hash);
+        if (el) { const y = el.getBoundingClientRect().top + window.scrollY - 220; window.scrollTo({ top: y, behavior: 'smooth' }); }
+      }, 400);
+    }
+  } catch (e) {
+    area.innerHTML = `<div style="text-align:center;padding:60px 24px;color:var(--muted)"><span style="font-size:3rem;display:block;margin-bottom:14px">⚠️</span><h3 style="font-size:1.2rem;color:var(--ink);margin-bottom:8px">Error al cargar proveedores</h3><p style="font-size:.88rem">${e.message}</p></div>`;
+  }
+}
+
+const RANK = {
+  1:{label:"#1 Posición Oro",stars:"★★★",cls:"pos-1",tag:"pt-1"},
+  2:{label:"#2 Posición Plata",stars:"★★☆",cls:"pos-2",tag:"pt-2"},
+  3:{label:"#3 Posición Bronce",stars:"★☆☆",cls:"pos-3",tag:"pt-3"}
+};
+
+/* ═══════════════════════════════════════════
+   BUILD CATEGORY SCROLL BAR (once)
+═══════════════════════════════════════════ */
+function buildCatBar() {
+  const track = document.getElementById('csb-track');
+  track.innerHTML = '';
+
+  let total = 0;
+
+  GRUPOS.forEach((g, gi) => {
+    // Group label divider (except first)
+    if (gi > 0) {
+      track.innerHTML += `<div class="csb-group-divider"><span>${g.ico} ${g.nombre}</span></div>`;
+    } else {
+      track.innerHTML += `<div class="csb-group-divider"><span>${g.ico} ${g.nombre}</span></div>`;
+    }
+
+    g.categorias.forEach(cat => {
+      total++;
+      track.innerHTML += `
+        <a class="csb-pill" href="#${cat.id}"
+           data-cat="${cat.id}"
+           data-name="${cat.nombre.toLowerCase()}"
+           data-group="${g.id}"
+           onclick="pillClick(event, '${cat.id}')">
+          <span class="cp-ico">${cat.ico}</span>
+          ${cat.nombre}
+        </a>`;
+    });
+  });
+
+  updateCsbCount(total, total);
+}
+
+function updateCsbCount(visible, total) {
+  const el = document.getElementById('csb-count');
+  if (!el) return;
+  el.innerHTML = visible === total
+    ? `<strong>${total}</strong> categorías`
+    : `<strong>${visible}</strong> de ${total}`;
+}
+
+/* ═══════════════════════════════════════════
+   CATEGORY BAR SEARCH
+═══════════════════════════════════════════ */
+function filterCatBar(q) {
+  document.getElementById('csb-sw').classList.toggle('has-val', q.length > 0);
+  const query = q.toLowerCase().trim();
+  const pills = document.querySelectorAll('.csb-pill');
+  let vis = 0;
+  pills.forEach(p => {
+    const match = !query || p.dataset.name.includes(query);
+    p.classList.toggle('hidden', !match);
+    if (match) vis++;
+  });
+  // hide group dividers if all following pills are hidden
+  document.querySelectorAll('.csb-group-divider').forEach((div, i, all) => {
+    const nextDivider = all[i + 1];
+    let sibling = div.nextElementSibling;
+    let hasVis = false;
+    while (sibling && !sibling.classList.contains('csb-group-divider')) {
+      if (!sibling.classList.contains('hidden')) hasVis = true;
+      sibling = sibling.nextElementSibling;
+    }
+    div.style.display = hasVis ? '' : 'none';
+  });
+  updateCsbCount(vis, document.querySelectorAll('.csb-pill').length);
+}
+
+function clearCatSearch() {
+  const inp = document.getElementById('cat-search');
+  inp.value = '';
+  filterCatBar('');
+  inp.focus();
+}
+
+/* ═══════════════════════════════════════════
+   PILL CLICK — smooth scroll + active state
+═══════════════════════════════════════════ */
+function pillClick(e, catId) {
+  e.preventDefault();
+  document.querySelectorAll('.csb-pill').forEach(p => p.classList.remove('active'));
+  const pill = document.querySelector(`.csb-pill[data-cat="${catId}"]`);
+  if (pill) {
+    pill.classList.add('active');
+    // scroll pill into center of track
+    const track = document.getElementById('csb-track');
+    track.scrollTo({ left: pill.offsetLeft - track.clientWidth / 2 + pill.offsetWidth / 2, behavior: 'smooth' });
+  }
+  const target = document.getElementById(catId);
+  if (target) {
+    // offset = nav(60) + search(56) + catbar(~90)
+    const y = target.getBoundingClientRect().top + window.scrollY - 220;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+}
+
+/* ═══════════════════════════════════════════
+   RENDER CONTENT
+═══════════════════════════════════════════ */
+function render(groupFilter = 'all', searchQ = '') {
+  const area = document.getElementById('content-area');
+  area.innerHTML = '';
+
+  let anyVisible = false;
+
+  GRUPOS.forEach(g => {
+    const matchGroup = groupFilter === 'all' || groupFilter === g.id;
+    if (!matchGroup) return;
+
+    const matchedCats = g.categorias.filter(cat => {
+      if (!searchQ) return true;
+      const q = searchQ.toLowerCase();
+      return cat.nombre.toLowerCase().includes(q) ||
+             cat.desc.toLowerCase().includes(q) ||
+             cat.proveedores.some(p => p.nombre.toLowerCase().includes(q) || (p.tagline||'').toLowerCase().includes(q));
+    });
+    if (matchedCats.length === 0) return;
+    anyVisible = true;
+
+    const grpDiv = document.createElement('div');
+    grpDiv.className = 'group-section';
+    grpDiv.innerHTML = `
+      <div class="group-section-header">
+        <div class="group-section-icon">${g.ico}</div>
+        <div>
+          <h2>${g.nombre}</h2>
+          <p>${matchedCats.length} categoría${matchedCats.length!==1?'s':''}</p>
+        </div>
+      </div>`;
+
+    matchedCats.forEach(cat => {
+      const paid  = cat.proveedores.filter(p => p.pos <= 3).sort((a,b) => a.pos-b.pos);
+      const basic = cat.proveedores.filter(p => p.pos > 3).sort((a,b) => a.pos-b.pos);
+
+      grpDiv.innerHTML += `
+        <div class="cat-section reveal" id="${cat.id}" style="scroll-margin-top:220px">
+          <div class="cat-header">
+            <div class="cat-icon">${cat.ico}</div>
+            <div>
+              <h3>${cat.nombre}</h3>
+              <p>${cat.desc}</p>
+            </div>
+            <span class="cat-badge">${cat.proveedores.length} opciones</span>
+          </div>
+          <div class="top-positions">${paid.map(paidCardHTML).join('')}</div>
+          <div class="basic-section-label">Otras opciones disponibles</div>
+          <div class="basic-list">${basic.map(basicHTML).join('')}</div>
+          <div class="upgrade-cta">
+            <p>¿Eres proveedor de <strong>${cat.nombre}</strong>? Consigue una de las <strong>3 posiciones destacadas</strong> y recibe contactos directos.</p>
+            <a href="form.html" class="btn btn-coral">Quiero destacarme →</a>
+          </div>
+        </div>`;
+    });
+
+    area.appendChild(grpDiv);
+  });
+
+  if (!anyVisible) {
+    area.innerHTML = `<div class="empty-state"><span class="emoji">🔍</span><h3>No encontramos resultados</h3><p>Intenta con otro término de búsqueda.</p></div>`;
+  }
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  }), { threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+/* ═══════════════════════════════════════════
+   ACTIVE PILL ON SCROLL
+═══════════════════════════════════════════ */
+function updateActivePill() {
+  let cur = '';
+  Object.values(CAT_INDEX).forEach(cat => {
+    const el = document.getElementById(cat.id);
+    if (el && window.scrollY + 240 >= el.offsetTop) cur = cat.id;
+  });
+  document.querySelectorAll('.csb-pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.cat === cur);
+  });
+  // auto-scroll active pill into view
+  const active = document.querySelector('.csb-pill.active');
+  if (active) {
+    const track = document.getElementById('csb-track');
+    if (track) {
+      const left = active.offsetLeft - track.clientWidth / 2 + active.offsetWidth / 2;
+      track.scrollTo({ left, behavior: 'smooth' });
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════
+   GLOBAL SEARCH (top bar)
+═══════════════════════════════════════════ */
+let currentGroup = 'all';
+let currentSearch = '';
+let filterTimeout;
+
+function handleSearch() {
+  currentSearch = document.getElementById('global-search').value;
+  clearTimeout(filterTimeout);
+  filterTimeout = setTimeout(() => render(currentGroup, currentSearch), 200);
+}
+
+function filterGroup(group, btn) {
+  currentGroup = group;
+  document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render(currentGroup, currentSearch);
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  loadProviders();
+});
+
+/* CSS para el spinner de carga */
+const _spinStyle = document.createElement('style');
+_spinStyle.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(_spinStyle);
+/* ═══════════════════════════════════════════
+   CARD HTML HELPERS
+═══════════════════════════════════════════ */
+function paidCardHTML(p) {
+  const r = RANK[p.pos];
+  const waMsg = encodeURIComponent('Hola ' + p.nombre + '! Los vi en CotizaTuFiesta.cl y me interesa cotizar sus servicios.');
+  const coverHTML = p.cover_url
+    ? `<img class="pos-cover-img" src="${p.cover_url}" alt="${p.nombre}" loading="lazy" />`
+    : `<div class="pos-cover-placeholder">${p.logo}</div>`;
+  return `<div class="pos-card ${r.cls}" onclick="openModal('${p.id}')">
+    <div class="pos-cover">
+      ${coverHTML}
+      <div class="pos-cover-overlay"></div>
+      <div class="pos-ribbon">${r.stars} ${r.label}</div>
+      <div class="pos-logo-wrap">
+        <div class="pos-logo-circle">${p.logo}</div>
+      </div>
+    </div>
+    <div class="pos-body">
+      <div class="pos-header-row">
+        <div>
+          <div class="pos-name">${p.nombre}</div>
+          <div class="pos-tagline">${p.tagline}</div>
+          <div class="pos-stars">${r.stars}</div>
+        </div>
+        <div class="pos-price-badge">
+          <div class="pb-label">Desde</div>
+          <div class="pb-min">${p.minimo}</div>
+          <div class="pb-max">hasta ${p.maximo}</div>
+        </div>
+      </div>
+      <div class="pos-diff">✦ ${p.diff}</div>
+      <div class="pos-desc">${p.desc||''}</div>
+    </div>
+    <div class="pos-footer">
+      <div class="pos-meta">
+        <div class="pos-meta-item">📍 ${(p.comunas||'').split(',')[0].trim()}</div>
+        ${p.instagram?`<div class="pos-meta-item">📸 ${p.instagram}</div>`:''}
+      </div>
+      <div class="pos-cta-group">
+        <a class="btn btn-wa" href="https://wa.me/${p.wa}?text=${waMsg}" target="_blank" onclick="event.stopPropagation()">💬 WhatsApp</a>
+        <button class="btn btn-detail" onclick="event.stopPropagation();openModal('${p.id}')">Ver detalle</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function basicHTML(p) {
+  const waMsg = encodeURIComponent('Hola ' + p.nombre + '! Los vi en CotizaTuFiesta.cl y quiero más información.');
+  return `<div class="basic-item" onclick="openModalBasic('${p.id}')">
+    <span class="basic-ico">${p.logo}</span>
+    <div class="basic-info"><div class="basic-name">${p.nombre}</div><div class="basic-tagline">${p.tagline||''}</div></div>
+    <div class="basic-price">${p.minimo} – ${p.maximo}<span>Rango de precio</span></div>
+    <a class="basic-wa" href="https://wa.me/${p.wa}?text=${waMsg}" target="_blank" onclick="event.stopPropagation()" title="WhatsApp">💬</a>
+  </div>`;
+}
+
+function openModal(id) {
+  const p = PROV_INDEX[id];
+  if (!p || p.pos > 3) return;
+  const r = RANK[p.pos];
+  const waMsg = encodeURIComponent('Hola ' + p.nombre + '! Los vi en CotizaTuFiesta.cl y quiero cotizar sus servicios para mi evento.');
+  document.getElementById('modal-inner').innerHTML = `
+    <div class="modal-band ${r.cls}"></div>
+    <div class="modal-inner">
+      ${p.cover_url ? `<div style="width:100%;height:180px;overflow:hidden;border-radius:12px;margin-bottom:16px"><img src="${p.cover_url}" style="width:100%;height:100%;object-fit:cover" /></div>` : ''}
+      <div class="modal-top-row">
+        <div class="modal-logo ${r.cls}">${p.logo}</div>
+        <div class="modal-name-block">
+          <div class="modal-position-tag ${r.tag}">${r.stars} ${r.label}</div>
+          <h3 class="modal-name">${p.nombre}</h3>
+          <div class="modal-tagline">${p.tagline}</div>
+        </div>
+      </div>
+      <div class="modal-diff ${r.cls}">${p.diff||''}</div>
+      <p class="modal-desc">${p.desc||''}</p>
+      <div class="modal-info-grid">
+        <div class="mig-box"><div class="mig-label">Precio mínimo</div><div class="mig-val price">${p.minimo}</div></div>
+        <div class="mig-box"><div class="mig-label">Precio máximo</div><div class="mig-val price">${p.maximo}</div></div>
+        ${p.comunas?`<div class="mig-box" style="grid-column:1/-1"><div class="mig-label">📍 Comunas donde opera</div><div class="mig-val">${p.comunas}</div></div>`:''}
+      </div>
+      ${(p.instagram||p.facebook||p.web)?`<div class="modal-socials-row">
+        ${p.instagram?`<a class="soc-chip" href="https://instagram.com/${p.instagram.replace('@','')}" target="_blank">📸 ${p.instagram}</a>`:''}
+        ${p.web?`<a class="soc-chip" href="${p.web}" target="_blank">🌐 ${p.web.replace('https://','')}</a>`:''}
+      </div>`:''}
+      <div class="modal-ctas">
+        <a class="btn btn-wa" href="https://wa.me/${p.wa}?text=${waMsg}" target="_blank">💬 Contactar por WhatsApp</a>
+        <a class="btn btn-outline" href="index.html#cotizar">📋 Cotización completa</a>
+      </div>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function openModalBasic(id) {
+  const p = PROV_INDEX[id];
+  if (!p) return;
+  const waMsg = encodeURIComponent('Hola ' + p.nombre + '! Los vi en CotizaTuFiesta.cl y quiero más información.');
+  document.getElementById('modal-inner').innerHTML = `
+    <div class="modal-band basic"></div>
+    <div class="modal-inner">
+      <div class="modal-top-row">
+        <div class="modal-logo basic">${p.logo}</div>
+        <div class="modal-name-block">
+          <div class="modal-position-tag pt-b">Listado básico</div>
+          <h3 class="modal-name">${p.nombre}</h3>
+          <div class="modal-tagline">${p.tagline||''}</div>
+        </div>
+      </div>
+      <div class="modal-info-grid">
+        <div class="mig-box"><div class="mig-label">Precio mínimo</div><div class="mig-val price">${p.minimo}</div></div>
+        <div class="mig-box"><div class="mig-label">Precio máximo</div><div class="mig-val price">${p.maximo}</div></div>
+      </div>
+      <div style="background:var(--coral-lt);border:1.5px dashed var(--coral-md);border-radius:12px;padding:18px 20px;margin-bottom:18px;">
+        <p style="font-size:.83rem;color:var(--ink2);line-height:1.6;">Este proveedor está en el <strong>listado básico</strong>. Para ver información completa, el proveedor debe contratar una <strong style="color:var(--coral)">posición destacada</strong>.</p>
+      </div>
+      <div class="modal-ctas">
+        <a class="btn btn-wa" href="https://wa.me/${p.wa}?text=${waMsg}" target="_blank">💬 Contactar por WhatsApp</a>
+        <a class="btn btn-outline" href="index.html#cotizar">📋 Cotización completa</a>
+      </div>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); document.body.style.overflow = ''; }
+function handleOverlayClick(e) { if (e.target === document.getElementById('modal-overlay')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+// Init is handled above by loadProviders()
+</script>
+</body>
+</html>
