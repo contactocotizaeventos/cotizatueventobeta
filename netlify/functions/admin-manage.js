@@ -122,6 +122,7 @@ async function handlePost(event) {
         youtube:       sol.youtube,
         logo_emoji:    sol.logo_emoji || '🍽️',
         logo_url:      sol.logo_url || '',
+        cover_url:     sol.cover_url || '',
         posicion:      nextPos,
         activo:        true,
         solicitud_id:  sol.id,
@@ -162,7 +163,7 @@ async function handlePut(event) {
     'nombre','tagline','descripcion','diferenciador','experiencia','capacidad',
     'categoria','comunas','precio_minimo','precio_maximo','incluye','no_incluye',
     'whatsapp','telefono','email','web','instagram','facebook','tiktok','youtube',
-    'logo_emoji','logo_url','posicion','activo',
+    'logo_emoji','logo_url','cover_url','posicion','activo',
   ];
 
   const sanitized = {};
