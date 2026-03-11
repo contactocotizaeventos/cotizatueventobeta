@@ -640,92 +640,72 @@
         </div>
       </div>
       <div class="form-card-body">
-        <div class="field-grid cols-1">
+        <div class="field-grid" style="grid-template-columns:1fr 1fr;gap:20px">
 
-          <!-- OPCIONES PARA SUBIR IMAGEN -->
+          <!-- ── FOTO DE PORTADA ── -->
           <div class="field">
-            <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:4px">
-              <p style="font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:12px">¿Cómo puedes agregar tu foto de portada?</p>
-              <div style="display:flex;flex-direction:column;gap:10px">
-
-                <!-- Opción 1: Imgur -->
-                <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--white);border:1px solid var(--border);border-radius:10px">
-                  <span style="font-size:1.3rem;flex-shrink:0">🖼️</span>
-                  <div>
-                    <div style="font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:2px">Subir a Imgur (gratis y fácil)</div>
-                    <div style="font-size:.76rem;color:var(--muted);line-height:1.5">
-                      1. Ve a <strong>imgur.com</strong> → arrastra tu imagen<br/>
-                      2. Clic en la imagen subida → botón derecho → <em>"Copiar dirección de imagen"</em><br/>
-                      3. Pega esa URL en el campo de abajo
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Opción 2: Google Drive -->
-                <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--white);border:1px solid var(--border);border-radius:10px">
-                  <span style="font-size:1.3rem;flex-shrink:0">📁</span>
-                  <div>
-                    <div style="font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:2px">Subir a Google Drive</div>
-                    <div style="font-size:.76rem;color:var(--muted);line-height:1.5">
-                      1. Sube la imagen a Google Drive<br/>
-                      2. Clic derecho → <em>"Obtener enlace"</em> → cambia a <em>"Cualquier persona con el enlace"</em><br/>
-                      3. Copia el ID del enlace y pégalo en este formato:<br/>
-                      <code style="font-size:.72rem;background:var(--bg2);padding:2px 6px;border-radius:4px">https://drive.google.com/uc?id=TU_ID_AQUI</code>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Opción 3: Nosotros te ayudamos -->
-                <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--coral-lt);border:1.5px solid var(--coral-md);border-radius:10px">
-                  <span style="font-size:1.3rem;flex-shrink:0">💌</span>
-                  <div>
-                    <div style="font-size:.82rem;font-weight:700;color:var(--coral);margin-bottom:2px">¿Prefieres que nosotros lo hagamos?</div>
-                    <div style="font-size:.76rem;color:var(--ink2);line-height:1.5">
-                      Envíanos tus imágenes directamente a<br/>
-                      <a href="mailto:contactocotizaeventos@gmail.com" style="color:var(--coral);font-weight:700">contactocotizaeventos@gmail.com</a><br/>
-                      y nosotros las subimos y configuramos tu ficha por ti. ¡Sin costo!
-                    </div>
-                  </div>
-                </div>
-
+            <label class="lbl">🖼️ Foto de portada <span style="font-weight:400;text-transform:none;letter-spacing:0">(banner de tu tarjeta)</span></label>
+            <div id="cover-upload-zone" onclick="document.getElementById('cover-file-input').click()"
+              style="border:2px dashed var(--border2);border-radius:12px;padding:24px 16px;text-align:center;cursor:pointer;background:var(--bg);transition:.2s;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <input type="file" id="cover-file-input" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handleImageUpload('cover', this)" />
+              <div id="cover-upload-idle">
+                <div style="font-size:1.8rem;margin-bottom:6px">🌅</div>
+                <div style="font-size:.82rem;font-weight:600;color:var(--ink2);margin-bottom:3px">Elegir foto de portada</div>
+                <div style="font-size:.7rem;color:var(--muted)">800×400px recomendado</div>
               </div>
+              <div id="cover-upload-loading" style="display:none">
+                <div style="width:26px;height:26px;border:3px solid var(--border);border-top-color:var(--coral);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 8px"></div>
+                <div style="font-size:.78rem;color:var(--muted)">Subiendo...</div>
+              </div>
+            </div>
+            <div id="cover-preview-wrap" style="display:none;margin-top:8px;position:relative">
+              <img id="cover-preview-img" src="" alt="Portada" style="width:100%;height:100px;object-fit:cover;border-radius:8px;border:1px solid var(--border)" />
+              <button onclick="removeImage('cover')" style="position:absolute;top:5px;right:5px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:.7rem">✕</button>
+            </div>
+            <div id="cover-upload-status" style="font-size:.7rem;color:var(--muted);margin-top:4px"></div>
+            <div style="margin-top:8px">
+              <input class="inp" type="url" id="cover-url-input" placeholder="O pega URL directa..." oninput="handleImageUrl('cover', this.value)" style="font-size:.8rem;padding:8px 12px" />
             </div>
           </div>
 
+          <!-- ── LOGO ── -->
           <div class="field">
-            <label class="lbl">Foto de portada (opcional)</label>
-
-            <!-- Upload zone -->
-            <div id="upload-zone" onclick="document.getElementById('cover-file-input').click()"
-              style="border:2px dashed var(--border2);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;background:var(--bg);transition:.2s;position:relative">
-              <input type="file" id="cover-file-input" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handleCoverFile(this)" />
-              <div id="upload-idle">
-                <div style="font-size:2rem;margin-bottom:8px">📷</div>
-                <div style="font-size:.88rem;font-weight:600;color:var(--ink2);margin-bottom:4px">Elige una foto desde tu galería</div>
-                <div style="font-size:.74rem;color:var(--muted)">JPG, PNG o WebP · Máx. 5MB · Recomendado 800×400px</div>
+            <label class="lbl">🏷️ Logo de tu negocio <span style="font-weight:400;text-transform:none;letter-spacing:0">(ícono cuadrado)</span></label>
+            <div id="logo-upload-zone" onclick="document.getElementById('logo-file-input').click()"
+              style="border:2px dashed var(--border2);border-radius:12px;padding:24px 16px;text-align:center;cursor:pointer;background:var(--bg);transition:.2s;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <input type="file" id="logo-file-input" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handleImageUpload('logo', this)" />
+              <div id="logo-upload-idle">
+                <div style="font-size:1.8rem;margin-bottom:6px">🏢</div>
+                <div style="font-size:.82rem;font-weight:600;color:var(--ink2);margin-bottom:3px">Elegir logo</div>
+                <div style="font-size:.7rem;color:var(--muted)">200×200px recomendado</div>
               </div>
-              <div id="upload-loading" style="display:none">
-                <div style="width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--coral);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px"></div>
-                <div style="font-size:.84rem;color:var(--muted)">Subiendo imagen...</div>
+              <div id="logo-upload-loading" style="display:none">
+                <div style="width:26px;height:26px;border:3px solid var(--border);border-top-color:var(--coral);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 8px"></div>
+                <div style="font-size:.78rem;color:var(--muted)">Subiendo...</div>
               </div>
             </div>
-
-            <!-- Preview -->
-            <div id="cover-preview-wrap" style="display:none;margin-top:12px;position:relative">
-              <img id="cover-preview-img" src="" alt="Preview" style="width:100%;max-height:180px;object-fit:cover;border-radius:10px;border:1px solid var(--border)" />
-              <button onclick="removeCover()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center">✕</button>
-              <div style="font-size:.74rem;color:var(--muted);margin-top:6px" id="cover-upload-status"></div>
+            <div id="logo-preview-wrap" style="display:none;margin-top:8px;position:relative">
+              <img id="logo-preview-img" src="" alt="Logo" style="width:80px;height:80px;object-fit:cover;border-radius:12px;border:1px solid var(--border)" />
+              <button onclick="removeImage('logo')" style="position:absolute;top:5px;left:75px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:.7rem">✕</button>
             </div>
-
-            <!-- Fallback: URL manual -->
-            <div style="margin-top:10px">
-              <label class="lbl" style="margin-bottom:4px">O pega una URL directa</label>
-              <input class="inp" type="url" id="logo-url" placeholder="https://i.imgur.com/ejemplo.jpg" oninput="handleCoverUrl(this.value)" />
+            <div id="logo-upload-status" style="font-size:.7rem;color:var(--muted);margin-top:4px"></div>
+            <div style="margin-top:8px">
+              <input class="inp" type="url" id="logo-url" placeholder="O pega URL directa..." oninput="handleImageUrl('logo', this.value)" style="font-size:.8rem;padding:8px 12px" />
             </div>
-
-            <div class="hint">Aparecerá como banner en tu tarjeta del directorio.</div>
           </div>
 
+        </div>
+
+        <!-- Ayuda -->
+        <div style="margin-top:16px;background:var(--coral-lt);border:1.5px solid var(--coral-md);border-radius:12px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px">
+          <span style="font-size:1.2rem;flex-shrink:0">💌</span>
+          <div style="font-size:.78rem;color:var(--ink2);line-height:1.5">
+            <strong style="color:var(--coral)">¿Prefieres que nosotros lo hagamos?</strong><br/>
+            Envíanos tus imágenes a <a href="mailto:contactocotizaeventos@gmail.com" style="color:var(--coral);font-weight:700">contactocotizaeventos@gmail.com</a> y las configuramos por ti. ¡Sin costo!
+          </div>
+        </div>
+
+        <div class="field-grid cols-1" style="margin-top:16px">
           <div class="field">
             <label class="lbl">Comentarios adicionales</label>
             <textarea class="inp" id="comentarios" placeholder="Cualquier información adicional, o indica si nos enviarás tus imágenes por correo..."></textarea>
@@ -1044,8 +1024,8 @@ async function submitForm() {
       youtube:          v('youtube'),
       direccion:        v('direccion'),
       posicion_deseada: posEl ? posEl.value : '',
-      logo_url:         v('logo-url'),
-      cover_url:        coverUrl || v('logo-url'),
+      logo_url:         logoUrl || v('logo-url'),
+      cover_url:        coverUrl || v('cover-url-input'),
       logo_emoji:       '🍽️',
       comentarios:      v('comentarios'),
     };
@@ -1194,79 +1174,77 @@ function showToast(msg, type = '') {
 }
 
 /* ═══════════════════════════════════════
-   COVER IMAGE UPLOAD
+   IMAGE UPLOAD — portada y logo
 ═══════════════════════════════════════ */
-let coverUrl = ''; // URL final guardada tras subir a Supabase
+let coverUrl = '';
+let logoUrl  = '';
 
-function handleCoverFile(input) {
+async function handleImageUpload(type, input) {
   const file = input.files[0];
   if (!file) return;
-
-  // Validar tamaño
   if (file.size > 5 * 1024 * 1024) {
-    showToast('La imagen supera los 5MB. Elige una más pequeña.', 'error');
-    return;
+    showToast('La imagen supera los 5MB.', 'error'); return;
   }
-
   const reader = new FileReader();
   reader.onload = async (e) => {
     const base64 = e.target.result;
-
-    // Mostrar preview local inmediato
-    document.getElementById('cover-preview-img').src = base64;
-    document.getElementById('cover-preview-wrap').style.display = 'block';
-    document.getElementById('cover-upload-status').textContent = 'Subiendo...';
-
-    // Ocultar idle, mostrar loading en upload zone
-    document.getElementById('upload-idle').style.display = 'none';
-    document.getElementById('upload-loading').style.display = 'block';
-
+    // Preview local inmediato
+    document.getElementById(`${type}-preview-img`).src = base64;
+    document.getElementById(`${type}-preview-wrap`).style.display = 'block';
+    document.getElementById(`${type}-upload-status`).textContent = 'Subiendo...';
+    document.getElementById(`${type}-upload-idle`).style.display = 'none';
+    document.getElementById(`${type}-upload-loading`).style.display = 'block';
     try {
       const res = await fetch('/.netlify/functions/upload-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          imageBase64: base64,
-          fileName: file.name,
-          mimeType: file.type,
-        }),
+        body: JSON.stringify({ imageBase64: base64, fileName: file.name, mimeType: file.type }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-
-      coverUrl = data.url;
-      document.getElementById('logo-url').value = coverUrl;
-      document.getElementById('cover-upload-status').textContent = '✅ Imagen subida correctamente';
-      showToast('✅ Foto de portada lista', 'success');
+      if (type === 'cover') {
+        coverUrl = data.url;
+        document.getElementById('cover-url-input').value = coverUrl;
+      } else {
+        logoUrl = data.url;
+        document.getElementById('logo-url').value = logoUrl;
+      }
+      document.getElementById(`${type}-upload-status`).textContent = '✅ Imagen subida';
+      showToast(`✅ ${type === 'cover' ? 'Portada' : 'Logo'} listo`, 'success');
     } catch (err) {
-      document.getElementById('cover-upload-status').textContent = '⚠️ Error al subir. Pega la URL manualmente.';
-      showToast('Error al subir imagen: ' + err.message, 'error');
+      document.getElementById(`${type}-upload-status`).textContent = '⚠️ Error. Pega la URL manualmente.';
+      showToast('Error: ' + err.message, 'error');
     } finally {
-      document.getElementById('upload-idle').style.display = 'block';
-      document.getElementById('upload-loading').style.display = 'none';
+      document.getElementById(`${type}-upload-idle`).style.display = 'block';
+      document.getElementById(`${type}-upload-loading`).style.display = 'none';
     }
   };
   reader.readAsDataURL(file);
 }
 
-function handleCoverUrl(url) {
-  coverUrl = url;
+function handleImageUrl(type, url) {
+  if (type === 'cover') coverUrl = url;
+  else logoUrl = url;
   if (url && url.startsWith('http')) {
-    document.getElementById('cover-preview-img').src = url;
-    document.getElementById('cover-preview-wrap').style.display = 'block';
-    document.getElementById('cover-upload-status').textContent = '';
+    document.getElementById(`${type}-preview-img`).src = url;
+    document.getElementById(`${type}-preview-wrap`).style.display = 'block';
   } else {
-    document.getElementById('cover-preview-wrap').style.display = 'none';
+    document.getElementById(`${type}-preview-wrap`).style.display = 'none';
   }
 }
 
-function removeCover() {
-  coverUrl = '';
-  document.getElementById('logo-url').value = '';
-  document.getElementById('cover-preview-wrap').style.display = 'none';
-  document.getElementById('cover-preview-img').src = '';
-  document.getElementById('cover-upload-status').textContent = '';
-  document.getElementById('cover-file-input').value = '';
+function removeImage(type) {
+  if (type === 'cover') {
+    coverUrl = '';
+    document.getElementById('cover-url-input').value = '';
+  } else {
+    logoUrl = '';
+    document.getElementById('logo-url').value = '';
+  }
+  document.getElementById(`${type}-preview-wrap`).style.display = 'none';
+  document.getElementById(`${type}-preview-img`).src = '';
+  document.getElementById(`${type}-upload-status`).textContent = '';
+  document.getElementById(`${type}-file-input`).value = '';
 }
 
 /* ═════════════════ */
