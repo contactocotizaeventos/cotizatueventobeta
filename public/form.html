@@ -635,19 +635,100 @@
       <div class="form-card-header">
         <div class="fch-icon">📸</div>
         <div>
-          <h3>Logo e imagen de tu negocio</h3>
-          <p>Opcional — puedes enviarlo después por WhatsApp</p>
+          <h3>Foto de portada e imágenes</h3>
+          <p>Opcional — pero hace que tu ficha destaque mucho más</p>
         </div>
       </div>
       <div class="form-card-body">
         <div class="field-grid cols-1">
+
+          <!-- OPCIONES PARA SUBIR IMAGEN -->
           <div class="field">
-            <label class="lbl">URL de tu logo (si tienes uno online)</label>
-            <input class="inp" type="url" id="logo-url" placeholder="https://..." />
+            <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:4px">
+              <p style="font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:12px">¿Cómo puedes agregar tu foto de portada?</p>
+              <div style="display:flex;flex-direction:column;gap:10px">
+
+                <!-- Opción 1: Imgur -->
+                <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--white);border:1px solid var(--border);border-radius:10px">
+                  <span style="font-size:1.3rem;flex-shrink:0">🖼️</span>
+                  <div>
+                    <div style="font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:2px">Subir a Imgur (gratis y fácil)</div>
+                    <div style="font-size:.76rem;color:var(--muted);line-height:1.5">
+                      1. Ve a <strong>imgur.com</strong> → arrastra tu imagen<br/>
+                      2. Clic en la imagen subida → botón derecho → <em>"Copiar dirección de imagen"</em><br/>
+                      3. Pega esa URL en el campo de abajo
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Opción 2: Google Drive -->
+                <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--white);border:1px solid var(--border);border-radius:10px">
+                  <span style="font-size:1.3rem;flex-shrink:0">📁</span>
+                  <div>
+                    <div style="font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:2px">Subir a Google Drive</div>
+                    <div style="font-size:.76rem;color:var(--muted);line-height:1.5">
+                      1. Sube la imagen a Google Drive<br/>
+                      2. Clic derecho → <em>"Obtener enlace"</em> → cambia a <em>"Cualquier persona con el enlace"</em><br/>
+                      3. Copia el ID del enlace y pégalo en este formato:<br/>
+                      <code style="font-size:.72rem;background:var(--bg2);padding:2px 6px;border-radius:4px">https://drive.google.com/uc?id=TU_ID_AQUI</code>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Opción 3: Nosotros te ayudamos -->
+                <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--coral-lt);border:1.5px solid var(--coral-md);border-radius:10px">
+                  <span style="font-size:1.3rem;flex-shrink:0">💌</span>
+                  <div>
+                    <div style="font-size:.82rem;font-weight:700;color:var(--coral);margin-bottom:2px">¿Prefieres que nosotros lo hagamos?</div>
+                    <div style="font-size:.76rem;color:var(--ink2);line-height:1.5">
+                      Envíanos tus imágenes directamente a<br/>
+                      <a href="mailto:contactocotizaeventos@gmail.com" style="color:var(--coral);font-weight:700">contactocotizaeventos@gmail.com</a><br/>
+                      y nosotros las subimos y configuramos tu ficha por ti. ¡Sin costo!
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
+
+          <div class="field">
+            <label class="lbl">Foto de portada (opcional)</label>
+
+            <!-- Upload zone -->
+            <div id="upload-zone" onclick="document.getElementById('cover-file-input').click()"
+              style="border:2px dashed var(--border2);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;background:var(--bg);transition:.2s;position:relative">
+              <input type="file" id="cover-file-input" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handleCoverFile(this)" />
+              <div id="upload-idle">
+                <div style="font-size:2rem;margin-bottom:8px">📷</div>
+                <div style="font-size:.88rem;font-weight:600;color:var(--ink2);margin-bottom:4px">Elige una foto desde tu galería</div>
+                <div style="font-size:.74rem;color:var(--muted)">JPG, PNG o WebP · Máx. 5MB · Recomendado 800×400px</div>
+              </div>
+              <div id="upload-loading" style="display:none">
+                <div style="width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--coral);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px"></div>
+                <div style="font-size:.84rem;color:var(--muted)">Subiendo imagen...</div>
+              </div>
+            </div>
+
+            <!-- Preview -->
+            <div id="cover-preview-wrap" style="display:none;margin-top:12px;position:relative">
+              <img id="cover-preview-img" src="" alt="Preview" style="width:100%;max-height:180px;object-fit:cover;border-radius:10px;border:1px solid var(--border)" />
+              <button onclick="removeCover()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center">✕</button>
+              <div style="font-size:.74rem;color:var(--muted);margin-top:6px" id="cover-upload-status"></div>
+            </div>
+
+            <!-- Fallback: URL manual -->
+            <div style="margin-top:10px">
+              <label class="lbl" style="margin-bottom:4px">O pega una URL directa</label>
+              <input class="inp" type="url" id="logo-url" placeholder="https://i.imgur.com/ejemplo.jpg" oninput="handleCoverUrl(this.value)" />
+            </div>
+
+            <div class="hint">Aparecerá como banner en tu tarjeta del directorio.</div>
+          </div>
+
           <div class="field">
             <label class="lbl">Comentarios adicionales</label>
-            <textarea class="inp" id="comentarios" placeholder="Cualquier información adicional que quieras que sepamos..."></textarea>
+            <textarea class="inp" id="comentarios" placeholder="Cualquier información adicional, o indica si nos enviarás tus imágenes por correo..."></textarea>
           </div>
         </div>
       </div>
@@ -964,6 +1045,7 @@ async function submitForm() {
       direccion:        v('direccion'),
       posicion_deseada: posEl ? posEl.value : '',
       logo_url:         v('logo-url'),
+      cover_url:        coverUrl || v('logo-url'),
       logo_emoji:       '🍽️',
       comentarios:      v('comentarios'),
     };
@@ -1109,6 +1191,82 @@ function showToast(msg, type = '') {
   t.className = 'toast' + (type ? ' ' + type : '');
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* ═══════════════════════════════════════
+   COVER IMAGE UPLOAD
+═══════════════════════════════════════ */
+let coverUrl = ''; // URL final guardada tras subir a Supabase
+
+function handleCoverFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  // Validar tamaño
+  if (file.size > 5 * 1024 * 1024) {
+    showToast('La imagen supera los 5MB. Elige una más pequeña.', 'error');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const base64 = e.target.result;
+
+    // Mostrar preview local inmediato
+    document.getElementById('cover-preview-img').src = base64;
+    document.getElementById('cover-preview-wrap').style.display = 'block';
+    document.getElementById('cover-upload-status').textContent = 'Subiendo...';
+
+    // Ocultar idle, mostrar loading en upload zone
+    document.getElementById('upload-idle').style.display = 'none';
+    document.getElementById('upload-loading').style.display = 'block';
+
+    try {
+      const res = await fetch('/.netlify/functions/upload-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          imageBase64: base64,
+          fileName: file.name,
+          mimeType: file.type,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      coverUrl = data.url;
+      document.getElementById('logo-url').value = coverUrl;
+      document.getElementById('cover-upload-status').textContent = '✅ Imagen subida correctamente';
+      showToast('✅ Foto de portada lista', 'success');
+    } catch (err) {
+      document.getElementById('cover-upload-status').textContent = '⚠️ Error al subir. Pega la URL manualmente.';
+      showToast('Error al subir imagen: ' + err.message, 'error');
+    } finally {
+      document.getElementById('upload-idle').style.display = 'block';
+      document.getElementById('upload-loading').style.display = 'none';
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleCoverUrl(url) {
+  coverUrl = url;
+  if (url && url.startsWith('http')) {
+    document.getElementById('cover-preview-img').src = url;
+    document.getElementById('cover-preview-wrap').style.display = 'block';
+    document.getElementById('cover-upload-status').textContent = '';
+  } else {
+    document.getElementById('cover-preview-wrap').style.display = 'none';
+  }
+}
+
+function removeCover() {
+  coverUrl = '';
+  document.getElementById('logo-url').value = '';
+  document.getElementById('cover-preview-wrap').style.display = 'none';
+  document.getElementById('cover-preview-img').src = '';
+  document.getElementById('cover-upload-status').textContent = '';
+  document.getElementById('cover-file-input').value = '';
 }
 
 /* ═════════════════ */
