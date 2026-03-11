@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Proveedores – CotizaTuFiesta.cl</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- SheetJS para generar Excel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <style>
+    :root {
+      --coral:#E8542A;--coral-lt:#FFF0EB;--coral-md:#FFCFC2;
+      --teal:#06C7A5;--teal-lt:#E6FBF7;
+      --bg:#FAFAF8;--bg2:#F5F3EF;--white:#FFFFFF;
+      --ink:#1A1714;--ink2:#3D3733;--muted:#8A8278;
+      --border:#E8E4DF;--border2:#D4CFC9;
+      --red:#DC2626;--red-lt:#FEF2F2;
+      --green:#16A34A;--green-lt:#F0FDF4;
+      --ease:cubic-bezier(.4,0,.2,1);
+      --shadow:0 2px 12px rgba(0,0,0,.06);
+      --shadow-md:0 8px 32px rgba(0,0,0,.09);
+      --shadow-lg:0 20px 60px rgba(0,0,0,.12);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+    h1,h2,h3,h4{font-family:'Fraunces',serif;line-height:1.15}
+    a{text-decoration:none;color:inherit}
+    ::selection{background:var(--coral);color:#fff}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-thumb{background:var(--coral);border-radius:99px}
+
+    /* NAV */
+    nav{
+      position:sticky;top:0;z-index:300;
+      padding:0 40px;height:60px;
+      display:flex;align-items:center;justify-content:space-between;
+      background:rgba(255,255,255,.97);backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border);
+    }
+    .logo{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:900;color:var(--ink)}
+    .logo span{color:var(--coral)}
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:600;font-size:.83rem;cursor:pointer;border:none;transition:.22s var(--ease);white-space:nowrap}
+    .btn-outline{background:transparent;border:1.5px solid var(--border2);color:var(--ink2)}
+    .btn-outline:hover{border-color:var(--coral);color:var(--coral)}
+    .btn-coral{background:var(--coral);color:#fff}
+    .btn-coral:hover{background:#c94520;transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,84,42,.28)}
+    .btn-teal{background:var(--teal);color:#fff}
+    .btn-teal:hover{filter:brightness(1.08);transform:translateY(-1px)}
+    .btn-big{padding:14px 32px;font-size:.95rem}
+
+    /* PAGE HEADER */
+    .page-hero{
+      background:linear-gradient(135deg,var(--coral-lt) 0%,var(--white) 60%);
+      border-bottom:1px solid var(--border);
+      padding:48px 24px 44px;
+      text-align:center;
+      position:relative;overflow:hidden;
+    }
+    .page-hero::before{
+      content:'';position:absolute;top:-80px;right:-80px;
+      width:300px;height:300px;border-radius:50%;
+      background:radial-gradient(circle,rgba(232,84,42,.08),transparent 70%);
+      pointer-events:none;
+    }
+    .page-hero .eyebrow{
+      font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+      color:var(--coral);margin-bottom:12px;
+      background:var(--coral-lt);border:1px solid var(--coral-md);
+      display:inline-block;padding:4px 14px;border-radius:99px;
+    }
+    .page-hero h1{font-size:clamp(1.8rem,3.5vw,2.8rem);color:var(--ink);margin-bottom:10px}
+    .page-hero p{font-size:.95rem;color:var(--muted);max-width:500px;margin:0 auto 24px}
+    .hero-pills{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+    .hero-pill{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--ink2);background:var(--white);border:1px solid var(--border);border-radius:99px;padding:5px 14px}
+    .hero-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0}
+
+    /* PROGRESS STEPPER */
+    .stepper{
+      max-width:800px;margin:36px auto 0;
+      display:flex;align-items:center;justify-content:center;gap:0;
+      padding:0 24px;
+    }
+    .step-item{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;position:relative}
+    .step-item:not(:last-child)::after{
+      content:'';position:absolute;top:18px;left:calc(50% + 22px);
+      right:calc(-50% + 22px);height:2px;background:var(--border);z-index:0;
+    }
+    .step-item.done:not(:last-child)::after{background:var(--teal)}
+    .step-num{
+      width:36px;height:36px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:.85rem;font-weight:700;z-index:1;
+      border:2px solid var(--border);background:var(--white);color:var(--muted);
+      transition:.3s var(--ease);
+    }
+    .step-item.active .step-num{border-color:var(--coral);background:var(--coral);color:#fff}
+    .step-item.done .step-num{border-color:var(--teal);background:var(--teal);color:#fff}
+    .step-lbl{font-size:.72rem;font-weight:600;color:var(--muted);text-align:center;line-height:1.3}
+    .step-item.active .step-lbl{color:var(--coral)}
+    .step-item.done .step-lbl{color:var(--teal)}
+
+    /* FORM SHELL */
+    .form-wrap{max-width:800px;margin:36px auto 80px;padding:0 24px}
+    .form-panel{display:none}
+    .form-panel.active{display:block;animation:panelIn .35s var(--ease) both}
+    @keyframes panelIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+    .form-card{
+      background:var(--white);border:1px solid var(--border);
+      border-radius:20px;overflow:hidden;
+      box-shadow:var(--shadow-md);margin-bottom:20px;
+    }
+    .form-card-header{
+      padding:20px 28px 16px;
+      border-bottom:1px solid var(--border);
+      background:var(--bg);
+      display:flex;align-items:center;gap:14px;
+    }
+    .fch-icon{
+      width:44px;height:44px;border-radius:12px;
+      background:var(--coral-lt);border:1.5px solid var(--coral-md);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.4rem;flex-shrink:0;
+    }
+    .fch-icon.teal{background:var(--teal-lt);border-color:rgba(6,199,165,.3)}
+    .fch-icon.green{background:var(--green-lt);border-color:rgba(22,163,74,.3)}
+    .form-card-header h3{font-size:1.1rem;color:var(--ink);margin-bottom:2px}
+    .form-card-header p{font-size:.8rem;color:var(--muted)}
+    .form-card-body{padding:24px 28px}
+
+    /* FIELD STYLES */
+    .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .field-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+    .field-grid.cols-1{grid-template-columns:1fr}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field.span-2{grid-column:span 2}
+    .field.span-3{grid-column:span 3}
+    label.lbl{
+      font-size:.7rem;font-weight:700;letter-spacing:.09em;
+      text-transform:uppercase;color:var(--muted);
+      display:flex;align-items:center;gap:5px;
+    }
+    label.lbl .req{color:var(--coral);font-size:.75rem}
+    .inp{
+      width:100%;background:var(--bg);
+      border:1.5px solid var(--border);border-radius:10px;
+      padding:11px 14px;color:var(--ink);
+      font-family:'Outfit',sans-serif;font-size:.9rem;
+      transition:.22s var(--ease);-webkit-appearance:none;outline:none;
+    }
+    .inp:focus{border-color:var(--coral);background:var(--coral-lt);box-shadow:0 0 0 3px rgba(232,84,42,.08)}
+    .inp::placeholder{color:var(--muted)}
+    .inp.error{border-color:var(--red);background:var(--red-lt)}
+    textarea.inp{resize:vertical;min-height:90px}
+    select.inp option{background:var(--white)}
+
+    /* CHECKBOX GRID */
+    .check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+    .check-pill{
+      display:flex;align-items:center;gap:9px;
+      padding:10px 13px;border-radius:10px;
+      border:1.5px solid var(--border);background:var(--bg);
+      cursor:pointer;transition:.18s;user-select:none;
+    }
+    .check-pill:hover{border-color:var(--coral-md);background:var(--coral-lt)}
+    .check-pill input{display:none}
+    .check-pill.checked{border-color:var(--coral);background:var(--coral-lt)}
+    .pill-box{
+      width:20px;height:20px;border-radius:6px;flex-shrink:0;
+      border:1.5px solid var(--border2);
+      display:flex;align-items:center;justify-content:center;
+      font-size:.72rem;transition:.18s;
+    }
+    .check-pill.checked .pill-box{background:var(--coral);border-color:var(--coral);color:#fff}
+    .pill-label{font-size:.83rem;font-weight:500;color:var(--ink2);line-height:1.2}
+    .pill-ico{font-size:1.1rem;flex-shrink:0}
+
+    /* POSITION SELECTOR */
+    .pos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .pos-option{
+      border:2px solid var(--border);border-radius:14px;
+      padding:16px 12px;text-align:center;cursor:pointer;
+      transition:.22s var(--ease);background:var(--bg);
+      position:relative;
+    }
+    .pos-option:hover{border-color:var(--border2);transform:translateY(-2px)}
+    .pos-option.selected{border-color:var(--coral);background:var(--coral-lt)}
+    .pos-option input{display:none}
+    .pos-ico{font-size:1.8rem;margin-bottom:6px;display:block}
+    .pos-name{font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+    .pos-price{font-size:.75rem;color:var(--muted);line-height:1.4}
+    .pos-badge{
+      position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+      font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+      padding:2px 8px;border-radius:99px;white-space:nowrap;
+    }
+    .pb-gold{background:#FFF3CC;color:#B8860B;border:1px solid #E8C84A}
+    .pb-silver{background:#F3F4F6;color:#6B7280;border:1px solid #C0C0C0}
+    .pb-bronze{background:#FDF3E6;color:#9C6B2E;border:1px solid #CD7F32}
+    .pb-basic{background:var(--bg2);color:var(--muted);border:1px solid var(--border2)}
+
+    /* PRICE RANGE */
+    .price-row{display:grid;grid-template-columns:1fr 24px 1fr;align-items:center;gap:8px}
+    .price-sep{text-align:center;color:var(--muted);font-weight:600}
+
+    /* HINT TEXT */
+    .hint{font-size:.74rem;color:var(--muted);margin-top:4px;line-height:1.4}
+
+    /* NAV BUTTONS */
+    .form-nav{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:20px 28px;border-top:1px solid var(--border);
+      background:var(--bg);
+    }
+    .form-nav .nav-info{font-size:.78rem;color:var(--muted)}
+
+    /* SUMMARY PANEL */
+    .summary-section{margin-bottom:20px}
+    .summary-section h4{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .summary-item{background:var(--bg);border-radius:9px;padding:10px 13px;border:1px solid var(--border)}
+    .summary-key{font-size:.65rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:700;margin-bottom:2px}
+    .summary-val{font-size:.88rem;color:var(--ink);font-weight:500;word-break:break-word}
+    .summary-item.full{grid-column:span 2}
+
+    /* SUCCESS STATE */
+    .success-box{
+      background:var(--white);border:1px solid var(--border);
+      border-radius:20px;padding:56px 40px;
+      text-align:center;box-shadow:var(--shadow-md);
+    }
+    .success-icon{font-size:4rem;margin-bottom:18px;display:block}
+    .success-box h2{font-size:2rem;color:var(--teal);margin-bottom:12px}
+    .success-box p{color:var(--muted);font-size:.92rem;line-height:1.7;max-width:440px;margin:0 auto 28px}
+    .success-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+
+    /* TOAST */
+    .toast{
+      position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+      background:var(--ink);color:#fff;padding:12px 22px;border-radius:99px;
+      font-size:.85rem;font-weight:500;box-shadow:var(--shadow-lg);
+      opacity:0;transition:.3s var(--ease);z-index:9999;white-space:nowrap;
+    }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .toast.error{background:var(--red)}
+    .toast.success{background:var(--teal)}
+
+    @media(max-width:700px){
+      nav{padding:0 20px}
+      .field-grid{grid-template-columns:1fr}
+      .field.span-2,.field.span-3{grid-column:span 1}
+      .pos-grid{grid-template-columns:1fr 1fr}
+      .form-card-body{padding:18px 18px}
+      .form-nav{padding:16px 18px}
+      .summary-grid{grid-template-columns:1fr}
+      .summary-item.full{grid-column:span 1}
+      .check-grid{grid-template-columns:1fr 1fr}
+      .success-box{padding:36px 20px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Cotiza<span>TuFiesta</span>.cl</a>
+  <div style="display:flex;align-items:center;gap:10px">
+    <a href="proveedores.html" class="btn btn-outline">Ver directorio</a>
+    <a href="index.html" class="btn btn-coral">← Inicio</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="eyebrow">Para proveedores</div>
+  <h1>Regístrate en nuestro directorio</h1>
+  <p>Completa el formulario y empieza a recibir clientes que buscan exactamente lo que ofreces.</p>
+  <div class="hero-pills">
+    <div class="hero-pill"><div class="dot"></div> Gratis registrarse</div>
+    <div class="hero-pill"><div class="dot"></div> Clientes directos por WhatsApp</div>
+    <div class="hero-pill"><div class="dot"></div> Sin comisiones</div>
+  </div>
+
+  <!-- STEPPER -->
+  <div class="stepper">
+    <div class="step-item active" id="step-1">
+      <div class="step-num">1</div>
+      <div class="step-lbl">Tu negocio</div>
+    </div>
+    <div class="step-item" id="step-2">
+      <div class="step-num">2</div>
+      <div class="step-lbl">Servicios</div>
+    </div>
+    <div class="step-item" id="step-3">
+      <div class="step-num">3</div>
+      <div class="step-lbl">Precios</div>
+    </div>
+    <div class="step-item" id="step-4">
+      <div class="step-num">4</div>
+      <div class="step-lbl">Contacto</div>
+    </div>
+    <div class="step-item" id="step-5">
+      <div class="step-num">5</div>
+      <div class="step-lbl">Posición</div>
+    </div>
+    <div class="step-item" id="step-6">
+      <div class="step-num">✓</div>
+      <div class="step-lbl">Confirmar</div>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap" id="form-wrap">
+
+  <!-- ═══ STEP 1: Tu negocio ═══ -->
+  <div class="form-panel active" id="panel-1">
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="fch-icon">🏢</div>
+        <div>
+          <h3>Información de tu negocio</h3>
+          <p>Cuéntanos sobre tu empresa o emprendimiento</p>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <div class="field-grid">
+          <div class="field span-2">
+            <label class="lbl">Nombre del negocio <span class="req">*</span></label>
+            <input class="inp" type="text" id="nombre" placeholder="Ej: Pizzas La Leñera" maxlength="80" />
+          </div>
+          <div class="field">
+            <label class="lbl">Nombre del dueño / responsable <span class="req">*</span></label>
+            <input class="inp" type="text" id="responsable" placeholder="Ej: Juan Pérez" />
+          </div>
+          <div class="field">
+            <label class="lbl">RUT del negocio (si tiene)</label>
+            <input class="inp" type="text" id="rut" placeholder="Ej: 76.123.456-7" />
+          </div>
+          <div class="field span-2">
+            <label class="lbl">Descripción del negocio <span class="req">*</span></label>
+            <textarea class="inp" id="descripcion" placeholder="Describe tu servicio en 2-3 oraciones. Qué te hace diferente, tu experiencia, qué incluye..." maxlength="400"></textarea>
+            <div class="hint">Máx. 400 caracteres. Este texto aparecerá en tu ficha de proveedor.</div>
+          </div>
+          <div class="field span-2">
+            <label class="lbl">¿Qué te diferencia de la competencia? <span class="req">*</span></label>
+            <input class="inp" type="text" id="diferenciador" placeholder="Ej: Los únicos con horno de leña artesanal en piedra volcánica" maxlength="100" />
+            <div class="hint">Una frase corta y poderosa. Máx. 100 caracteres.</div>
+          </div>
+          <div class="field">
+            <label class="lbl">Años de experiencia <span class="req">*</span></label>
+            <select class="inp" id="experiencia">
+              <option value="" disabled selected>Selecciona...</option>
+              <option>Menos de 1 año</option>
+              <option>1-2 años</option>
+              <option>3-5 años</option>
+              <option>6-10 años</option>
+              <option>Más de 10 años</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="lbl">Capacidad máxima de personas</label>
+            <select class="inp" id="capacidad">
+              <option value="" disabled selected>Selecciona...</option>
+              <option>Hasta 30 personas</option>
+              <option>30-100 personas</option>
+              <option>100-300 personas</option>
+              <option>300-500 personas</option>
+              <option>Más de 500 personas</option>
+              <option>Sin límite definido</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-nav">
+      <div class="nav-info">Paso 1 de 6</div>
+      <button class="btn btn-coral btn-big" onclick="nextStep(1)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 2: Categorías y servicios ═══ -->
+  <div class="form-panel" id="panel-2">
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="fch-icon">🍽️</div>
+        <div>
+          <h3>¿En qué categorías ofreces tus servicios?</h3>
+          <p>Puedes seleccionar una o más categorías</p>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:10px">🍽️ Catering</p>
+        <div class="check-grid" style="margin-bottom:20px">
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Banquetería"><div class="pill-box">✓</div><span class="pill-ico">🍽️</span><span class="pill-label">Banquetería</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Catering Pizzas"><div class="pill-box">✓</div><span class="pill-ico">🍕</span><span class="pill-label">Catering Pizzas</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Catering Hamburguesas"><div class="pill-box">✓</div><span class="pill-ico">🍔</span><span class="pill-label">Hamburguesas</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Catering Churrascos"><div class="pill-box">✓</div><span class="pill-ico">🥩</span><span class="pill-label">Churrascos</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Catering Completos"><div class="pill-box">✓</div><span class="pill-ico">🌭</span><span class="pill-label">Completos</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Torta y Postres"><div class="pill-box">✓</div><span class="pill-ico">🎂</span><span class="pill-label">Torta y Postres</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Barra de Tragos"><div class="pill-box">✓</div><span class="pill-ico">🍹</span><span class="pill-label">Barra de Tragos</span></label>
+        </div>
+        <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:10px">🎵 Entretenimiento</p>
+        <div class="check-grid" style="margin-bottom:20px">
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="DJ"><div class="pill-box">✓</div><span class="pill-ico">🎵</span><span class="pill-label">DJ</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Animación y Shows"><div class="pill-box">✓</div><span class="pill-ico">🎪</span><span class="pill-label">Animación y Shows</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Fotografía y Video"><div class="pill-box">✓</div><span class="pill-ico">📸</span><span class="pill-label">Fotografía y Video</span></label>
+        </div>
+        <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:10px">⚙️ Producción y Logística</p>
+        <div class="check-grid">
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Iluminación"><div class="pill-box">✓</div><span class="pill-ico">💡</span><span class="pill-label">Iluminación</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Sonido y Amplificación"><div class="pill-box">✓</div><span class="pill-ico">🎙️</span><span class="pill-label">Sonido</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Carpas y Toldos"><div class="pill-box">✓</div><span class="pill-ico">⛺</span><span class="pill-label">Carpas y Toldos</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Mesas y Sillas"><div class="pill-box">✓</div><span class="pill-ico">🪑</span><span class="pill-label">Mesas y Sillas</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Decoración"><div class="pill-box">✓</div><span class="pill-ico">🌸</span><span class="pill-label">Decoración</span></label>
+          <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Transporte"><div class="pill-box">✓</div><span class="pill-ico">🚌</span><span class="pill-label">Transporte</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="fch-icon teal">📍</div>
+        <div>
+          <h3>¿Dónde ofreces tus servicios?</h3>
+          <p>Comunas o zonas donde operas</p>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <div class="field-grid cols-1">
+          <div class="field">
+            <label class="lbl">Comunas donde operas <span class="req">*</span></label>
+            <input class="inp" type="text" id="comunas" placeholder="Ej: Las Condes, Providencia, Vitacura, RM completa..." />
+            <div class="hint">Separa las comunas con comas. Si cubres toda la RM, escribe "RM completa".</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn btn-outline btn-big" onclick="prevStep(2)">← Atrás</button>
+      <div class="nav-info">Paso 2 de 6</div>
+      <button class="btn btn-coral btn-big" onclick="nextStep(2)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 3: Precios ═══ -->
+  <div class="form-panel" id="panel-3">
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="fch-icon">💰</div>
+        <div>
+          <h3>Precios y tarifas</h3>
+          <p>Indica el rango de precios de tus servicios</p>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <div class="field-grid">
+          <div class="field">
+            <label class="lbl">Precio mínimo (servicio base) <span class="req">*</span></label>
+            <input class="inp" type="text" id="precio-min" placeholder="Ej: $150.000" />
+            <div class="hint">El precio de tu servicio más básico.</div>
+          </div>
+          <div class="field">
+            <label class="lbl">Precio máximo (servicio completo) <span class="req">*</span></label>
+            <input class="inp" type="text" id="precio-max" placeholder="Ej: $800.000" />
+            <div class="hint">Tu precio más alto para evento completo.</div>
+          </div>
+          <div class="field span-2">
+            <label class="lbl">¿Qué incluye tu servicio? <span class="req">*</span></label>
+            <textarea class="inp" id="incluye" placeholder="Ej: Traslado de equipos, montaje, desmontaje, personal uniformado, emision de boleta..."></textarea>
+          </div>
+          <div class="field span-2">
+            <label class="lbl">¿Qué NO incluye o tiene costo adicional?</label>
+            <textarea class="inp" id="no-incluye" placeholder="Ej: Gasolina fuera de Santiago, horas extra sobre las 6 hrs..."></textarea>
+          </div>
+          <div class="field">
+            <label class="lbl">Tiempo de anticipación mínimo para reservar</label>
+            <select class="inp" id="anticipacion">
+              <option value="" disabled selected>Selecciona...</option>
+              <option>24 horas</option>
+              <option>3-5 días</option>
+              <option>1-2 semanas</option>
+              <option>2-4 semanas</option>
+              <option>Más de 1 mes</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="lbl">¿Pides anticipo para reservar?</label>
+            <select class="inp" id="anticipo">
+              <option value="" disabled selected>Selecciona...</option>
+              <option>No, pago completo al evento</option>
+              <option>Sí, 20% anticipo</option>
+              <option>Sí, 30% anticipo</option>
+              <option>Sí, 50% anticipo</option>
+              <option>Sí, monto variable</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-outline btn-big" onclick="prevStep(3)">← Atrás</button>
+      <div class="nav-info">Paso 3 de 6</div>
+      <button class="btn btn-coral btn-big" onclick="nextStep(3)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 4: Contacto y redes ═══ -->
+  <div class="form-panel" id="panel-4">
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="fch-icon teal">📱</div>
+        <div>
+          <h3>Datos de contacto</h3>
+          <p>Cómo te contactarán los clientes directamente</p>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <div class="field-grid">
+          <div class="field">
+            <label class="lbl">WhatsApp de contacto <span class="req">*</span></label>
+            <input class="inp" type="tel" id="whatsapp" placeholder="Ej: +56 9 1234 5678" />
+            <div class="hint">Los clientes te escribirán directamente aquí.</div>
+          </div>
+          <div class="field">
+            <label class="lbl">Teléfono fijo (opcional)</label>
+            <input class="inp" type="tel" id="telefono" placeholder="Ej: +56 2 2345 6789" />
+          </div>
+          <div class="field">
+            <label class="lbl">Correo electrónico <span class="req">*</span></label>
+            <input class="inp" type="email" id="email" placeholder="contacto@minegocio.cl" />
+          </div>
+          <div class="field">
+            <label class="lbl">Sitio web (si tienes)</label>
+            <input class="inp" type="url" id="web" placeholder="https://minegocio.cl" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="fch-icon green">🌐</div>
+        <div>
+          <h3>Redes sociales</h3>
+          <p>Aparecerán en tu ficha de proveedor</p>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <div class="field-grid">
+          <div class="field">
+            <label class="lbl">Instagram</label>
+            <input class="inp" type="text" id="instagram" placeholder="@minegocio" />
+          </div>
+          <div class="field">
+            <label class="lbl">Facebook</label>
+            <input class="inp" type="text" id="facebook" placeholder="minegocio o URL completa" />
+          </div>
+          <div class="field">
+            <label class="lbl">TikTok (opcional)</label>
+            <input class="inp" type="text" id="tiktok" placeholder="@minegocio" />
+          </div>
+          <div class="field">
+            <label class="lbl">YouTube (opcional)</label>
+            <input class="inp" type="url" id="youtube" placeholder="https://youtube.com/..." />
+          </div>
+          <div class="field span-2">
+            <label class="lbl">Dirección física (si aplica)</label>
+            <input class="inp" type="text" id="direccion" placeholder="Ej: Av. Providencia 1234, Providencia (si tienes local físico)" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn btn-outline btn-big" onclick="prevStep(4)">← Atrás</button>
+      <div class="nav-info">Paso 4 de 6</div>
+      <button class="btn btn-coral btn-big" onclick="nextStep(4)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 5: Posición en el directorio ═══ -->
+  <div class="form-panel" id="panel-5">
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="fch-icon">🏆</div>
+        <div>
+          <h3>¿Qué posición deseas en el directorio?</h3>
+          <p>Las posiciones destacadas tienen mayor visibilidad y más contactos</p>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <div class="pos-grid">
+          <label class="pos-option" onclick="selectPos(this, 'Posición Oro #1')">
+            <input type="radio" name="posicion" value="Posición Oro #1" />
+            <span class="pos-badge pb-gold">★★★ Más visible</span>
+            <span class="pos-ico">🥇</span>
+            <div class="pos-name">Posición #1 Oro</div>
+            <div class="pos-price">Mayor visibilidad<br/>Top del listado</div>
+          </label>
+          <label class="pos-option" onclick="selectPos(this, 'Posición Plata #2')">
+            <input type="radio" name="posicion" value="Posición Plata #2" />
+            <span class="pos-badge pb-silver">★★☆</span>
+            <span class="pos-ico">🥈</span>
+            <div class="pos-name">Posición #2 Plata</div>
+            <div class="pos-price">Alta visibilidad<br/>Segundo destacado</div>
+          </label>
+          <label class="pos-option" onclick="selectPos(this, 'Posición Bronce #3')">
+            <input type="radio" name="posicion" value="Posición Bronce #3" />
+            <span class="pos-badge pb-bronze">★☆☆</span>
+            <span class="pos-ico">🥉</span>
+            <div class="pos-name">Posición #3 Bronce</div>
+            <div class="pos-price">Buena visibilidad<br/>Tercer destacado</div>
+          </label>
+          <label class="pos-option" onclick="selectPos(this, 'Listado Básico')">
+            <input type="radio" name="posicion" value="Listado Básico" />
+            <span class="pos-badge pb-basic">Básico</span>
+            <span class="pos-ico">📋</span>
+            <div class="pos-name">Listado Básico</div>
+            <div class="pos-price">Visibilidad básica<br/>Solo nombre y precio</div>
+          </label>
+        </div>
+        <div style="margin-top:20px;padding:16px 18px;background:var(--bg);border-radius:12px;border:1px solid var(--border)">
+          <p style="font-size:.82rem;color:var(--muted);line-height:1.6">💡 <strong style="color:var(--ink)">¿Cómo funciona?</strong> Una vez revisemos tu registro, te contactaremos para confirmar disponibilidad y detalle de tu posición. Las posiciones se asignan en orden de solicitud.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="fch-icon">📸</div>
+        <div>
+          <h3>Logo e imagen de tu negocio</h3>
+          <p>Opcional — puedes enviarlo después por WhatsApp</p>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <div class="field-grid cols-1">
+          <div class="field">
+            <label class="lbl">URL de tu logo (si tienes uno online)</label>
+            <input class="inp" type="url" id="logo-url" placeholder="https://..." />
+          </div>
+          <div class="field">
+            <label class="lbl">Comentarios adicionales</label>
+            <textarea class="inp" id="comentarios" placeholder="Cualquier información adicional que quieras que sepamos..."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn btn-outline btn-big" onclick="prevStep(5)">← Atrás</button>
+      <div class="nav-info">Paso 5 de 6</div>
+      <button class="btn btn-coral btn-big" onclick="nextStep(5)">Revisar →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 6: Resumen y confirmación ═══ -->
+  <div class="form-panel" id="panel-6">
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="fch-icon green">✅</div>
+        <div>
+          <h3>Confirma tu registro</h3>
+          <p>Revisa que todo esté correcto antes de enviar</p>
+        </div>
+      </div>
+      <div class="form-card-body" id="summary-body">
+        <!-- generado por JS -->
+      </div>
+    </div>
+
+    <div style="background:var(--coral-lt);border:1.5px solid var(--coral-md);border-radius:14px;padding:18px 22px;margin-bottom:20px">
+      <p style="font-size:.87rem;color:var(--ink2);line-height:1.6;">
+        ✅ Al confirmar, se descargará el <strong>archivo Excel</strong> con tus datos. 
+        Luego deberás enviarlo a <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="85e6eaebf1e4e6f1eae6eaf1ecffe4e0f3e0ebf1eaf6c5e2e8e4ece9abe6eae8">[email&#160;protected]</a></strong> o por WhatsApp al <strong>+56 9 1234 5678</strong> para completar tu registro.
+      </p>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn btn-outline btn-big" onclick="prevStep(6)">← Atrás</button>
+      <div class="nav-info">Paso 6 de 6</div>
+      <button class="btn btn-teal btn-big" onclick="submitForm()">✦ Confirmar y enviar solicitud</button>
+    </div>
+  </div>
+
+  <!-- ═══ SUCCESS ═══ -->
+  <div class="form-panel" id="panel-success">
+    <div class="success-box">
+      <span class="success-icon">🎉</span>
+      <h2>¡Solicitud enviada!</h2>
+      <p>Tu solicitud fue recibida y está siendo revisada por nuestro equipo. Te contactaremos en menos de <strong>48 horas hábiles</strong> para confirmar tu publicación.</p>
+
+      <div style="background:var(--teal-lt);border:1.5px solid #99E9D6;border-radius:14px;padding:20px 24px;margin-bottom:24px;text-align:left;max-width:480px;margin-left:auto;margin-right:auto">
+        <p style="font-size:.85rem;color:var(--ink2);line-height:1.7">
+          ✅ <strong>¿Qué pasa ahora?</strong><br/>
+          Nuestro equipo revisará tu información y te asignará una posición en el directorio.<br/>
+          Si necesitas hacer cambios, escríbenos a <strong>contactocotizaeventos@gmail.com</strong>
+        </p>
+      </div>
+
+      <div class="success-actions">
+        <a href="proveedores.html" class="btn btn-teal btn-big">Ver directorio →</a>
+        <a href="index.html" class="btn btn-outline btn-big">Volver al inicio</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /form-wrap -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let currentStep = 1;
+const TOTAL_STEPS = 6;
+let lastExcelData = null;
+
+/* ═══════════════════════════════════════
+   STEP NAVIGATION
+═══════════════════════════════════════ */
+function nextStep(from) {
+  if (!validate(from)) return;
+  goToStep(from + 1);
+}
+
+function prevStep(from) {
+  goToStep(from - 1);
+}
+
+function goToStep(n) {
+  // Hide current
+  document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+
+  if (n > TOTAL_STEPS) {
+    // Show success
+    document.getElementById('panel-success').classList.add('active');
+    updateStepper(TOTAL_STEPS + 1);
+    return;
+  }
+
+  if (n === TOTAL_STEPS) {
+    buildSummary();
+  }
+
+  document.getElementById(`panel-${n}`).classList.add('active');
+  currentStep = n;
+  updateStepper(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateStepper(active) {
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    const el = document.getElementById(`step-${i}`);
+    if (!el) continue;
+    el.classList.remove('active', 'done');
+    if (i < active) el.classList.add('done');
+    if (i === active) el.classList.add('active');
+  }
+}
+
+/* ═══════════════════════════════════════
+   TOGGLE CHECKBOXES
+═══════════════════════════════════════ */
+function togglePill(label) {
+  const inp = label.querySelector('input');
+  inp.checked = !inp.checked;
+  label.classList.toggle('checked', inp.checked);
+}
+
+/* ═══════════════════════════════════════
+   POSITION SELECTOR
+═══════════════════════════════════════ */
+function selectPos(label, val) {
+  document.querySelectorAll('.pos-option').forEach(p => p.classList.remove('selected'));
+  label.classList.add('selected');
+  label.querySelector('input').checked = true;
+}
+
+/* ═══════════════════════════════════════
+   VALIDATION
+═══════════════════════════════════════ */
+function validate(step) {
+  const rules = {
+    1: [
+      { id: 'nombre',        msg: 'El nombre del negocio es obligatorio.' },
+      { id: 'responsable',   msg: 'El nombre del responsable es obligatorio.' },
+      { id: 'descripcion',   msg: 'La descripción es obligatoria.' },
+      { id: 'diferenciador', msg: 'El diferenciador es obligatorio.' },
+      { id: 'experiencia',   msg: 'Selecciona los años de experiencia.' },
+    ],
+    2: [],  // categories validated separately
+    3: [
+      { id: 'precio-min', msg: 'Ingresa el precio mínimo.' },
+      { id: 'precio-max', msg: 'Ingresa el precio máximo.' },
+      { id: 'incluye',    msg: 'Indica qué incluye tu servicio.' },
+    ],
+    4: [
+      { id: 'whatsapp', msg: 'El WhatsApp de contacto es obligatorio.' },
+      { id: 'email',    msg: 'El correo electrónico es obligatorio.' },
+    ],
+    5: [],
+    6: [],
+  };
+
+  let ok = true;
+
+  // Clear previous errors
+  document.querySelectorAll('.inp.error').forEach(el => el.classList.remove('error'));
+
+  if (rules[step]) {
+    for (const rule of rules[step]) {
+      const el = document.getElementById(rule.id);
+      if (!el) continue;
+      if (!el.value.trim()) {
+        el.classList.add('error');
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast(rule.msg, 'error');
+        ok = false;
+        break;
+      }
+    }
+  }
+
+  // Step 2: at least one category
+  if (step === 2 && ok) {
+    const checked = document.querySelectorAll('.check-pill input:checked');
+    if (checked.length === 0) {
+      showToast('Selecciona al menos una categoría.', 'error');
+      ok = false;
+    }
+    if (ok && !document.getElementById('comunas').value.trim()) {
+      document.getElementById('comunas').classList.add('error');
+      showToast('Indica las comunas donde operas.', 'error');
+      ok = false;
+    }
+  }
+
+  return ok;
+}
+
+/* ═══════════════════════════════════════
+   BUILD SUMMARY
+═══════════════════════════════════════ */
+function getData() {
+  const cats = [...document.querySelectorAll('.check-pill input:checked')].map(i => i.value).join(', ');
+  const pos  = document.querySelector('.pos-option.selected input');
+  return {
+    'Nombre del Negocio':    v('nombre'),
+    'Responsable':           v('responsable'),
+    'RUT':                   v('rut') || '—',
+    'Descripción':           v('descripcion'),
+    'Diferenciador':         v('diferenciador'),
+    'Años de Experiencia':   v('experiencia'),
+    'Capacidad Máx.':        v('capacidad') || '—',
+    'Categorías':            cats || '—',
+    'Comunas':               v('comunas'),
+    'Precio Mínimo':         v('precio-min'),
+    'Precio Máximo':         v('precio-max'),
+    'Incluye':               v('incluye'),
+    'No Incluye':            v('no-incluye') || '—',
+    'Anticipación Mínima':   v('anticipacion') || '—',
+    'Anticipo Requerido':    v('anticipo') || '—',
+    'WhatsApp':              v('whatsapp'),
+    'Teléfono':              v('telefono') || '—',
+    'Email':                 v('email'),
+    'Sitio Web':             v('web') || '—',
+    'Instagram':             v('instagram') || '—',
+    'Facebook':              v('facebook') || '—',
+    'TikTok':               v('tiktok') || '—',
+    'YouTube':               v('youtube') || '—',
+    'Dirección':             v('direccion') || '—',
+    'Posición Deseada':      pos ? pos.value : 'Sin seleccionar',
+    'URL Logo':              v('logo-url') || '—',
+    'Comentarios':           v('comentarios') || '—',
+    'Fecha de Registro':     new Date().toLocaleDateString('es-CL'),
+    'Hora de Registro':      new Date().toLocaleTimeString('es-CL'),
+    'Estado':                'Pendiente revisión',
+  };
+}
+
+function v(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function buildSummary() {
+  const data = getData();
+  const body = document.getElementById('summary-body');
+
+  const sections = [
+    { title: '🏢 Negocio', keys: ['Nombre del Negocio','Responsable','RUT','Años de Experiencia','Capacidad Máx.'] },
+    { title: '🍽️ Servicios y Ubicación', keys: ['Categorías','Comunas'] },
+    { title: '📝 Descripción', keys: ['Descripción','Diferenciador','Incluye','No Incluye'] },
+    { title: '💰 Precios', keys: ['Precio Mínimo','Precio Máximo','Anticipación Mínima','Anticipo Requerido'] },
+    { title: '📱 Contacto', keys: ['WhatsApp','Teléfono','Email','Sitio Web'] },
+    { title: '🌐 Redes Sociales', keys: ['Instagram','Facebook','TikTok','YouTube','Dirección'] },
+    { title: '🏆 Posición', keys: ['Posición Deseada'] },
+  ];
+
+  body.innerHTML = sections.map(sec => `
+    <div class="summary-section">
+      <h4>${sec.title}</h4>
+      <div class="summary-grid">
+        ${sec.keys.map(k => {
+          const full = k === 'Descripción' || k === 'Incluye' || k === 'No Incluye' || k === 'Categorías';
+          return `<div class="summary-item${full?' full':''}">
+            <div class="summary-key">${k}</div>
+            <div class="summary-val">${data[k] || '—'}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+
+/* ═══════════════════════════════════════
+   SUBMIT — envía a Netlify Function + Excel de respaldo
+═══════════════════════════════════════ */
+async function submitForm() {
+  const data = getData();
+  lastExcelData = data;
+
+  const btn = document.querySelector('[onclick="submitForm()"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
+
+  try {
+    const cats = [...document.querySelectorAll('.check-pill input:checked')].map(i => i.value);
+    const posEl = document.querySelector('.pos-option.selected input');
+
+    const payload = {
+      nombre:           v('nombre'),
+      responsable:      v('responsable'),
+      rut:              v('rut'),
+      descripcion:      v('descripcion'),
+      diferenciador:    v('diferenciador'),
+      experiencia:      v('experiencia'),
+      capacidad:        v('capacidad'),
+      categorias:       cats,
+      comunas:          v('comunas'),
+      precio_minimo:    v('precio-min'),
+      precio_maximo:    v('precio-max'),
+      incluye:          v('incluye'),
+      no_incluye:       v('no-incluye'),
+      anticipacion:     v('anticipacion'),
+      anticipo:         v('anticipo'),
+      whatsapp:         v('whatsapp').replace(/\D/g,''),
+      telefono:         v('telefono'),
+      email:            v('email'),
+      web:              v('web'),
+      instagram:        v('instagram'),
+      facebook:         v('facebook'),
+      tiktok:           v('tiktok'),
+      youtube:          v('youtube'),
+      direccion:        v('direccion'),
+      posicion_deseada: posEl ? posEl.value : '',
+      logo_url:         v('logo-url'),
+      logo_emoji:       '🍽️',
+      comentarios:      v('comentarios'),
+    };
+
+    const res = await fetch('/.netlify/functions/submit-form', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.error || `Error ${res.status}`);
+
+    goToStep(TOTAL_STEPS + 1);
+
+  } catch (err) {
+    showToast(`Hubo un error al enviar (${err.message}). Descargando Excel de respaldo...`, 'error');
+    generateExcel(data);
+    setTimeout(() => goToStep(TOTAL_STEPS + 1), 1800);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '✦ Confirmar y enviar'; }
+  }
+}
+
+function downloadAgain() {
+  if (lastExcelData) generateExcel(lastExcelData);
+}
+
+function sendByEmail(e) {
+  e.preventDefault();
+  const nombre = lastExcelData ? lastExcelData['Nombre del Negocio'] : 'mi negocio';
+  const subject = encodeURIComponent(`Registro proveedor – ${nombre} – CotizaTuFiesta.cl`);
+  const body = encodeURIComponent(
+    `Hola equipo de CotizaTuFiesta.cl,\n\nAdjunto el archivo Excel con el registro de mi negocio "${nombre}" para aparecer en el directorio.\n\nQuedo atento/a a su confirmación.\n\nSaludos.`
+  );
+  window.open(`mailto:contactocotizaeventos@gmail.com?subject=${subject}&body=${body}`, '_blank');
+}
+
+function sendByWhatsApp(e) {
+  e.preventDefault();
+  const nombre = lastExcelData ? lastExcelData['Nombre del Negocio'] : 'mi negocio';
+  const msg = encodeURIComponent(
+    `Hola! Acabo de completar el formulario de registro en CotizaTuFiesta.cl para mi negocio *"${nombre}"*. Te envío el archivo Excel adjunto para activar mi ficha en el directorio. Quedo atento/a a su confirmación. 🎉`
+  );
+  window.open(`https://wa.me/56912345678?text=${msg}`, '_blank');
+}
+
+function generateExcel(data) {
+  // Build worksheet data — two columns: Campo | Valor
+  const wsData = [
+    ['REGISTRO DE PROVEEDOR – CotizaTuFiesta.cl', ''],
+    ['', ''],
+    ['CAMPO', 'VALOR'],
+  ];
+
+  Object.entries(data).forEach(([k, val]) => {
+    wsData.push([k, val]);
+  });
+
+  // Add extra empty rows for notes
+  wsData.push(['', '']);
+  wsData.push(['NOTAS DEL ADMINISTRADOR', '']);
+  wsData.push(['Posición asignada', '']);
+  wsData.push(['Fecha de activación', '']);
+  wsData.push(['Revisado por', '']);
+  wsData.push(['Observaciones', '']);
+
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+  // Column widths
+  ws['!cols'] = [{ wch: 30 }, { wch: 60 }];
+
+  // Style header row (row index 0 and row 2)
+  const headerStyle = { font: { bold: true, sz: 14 }, fill: { fgColor: { rgb: 'E8542A' } } };
+  if (ws['A1']) ws['A1'].s = headerStyle;
+
+  // Merge title across two cells
+  ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }];
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Registro Proveedor');
+
+  // Second sheet: structured for import into proveedores.html
+  const importCols = [
+    'pos','id','logo','nombre','tagline','desc','diff',
+    'minimo','maximo','comunas','wa','instagram','facebook','web',
+    'categoria','posicion_deseada','fecha_registro','estado'
+  ];
+
+  const importRow = [
+    '',                             // pos (to assign)
+    slugify(data['Nombre del Negocio']),
+    '🏢',                           // logo emoji (to update)
+    data['Nombre del Negocio'],
+    data['Diferenciador'],
+    data['Descripción'],
+    '✦ ' + data['Diferenciador'],
+    data['Precio Mínimo'],
+    data['Precio Máximo'],
+    data['Comunas'],
+    cleanWA(data['WhatsApp']),
+    data['Instagram'],
+    data['Facebook'],
+    data['Sitio Web'],
+    data['Categorías'],
+    data['Posición Deseada'],
+    data['Fecha de Registro'],
+    data['Estado'],
+  ];
+
+  const ws2 = XLSX.utils.aoa_to_sheet([importCols, importRow]);
+  ws2['!cols'] = importCols.map(() => ({ wch: 22 }));
+  XLSX.utils.book_append_sheet(wb, ws2, 'Para Importar');
+
+  // Download
+  const nombre = data['Nombre del Negocio'].replace(/[^a-zA-Z0-9 ]/g, '').replace(/ /g, '_');
+  const fecha  = new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb, `Proveedor_${nombre}_${fecha}.xlsx`);
+
+  showToast('✅ Excel descargado correctamente', 'success');
+}
+
+function slugify(str) {
+  return str.toLowerCase()
+    .replace(/[áàä]/g, 'a').replace(/[éèë]/g, 'e')
+    .replace(/[íìï]/g, 'i').replace(/[óòö]/g, 'o')
+    .replace(/[úùü]/g, 'u').replace(/ñ/g, 'n')
+    .replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+}
+
+function cleanWA(wa) {
+  // Remove spaces, +, dashes → just digits starting with 56
+  const digits = wa.replace(/\D/g, '');
+  return digits.startsWith('56') ? digits : '56' + digits.replace(/^0/, '');
+}
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (type ? ' ' + type : '');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* ═══════════════════════════════════════
+   PRICE FORMATTING
+═══════════════════════════════════════ */
+['precio-min', 'precio-max'].forEa
