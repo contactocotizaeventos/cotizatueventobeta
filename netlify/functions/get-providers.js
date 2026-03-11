@@ -61,6 +61,8 @@ function groupByCategoria(providers) {
       id:         p.id,
       pos:        p.posicion,
       logo:       p.logo_emoji || '🍽️',
+      logo_url:   p.logo_url || '',
+      cover_url:  p.cover_url || '',
       nombre:     p.nombre,
       tagline:    p.tagline || p.diferenciador || '',
       desc:       p.descripcion,
