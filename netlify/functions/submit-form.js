@@ -55,6 +55,7 @@ exports.handler = async (event) => {
         direccion:       body.direccion || '',
         posicion_deseada: body.posicion_deseada || '',
         logo_url:        body.logo_url || '',
+        cover_url:       body.cover_url || '',
         logo_emoji:      body.logo_emoji || '🍽️',
         comentarios:     body.comentarios || '',
         estado:          'pendiente',
