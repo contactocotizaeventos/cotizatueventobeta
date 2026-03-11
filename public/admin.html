@@ -387,6 +387,29 @@
         <div class="em-field"><label>TikTok</label><input id="em-tiktok" type="text"/></div>
         <div class="em-field"><label>Emoji/Logo</label><input id="em-logo-emoji" type="text" maxlength="4" placeholder="🍕"/></div>
         <div class="em-field"><label>URL logo (opcional)</label><input id="em-logo-url" type="text"/></div>
+        <div class="em-field full">
+          <label>📸 Foto de portada</label>
+          <div id="em-upload-zone" onclick="document.getElementById('em-cover-file').click()"
+            style="border:2px dashed var(--border2);border-radius:10px;padding:20px;text-align:center;cursor:pointer;background:var(--bg);transition:.2s;margin-bottom:8px">
+            <input type="file" id="em-cover-file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handleAdminCoverFile(this)" />
+            <div id="em-upload-idle">
+              <div style="font-size:1.6rem;margin-bottom:4px">📷</div>
+              <div style="font-size:.82rem;font-weight:600;color:var(--ink2)">Subir imagen desde tu equipo</div>
+              <div style="font-size:.72rem;color:var(--muted)">JPG, PNG, WebP · Máx. 5MB</div>
+            </div>
+            <div id="em-upload-loading" style="display:none">
+              <div style="width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--coral);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 8px"></div>
+              <div style="font-size:.8rem;color:var(--muted)">Subiendo...</div>
+            </div>
+          </div>
+          <div id="em-cover-preview" style="display:none;position:relative;margin-bottom:8px">
+            <img id="em-cover-img" src="" alt="Preview" style="width:100%;max-height:150px;object-fit:cover;border-radius:10px;border:1px solid var(--border)" />
+            <button onclick="removeAdminCover()" style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:.75rem">✕</button>
+          </div>
+          <div id="em-cover-status" style="font-size:.72rem;color:var(--muted);margin-bottom:6px"></div>
+          <input id="em-cover-url" type="text" placeholder="O pega una URL directa..." oninput="previewCover(this.value)"
+            style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Outfit',sans-serif;font-size:.85rem;color:var(--ink);background:var(--bg);outline:none"/>
+        </div>
       </div>
     </div>
     <div class="em-footer">
@@ -752,14 +775,82 @@ function openEdit(id) {
   document.getElementById('em-tiktok').value      = p.tiktok || '';
   document.getElementById('em-logo-emoji').value  = p.logo_emoji || '🍽️';
   document.getElementById('em-logo-url').value    = p.logo_url || '';
+  document.getElementById('em-cover-url').value   = p.cover_url || '';
+  previewCover(p.cover_url || '');
 
   document.getElementById('edit-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
+/* ── COVER IMAGE UPLOAD (admin) ── */
+const _adminSpinStyle = document.createElement('style');
+_adminSpinStyle.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(_adminSpinStyle);
+
+let adminCoverUrl = '';
+
+async function handleAdminCoverFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToast('La imagen supera los 5MB.', 'error'); return; }
+
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const base64 = e.target.result;
+    document.getElementById('em-cover-img').src = base64;
+    document.getElementById('em-cover-preview').style.display = 'block';
+    document.getElementById('em-cover-status').textContent = 'Subiendo...';
+    document.getElementById('em-upload-idle').style.display = 'none';
+    document.getElementById('em-upload-loading').style.display = 'block';
+
+    try {
+      const res = await fetch('/.netlify/functions/upload-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${TOKEN}` },
+        body: JSON.stringify({ imageBase64: base64, fileName: file.name, mimeType: file.type }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      adminCoverUrl = data.url;
+      document.getElementById('em-cover-url').value = adminCoverUrl;
+      document.getElementById('em-cover-status').textContent = '✅ Imagen subida correctamente';
+      showToast('✅ Foto de portada lista', 'success');
+    } catch (err) {
+      document.getElementById('em-cover-status').textContent = '⚠️ Error al subir. Pega la URL manualmente.';
+      showToast('Error: ' + err.message, 'error');
+    } finally {
+      document.getElementById('em-upload-idle').style.display = 'block';
+      document.getElementById('em-upload-loading').style.display = 'none';
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function previewCover(url) {
+  const preview = document.getElementById('em-cover-preview');
+  const img = document.getElementById('em-cover-img');
+  if (url && url.startsWith('http')) {
+    img.src = url;
+    preview.style.display = 'block';
+    img.onerror = () => { preview.style.display = 'none'; };
+  } else if (!url) {
+    preview.style.display = 'none';
+  }
+}
+
+function removeAdminCover() {
+  adminCoverUrl = '';
+  document.getElementById('em-cover-url').value = '';
+  document.getElementById('em-cover-preview').style.display = 'none';
+  document.getElementById('em-cover-img').src = '';
+  document.getElementById('em-cover-status').textContent = '';
+  document.getElementById('em-cover-file').value = '';
+}
+
 function closeEdit() {
   document.getElementById('edit-overlay').classList.remove('open');
   document.body.style.overflow = '';
+  removeAdminCover();
 }
 function closeEditIfBg(e) { if (e.target === document.getElementById('edit-overlay')) closeEdit(); }
 
@@ -788,6 +879,7 @@ async function saveEdit() {
     tiktok:        document.getElementById('em-tiktok').value.trim(),
     logo_emoji:    document.getElementById('em-logo-emoji').value.trim(),
     logo_url:      document.getElementById('em-logo-url').value.trim(),
+    cover_url:     document.getElementById('em-cover-url').value.trim(),
   };
 
   if (!fields.nombre) { showToast('El nombre es obligatorio.', 'error'); return; }
