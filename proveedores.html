@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proveedores — CotizaEventos.cl</title>
+<meta name="description" content="Directorio de proveedores de eventos en Santiago. Catering, DJ, fotografía, arriendo y más. Compara precios y contacta directo.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="CotizaEventos.cl">
+<meta property="og:site_name" content="CotizaEventos.cl">
+<meta property="og:locale" content="es_CL">
+<link rel="canonical" href="https://www.cotizaeventos.cl/proveedores.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --coral:#E8542A;--coral2:#FF7A54;--coral-lt:#FFF0EB;--coral-md:#FFCFC2;
+  --sun:#F0A500;--teal:#06C7A5;
+  --bg:#FAFAF8;--bg2:#F5F3EF;--white:#FFFFFF;
+  --ink:#1A1714;--ink2:#3D3733;--muted:#8A8278;
+  --border:#E8E4DF;--border2:#D4CFC9;
+  --r:14px;--ease:cubic-bezier(.4,0,.2,1);
+  --shadow:0 2px 12px rgba(0,0,0,.07);
+  --shadow-md:0 8px 32px rgba(0,0,0,.1);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.12);
+  --font-title:'Fraunces',serif;
+  --font-body:'Outfit',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+body.modal-open{overflow:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+::selection{background:var(--coral);color:#fff}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--coral);border-radius:9px}
+
+/* ── Nav ────────────────────────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:100;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:1140px;margin:0 auto;padding:0 20px}
+.nav-logo{font-family:var(--font-title);font-weight:700;font-size:20px;color:var(--ink)}
+.nav-logo span{color:var(--coral)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:14px;font-weight:500;color:var(--ink2);transition:color .2s}
+.nav-links a:hover{color:var(--coral)}
+.nav-cta{padding:8px 18px;background:var(--coral);color:#fff!important;border-radius:var(--r);font-weight:600;font-size:13px;transition:all .3s var(--ease)}
+.nav-cta:hover{background:var(--coral2)}
+.nav-burger{display:none;width:32px;height:32px;flex-direction:column;justify-content:center;gap:5px;cursor:pointer}
+.nav-burger i{display:block;height:2px;background:var(--ink);border-radius:2px;transition:all .3s var(--ease)}
+.nav-mobile{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);z-index:200;flex-direction:column;padding:80px 32px 32px}
+.nav-mobile.open{display:flex}
+.nav-mobile a{font-size:22px;font-weight:500;padding:16px 0;border-bottom:1px solid var(--border);color:var(--ink)}
+.nav-mobile-close{position:absolute;top:16px;right:20px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--ink)}
+@media(max-width:860px){.nav-links{display:none}.nav-burger{display:flex}}
+
+/* ── Page Header ────────────────────────────────────────────────── */
+.page-header{background:#1A1410;color:#fff;padding:56px 0 48px;text-align:center}
+.page-header h1{font-family:var(--font-title);font-weight:700;font-size:clamp(28px,4vw,40px);margin-bottom:10px}
+.page-header p{color:rgba(255,255,255,.6);font-size:16px;max-width:480px;margin:0 auto}
+
+/* ── Register Banner ────────────────────────────────────────────── */
+.reg-banner{background:linear-gradient(90deg,var(--coral),var(--coral2));color:#fff;text-align:center;padding:12px 20px;font-size:14px;font-weight:500}
+.reg-banner a{text-decoration:underline;font-weight:700}
+
+/* ── Sticky Bar ─────────────────────────────────────────────────── */
+.sticky-bar{position:sticky;top:56px;z-index:90;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 0}
+.sticky-inner{max-width:1140px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.sticky-inner::-webkit-scrollbar{display:none}
+
+/* Search */
+.search-wrap{position:relative;flex-shrink:0}
+.search-wrap input{width:220px;padding:9px 14px 9px 36px;border:1px solid var(--border);border-radius:100px;font-size:14px;font-family:var(--font-body);background:var(--bg);transition:border-color .2s}
+.search-wrap input:focus{outline:none;border-color:var(--coral);background:var(--white)}
+.search-wrap .ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--muted);pointer-events:none}
+.search-mobile-btn{display:none;width:38px;height:38px;border-radius:50%;background:var(--bg);border:1px solid var(--border);align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+@media(max-width:560px){
+  .search-wrap{display:none}
+  .search-wrap.open{display:block;position:absolute;left:0;right:0;top:0;bottom:0;background:var(--white);z-index:5;display:flex;align-items:center;padding:0 16px}
+  .search-wrap.open input{width:100%}
+  .search-mobile-btn{display:flex}
+}
+
+/* Category chips in sticky bar */
+.bar-chip{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border:1px solid var(--border);border-radius:100px;font-size:13px;font-weight:500;color:var(--ink2);background:var(--white);cursor:pointer;transition:all .2s var(--ease);white-space:nowrap;flex-shrink:0;position:relative}
+.bar-chip:hover,.bar-chip.active{border-color:var(--coral);color:var(--coral);background:var(--coral-lt)}
+.bar-chip .arrow{font-size:9px;margin-left:2px;transition:transform .2s var(--ease)}
+.bar-chip.active .arrow{transform:rotate(180deg)}
+.bar-drop{display:none;position:absolute;top:calc(100% + 6px);left:0;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:6px 0;min-width:200px;box-shadow:var(--shadow-md);z-index:20}
+.bar-drop.open{display:block}
+.bar-drop a{display:flex;align-items:center;gap:7px;padding:9px 16px;font-size:13px;color:var(--ink2);transition:background .15s;white-space:nowrap}
+.bar-drop a:hover{background:var(--coral-lt);color:var(--coral)}
+.bar-drop a.sel{color:var(--coral);font-weight:600}
+.bar-chip-all{background:var(--ink);color:#fff;border-color:var(--ink)}
+.bar-chip-all:hover,.bar-chip-all.active{background:var(--coral);border-color:var(--coral);color:#fff}
+
+/* ── Content Area ───────────────────────────────────────────────── */
+.content{max-width:1140px;margin:0 auto;padding:32px 20px 80px}
+
+/* Category section header */
+.cat-header{padding:32px 0 20px;border-bottom:2px solid var(--border);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.cat-header:first-child{padding-top:0}
+.cat-header .ico{font-size:28px}
+.cat-header h2{font-family:var(--font-title);font-weight:600;font-size:24px;color:var(--ink)}
+.cat-header .count{font-size:14px;color:var(--muted);margin-left:auto;font-weight:400}
+
+/* Sub-etiqueta label */
+.etiq-label{font-size:15px;font-weight:600;color:var(--ink2);margin:20px 0 14px;display:flex;align-items:center;gap:8px}
+.etiq-label .ico{font-size:17px}
+
+/* ── Destacado Cards Grid ───────────────────────────────────────── */
+.dest-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:24px}
+@media(max-width:600px){.dest-grid{grid-template-columns:1fr}}
+
+.dest-card{background:linear-gradient(160deg,#FFF9F7,#fff);border:2px solid var(--coral);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .3s var(--ease);position:relative}
+.dest-card:hover{box-shadow:0 8px 32px rgba(232,84,42,.15);transform:translateY(-3px)}
+.dest-card-img{height:170px;background:#1A1410;position:relative;overflow:hidden}
+.dest-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.dest-card:hover .dest-card-img img{transform:scale(1.04)}
+.dest-card-img .placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:rgba(255,255,255,.06);font-size:32px}
+.dest-ribbon{position:absolute;top:12px;left:12px;background:linear-gradient(135deg,var(--coral),var(--coral2));color:#fff;font-size:12px;font-weight:600;padding:4px 12px;border-radius:100px}
+.dest-logo{position:absolute;top:12px;right:12px;width:56px;height:56px;border-radius:14px;background:var(--white);border:2px solid var(--coral);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:var(--shadow)}
+.dest-logo img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+.dest-body{padding:20px}
+.dest-name{font-family:var(--font-title);font-weight:600;font-size:18px;color:var(--ink);margin-bottom:6px}
+.dest-tagline{font-size:14px;color:var(--ink2);line-height:1.6;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dest-price{font-size:14px;font-weight:600;color:var(--coral);margin-bottom:14px}
+.dest-btns{display:flex;gap:8px;flex-wrap:wrap}
+.dest-btn-wa{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:#25D366;color:#fff;border-radius:8px;font-size:13px;font-weight:600;transition:all .2s var(--ease)}
+.dest-btn-wa:hover{background:#1da851}
+.dest-btn-ver{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border:1px solid var(--border2);border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2);transition:all .2s var(--ease)}
+.dest-btn-ver:hover{border-color:var(--coral);color:var(--coral)}
+
+/* ── Básico List ────────────────────────────────────────────────── */
+.bas-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.bas-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r);background:var(--white);cursor:pointer;transition:all .2s var(--ease)}
+.bas-row:hover{border-color:var(--coral-md);background:var(--coral-lt)}
+.bas-logo{width:46px;height:46px;border-radius:12px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden}
+.bas-logo img{width:100%;height:100%;object-fit:cover}
+.bas-info{flex:1;min-width:0}
+.bas-name{font-weight:600;font-size:15px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bas-tagline{font-size:13px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bas-diff{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.bas-price{font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;flex-shrink:0;margin-left:8px}
+.bas-actions{display:flex;gap:6px;flex-shrink:0;margin-left:8px}
+.bas-wa{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:#25D366;color:#fff;font-size:16px;transition:all .2s var(--ease)}
+.bas-wa:hover{background:#1da851;transform:scale(1.08)}
+.bas-ver{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);color:var(--ink2);font-size:14px;transition:all .2s var(--ease)}
+.bas-ver:hover{border-color:var(--coral);color:var(--coral)}
+@media(max-width:560px){.bas-price{display:none}}
+
+.show-all-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border:1px solid var(--border2);border-radius:100px;font-size:13px;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .2s var(--ease);margin-bottom:32px}
+.show-all-btn:hover{border-color:var(--coral);color:var(--coral)}
+
+/* CTA when no destacados in a category */
+.no-dest-cta{background:var(--coral-lt);border:1px dashed var(--coral-md);border-radius:var(--r);padding:24px;text-align:center;margin-bottom:24px;font-size:14px;color:var(--ink2)}
+.no-dest-cta a{color:var(--coral);font-weight:600;text-decoration:underline}
+
+/* Empty state */
+.empty-state{text-align:center;padding:80px 20px;color:var(--muted)}
+.empty-state h3{font-family:var(--font-title);font-size:22px;color:var(--ink);margin-bottom:8px}
+
+/* Loading skeleton */
+@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+.skel-card{height:280px;border-radius:var(--r);background:linear-gradient(90deg,var(--bg2) 25%,var(--border) 50%,var(--bg2) 75%);background-size:400px 100%;animation:shimmer 1.5s infinite}
+.skel-row{height:56px;border-radius:var(--r);background:linear-gradient(90deg,var(--bg2) 25%,var(--border) 50%,var(--bg2) 75%);background-size:400px 100%;animation:shimmer 1.5s infinite}
+
+/* ── Modal / Sheet ──────────────────────────────────────────────── */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,23,20,.6);backdrop-filter:blur(10px);z-index:300;justify-content:center;align-items:center}
+.modal-overlay.open{display:flex}
+
+.modal-box{background:var(--white);border-radius:20px;max-width:640px;width:calc(100% - 40px);max-height:85vh;overflow-y:auto;position:relative;animation:modalIn .3s var(--ease)}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--ink);z-index:5;transition:background .2s}
+.modal-close:hover{background:var(--border)}
+
+.modal-cover{height:220px;background:#1A1410;position:relative;overflow:hidden;border-radius:20px 20px 0 0}
+.modal-cover img{width:100%;height:100%;object-fit:cover}
+.modal-cover .placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:rgba(255,255,255,.06);font-size:40px}
+.modal-ribbon{position:absolute;top:14px;left:14px;background:linear-gradient(135deg,var(--coral),var(--coral2));color:#fff;font-size:12px;font-weight:600;padding:5px 14px;border-radius:100px}
+.modal-logo{position:absolute;bottom:-28px;left:24px;width:64px;height:64px;border-radius:16px;background:var(--white);border:3px solid var(--coral);display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:var(--shadow)}
+.modal-logo img{width:100%;height:100%;object-fit:cover;border-radius:13px}
+
+.modal-body{padding:40px 28px 28px}
+.modal-name{font-family:var(--font-title);font-weight:700;font-size:24px;color:var(--ink);margin-bottom:4px}
+.modal-tagline{font-size:15px;color:var(--ink2);margin-bottom:16px}
+
+.modal-section{margin-bottom:20px}
+.modal-section-title{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:600;margin-bottom:8px}
+.modal-section p{font-size:15px;color:var(--ink2);line-height:1.7}
+
+.modal-price-row{display:flex;gap:24px;margin-bottom:20px;flex-wrap:wrap}
+.modal-price-item{font-size:14px;color:var(--ink2)}
+.modal-price-item strong{color:var(--coral);font-size:16px}
+
+.modal-details-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.modal-detail{font-size:14px;color:var(--ink2)}
+.modal-detail strong{display:block;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600;margin-bottom:2px}
+
+.modal-social{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.modal-social a{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--ink2);transition:all .2s var(--ease)}
+.modal-social a:hover{border-color:var(--coral);color:var(--coral)}
+
+.modal-btns{display:flex;gap:10px;flex-wrap:wrap}
+.modal-btn-wa{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:#25D366;color:#fff;border-radius:var(--r);font-weight:600;font-size:15px;transition:all .2s var(--ease)}
+.modal-btn-wa:hover{background:#1da851}
+.modal-btn-call{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;border:1px solid var(--border2);border-radius:var(--r);font-weight:500;font-size:15px;color:var(--ink2);transition:all .2s var(--ease)}
+.modal-btn-call:hover{border-color:var(--coral);color:var(--coral)}
+
+/* Básico modal: simpler, no cover */
+.modal-basic .modal-body{padding:28px}
+.modal-basic .modal-upgrade{background:var(--coral-lt);border:1px solid var(--coral-md);border-radius:var(--r);padding:16px;text-align:center;margin-top:20px;font-size:14px;color:var(--ink2)}
+.modal-basic .modal-upgrade a{color:var(--coral);font-weight:600}
+
+/* ── Mobile sheet mode ──────────────────────────────────────────── */
+@media(max-width:640px){
+  .modal-overlay{align-items:flex-end}
+  .modal-box{border-radius:20px 20px 0 0;max-height:92vh;width:100%;animation:sheetIn .3s var(--ease)}
+  @keyframes sheetIn{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .modal-handle{display:block;width:40px;height:4px;background:var(--border2);border-radius:4px;margin:10px auto 0}
+  .modal-cover{height:180px;border-radius:0}
+}
+@media(min-width:641px){.modal-handle{display:none}}
+
+/* ── Footer ─────────────────────────────────────────────────────── */
+.footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 0 32px}
+.footer-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:32px;max-width:1140px;margin:0 auto;padding:0 20px}
+.footer-logo{font-family:var(--font-title);font-weight:700;font-size:18px;margin-bottom:8px}
+.footer-logo span{color:var(--coral)}
+.footer-copy{font-size:13px;color:var(--muted)}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-links a{font-size:14px;color:var(--ink2);transition:color .2s}
+.footer-links a:hover{color:var(--coral)}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ═══════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Cotiza<span>Eventos</span>.cl</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="proveedores.html">Proveedores</a>
+      <a href="index.html#como">¿Cómo funciona?</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="index.html#contacto">Contacto</a>
+      <a href="form.html" class="nav-cta">✦ Publica tu negocio</a>
+    </div>
+    <div class="nav-burger" onclick="toggleMobile()" aria-label="Menú">
+      <i></i><i></i><i></i>
+    </div>
+  </div>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <button class="nav-mobile-close" onclick="toggleMobile()">✕</button>
+  <a href="index.html" onclick="toggleMobile()">Inicio</a>
+  <a href="proveedores.html" onclick="toggleMobile()">Proveedores</a>
+  <a href="index.html#como" onclick="toggleMobile()">¿Cómo funciona?</a>
+  <a href="nosotros.html" onclick="toggleMobile()">Nosotros</a>
+  <a href="index.html#contacto" onclick="toggleMobile()">Contacto</a>
+  <a href="form.html" onclick="toggleMobile()">✦ Publica tu negocio</a>
+</div>
+
+<!-- ══ PAGE HEADER ══════════════════════════════════════════════════ -->
+<section class="page-header">
+  <h1>Proveedores de eventos</h1>
+  <p>Explora nuestro directorio completo de proveedores verificados en Santiago.</p>
+</section>
+
+<!-- ══ REGISTER BANNER ══════════════════════════════════════════════ -->
+<div class="reg-banner">
+  ¿Tienes un negocio de eventos? <a href="form.html">Publica gratis tu negocio aquí →</a>
+</div>
+
+<!-- ══ STICKY BAR ═══════════════════════════════════════════════════ -->
+<div class="sticky-bar">
+  <div class="sticky-inner" id="stickyBar">
+    <button class="search-mobile-btn" onclick="toggleSearch()" aria-label="Buscar">🔍</button>
+    <div class="search-wrap" id="searchWrap">
+      <span class="ico">🔍</span>
+      <input type="text" id="searchInput" placeholder="Buscar proveedor..." oninput="handleSearch()">
+    </div>
+    <button class="bar-chip bar-chip-all active" onclick="setView(null)">Todos</button>
+    <!-- chips rendered by JS -->
+  </div>
+</div>
+
+<!-- ══ CONTENT ══════════════════════════════════════════════════════ -->
+<div class="content" id="content">
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="skel-card"></div>
+    <div class="skel-row"></div>
+    <div class="skel-row"></div>
+    <div class="skel-card"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL ════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Cotiza<span>Eventos</span>.cl</div>
+      <p class="footer-copy">&copy; 2025 CotizaEventos.cl — Todos los derechos reservados.</p>
+    </div>
+    <div class="footer-links">
+      <a href="proveedores.html">Proveedores</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="terminos.html">Términos</a>
+      <a href="form.html">Publicar negocio</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════ */
+/* GLOBALS                                                           */
+/* ══════════════════════════════════════════════════════════════════ */
+let GRUPOS=[];
+let PROVIDERS=[];
+let PROVIDERS_MAP={};
+let ETIQ_MAP={};
+let CAT_MAP={};
+let currentFilter=null;
+let searchQuery='';
+
+/* ── Utilities ─────────────────────────────────────────────────── */
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;')}
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* ── Mobile nav ────────────────────────────────────────────────── */
+function toggleMobile(){document.getElementById('navMobile').classList.toggle('open')}
+
+/* ── Mobile search toggle ──────────────────────────────────────── */
+function toggleSearch(){
+  const w=document.getElementById('searchWrap');
+  w.classList.toggle('open');
+  if(w.classList.contains('open'))w.querySelector('input').focus();
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* DATA LOADING                                                      */
+/* ══════════════════════════════════════════════════════════════════ */
+async function loadProviders(){
+  try{
+    const res=await fetch('/api/get-providers');
+    const data=await res.json();
+    if(!data.ok)throw new Error(data.error||'Error');
+    GRUPOS=data.grupos||[];
+    PROVIDERS=data.providers||[];
+
+    // Build lookup maps
+    PROVIDERS_MAP={};
+    for(const p of PROVIDERS)PROVIDERS_MAP[p.id]=p;
+
+    ETIQ_MAP={};CAT_MAP={};
+    for(const g of GRUPOS){
+      CAT_MAP[g.id]=g;
+      for(const et of(g.etiquetas||[])){
+        ETIQ_MAP[et.id]=et;
+      }
+    }
+
+    buildCatBar();
+    handleUrlParams();
+    render();
+  }catch(e){
+    console.error('Error:',e);
+    document.getElementById('content').innerHTML='<div class="empty-state"><h3>Error al cargar</h3><p>No pudimos cargar los proveedores. Intenta recargar la página.</p></div>';
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* CATEGORY BAR                                                      */
+/* ══════════════════════════════════════════════════════════════════ */
+function buildCatBar(){
+  const bar=document.getElementById('stickyBar');
+  // Keep search + "Todos" button, remove old chips
+  const existing=bar.querySelectorAll('.bar-chip:not(.bar-chip-all),.bar-group');
+  existing.forEach(el=>el.remove());
+
+  for(const g of GRUPOS){
+    if(!g.etiquetas||!g.etiquetas.length){
+      const chip=document.createElement('button');
+      chip.className='bar-chip';
+      chip.innerHTML=`<span>${esc(g.ico)}</span>${esc(g.nombre)}`;
+      chip.onclick=()=>setView(g.id);
+      bar.appendChild(chip);
+      continue;
+    }
+    const wrap=document.createElement('div');
+    wrap.className='bar-group';
+    wrap.style.cssText='position:relative;flex-shrink:0;display:inline-flex';
+
+    let dropHtml='';
+    // Option: view all in group
+    dropHtml+=`<a href="#" data-cat="${esc(g.id)}" class="view-group">${esc(g.ico)} Todo ${esc(g.nombre)}</a>`;
+    for(const et of g.etiquetas){
+      dropHtml+=`<a href="#" data-cat="${esc(et.id)}">${esc(et.ico)} ${esc(et.nombre)} <span style="margin-left:auto;font-size:11px;color:var(--muted)">${et.total}</span></a>`;
+    }
+
+    wrap.innerHTML=`
+      <button class="bar-chip" onclick="toggleBarDrop(this)"><span>${esc(g.ico)}</span>${esc(g.nombre)}<span class="arrow">▾</span></button>
+      <div class="bar-drop">${dropHtml}</div>`;
+    bar.appendChild(wrap);
+
+    // Bind drop item clicks
+    wrap.querySelectorAll('.bar-drop a').forEach(a=>{
+      a.onclick=(e)=>{
+        e.preventDefault();
+        setView(a.dataset.cat);
+        wrap.querySelector('.bar-chip').classList.remove('active');
+        wrap.querySelector('.bar-drop').classList.remove('open');
+      };
+    });
+  }
+}
+
+function toggleBarDrop(chip){
+  const wasActive=chip.classList.contains('active');
+  // Close all
+  document.querySelectorAll('.sticky-bar .bar-chip.active:not(.bar-chip-all)').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.bar-drop.open').forEach(d=>d.classList.remove('open'));
+  if(!wasActive){
+    chip.classList.add('active');
+    chip.nextElementSibling.classList.add('open');
+  }
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.bar-group')&&!e.target.closest('.bar-chip')){
+    document.querySelectorAll('.sticky-bar .bar-chip.active:not(.bar-chip-all)').forEach(c=>c.classList.remove('active'));
+    document.querySelectorAll('.bar-drop.open').forEach(d=>d.classList.remove('open'));
+  }
+});
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* VIEW / FILTER                                                     */
+/* ══════════════════════════════════════════════════════════════════ */
+function setView(catId){
+  currentFilter=catId;
+  // Update "Todos" button state
+  const allBtn=document.querySelector('.bar-chip-all');
+  if(!catId)allBtn.classList.add('active');
+  else allBtn.classList.remove('active');
+  render();
+}
+
+function handleSearch(){
+  searchQuery=(document.getElementById('searchInput').value||'').trim().toLowerCase();
+  render();
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* RENDER                                                            */
+/* ══════════════════════════════════════════════════════════════════ */
+function render(){
+  const container=document.getElementById('content');
+  let html='';
+
+  // Determine which grupos to show
+  let gruposToShow=GRUPOS;
+  if(currentFilter){
+    // Check if it's a group id or etiqueta id
+    if(CAT_MAP[currentFilter]){
+      gruposToShow=[CAT_MAP[currentFilter]];
+    }else if(ETIQ_MAP[currentFilter]){
+      // Find parent group, filter to just this etiqueta
+      const et=ETIQ_MAP[currentFilter];
+      for(const g of GRUPOS){
+        const match=g.etiquetas.find(e=>e.id===currentFilter);
+        if(match){
+          gruposToShow=[{...g,etiquetas:[match]}];
+          break;
+        }
+      }
+    }
+  }
+
+  let totalShown=0;
+
+  for(const g of gruposToShow){
+    // Gather all providers in this group (across etiquetas)
+    let groupProviders=[];
+    for(const et of(g.etiquetas||[])){
+      for(const p of(et.proveedores||[])){
+        if(matchesSearch(p))groupProviders.push({...p,_etiq:et});
+      }
+    }
+
+    if(!groupProviders.length)continue;
+    totalShown+=groupProviders.length;
+
+    // Group header
+    html+=`<div class="cat-header"><span class="ico">${esc(g.ico)}</span><h2>${esc(g.nombre)}</h2><span class="count">${groupProviders.length} proveedor${groupProviders.length!==1?'es':''}</span></div>`;
+
+    // Separate by etiqueta if showing full group
+    const showByEtiq=g.etiquetas.length>1;
+
+    for(const et of g.etiquetas){
+      const etProvs=(et.proveedores||[]).filter(p=>matchesSearch(p));
+      if(!etProvs.length)continue;
+
+      if(showByEtiq){
+        html+=`<div class="etiq-label"><span class="ico">${esc(et.ico)}</span>${esc(et.nombre)}</div>`;
+      }
+
+      const destacados=shuffle(etProvs.filter(p=>p.pos===1));
+      const basicos=etProvs.filter(p=>p.pos===0);
+
+      // Destacados grid
+      if(destacados.length){
+        html+=`<div class="dest-grid">`;
+        for(const p of destacados){
+          html+=renderDestCard(p);
+        }
+        html+=`</div>`;
+      }else{
+        html+=`<div class="no-dest-cta">¿Quieres aparecer aquí con máxima visibilidad? <a href="form.html">Registra tu negocio como Destacado</a></div>`;
+      }
+
+      // Básicos list
+      if(basicos.length){
+        const showDefault=3;
+        const basId=`bas_${et.id}`;
+        html+=`<div class="bas-list" id="${basId}">`;
+        for(let i=0;i<basicos.length;i++){
+          const hidden=i>=showDefault?' style="display:none" data-extra="1"':'';
+          html+=renderBasRow(basicos[i],hidden);
+        }
+        html+=`</div>`;
+        if(basicos.length>showDefault){
+          html+=`<button class="show-all-btn" onclick="showAllBasics('${basId}',this)">Ver todos (${basicos.length}) ↓</button>`;
+        }
+      }
+    }
+  }
+
+  if(!totalShown){
+    if(searchQuery){
+      html=`<div class="empty-state"><h3>Sin resultados</h3><p>No encontramos proveedores que coincidan con "${esc(searchQuery)}". Intenta con otro término.</p></div>`;
+    }else{
+      html=`<div class="empty-state"><h3>No hay proveedores</h3><p>Aún no hay proveedores en esta categoría.</p></div>`;
+    }
+  }
+
+  container.innerHTML=html;
+
+  // Check for deep-link to open modal
+  checkDeepLink();
+}
+
+function matchesSearch(p){
+  if(!searchQuery)return true;
+  const q=searchQuery;
+  return(p.nombre||'').toLowerCase().includes(q)
+    ||(p.tagline||'').toLowerCase().includes(q)
+    ||(p.diferenciador||'').toLowerCase().includes(q)
+    ||(p.descripcion||'').toLowerCase().includes(q)
+    ||(p.comunas||'').toLowerCase().includes(q);
+}
+
+/* ── Card HTML builders ────────────────────────────────────────── */
+function renderDestCard(p){
+  const imgHtml=p.cover_url
+    ?`<img src="${esc(p.cover_url)}" alt="${esc(p.nombre)}" loading="lazy">`
+    :`<div class="placeholder">img</div>`;
+  const logoHtml=p.logo_url
+    ?`<img src="${esc(p.logo_url)}" alt="">`
+    :`${esc(p.logo_emoji)||'✦'}`;
+  const price=p.precio_minimo?`Desde ${esc(p.precio_minimo)}`:'';
+  const waLink=p.whatsapp?`https://wa.me/${esc(p.whatsapp)}`:'';
+
+  return`
+  <div class="dest-card" onclick="openModal('${esc(p.id)}')">
+    <div class="dest-card-img">
+      ${imgHtml}
+      <div class="dest-ribbon">✦ Destacado</div>
+      <div class="dest-logo">${logoHtml}</div>
+    </div>
+    <div class="dest-body">
+      <div class="dest-name">${esc(p.nombre)}</div>
+      <div class="dest-tagline">${esc(p.tagline||p.diferenciador||'')}</div>
+      ${price?`<div class="dest-price">${price}</div>`:''}
+      <div class="dest-btns">
+        ${waLink?`<a href="${waLink}" class="dest-btn-wa" target="_blank" rel="noopener" onclick="event.stopPropagation()">💬 WhatsApp</a>`:''}
+        <button class="dest-btn-ver" onclick="event.stopPropagation();openModal('${esc(p.id)}')">Ver más →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderBasRow(p,extraAttr){
+  const logoHtml=p.logo_url
+    ?`<img src="${esc(p.logo_url)}" alt="">`
+    :`<span>${esc(p.logo_emoji)||'📋'}</span>`;
+  const waLink=p.whatsapp?`https://wa.me/${esc(p.whatsapp)}`:'';
+
+  return`
+  <div class="bas-row"${extraAttr} onclick="openModalBasic('${esc(p.id)}')">
+    <div class="bas-logo">${logoHtml}</div>
+    <div class="bas-info">
+      <div class="bas-name">${esc(p.nombre)}</div>
+      <div class="bas-tagline">${esc(p.tagline||'')}</div>
+      ${p.diferenciador?`<div class="bas-diff">${esc(p.diferenciador)}</div>`:''}
+    </div>
+    <div class="bas-price">${p.precio_minimo?esc(p.precio_minimo):''}</div>
+    <div class="bas-actions">
+      ${waLink?`<a href="${waLink}" class="bas-wa" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="WhatsApp">💬</a>`:''}
+      <button class="bas-ver" onclick="event.stopPropagation();openModalBasic('${esc(p.id)}')" title="Ver">→</button>
+    </div>
+  </div>`;
+}
+
+function showAllBasics(listId,btn){
+  const list=document.getElementById(listId);
+  if(!list)return;
+  list.querySelectorAll('[data-extra]').forEach(el=>el.style.display='');
+  btn.remove();
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* MODAL                                                             */
+/* ══════════════════════════════════════════════════════════════════ */
+function openModal(id){
+  const p=PROVIDERS_MAP[id];
+  if(!p)return;
+
+  const overlay=document.getElementById('modalOverlay');
+  const box=document.getElementById('modalBox');
+  const content=document.getElementById('modalContent');
+
+  box.classList.remove('modal-basic');
+
+  const imgHtml=p.cover_url
+    ?`<img src="${esc(p.cover_url)}" alt="${esc(p.nombre)}">`
+    :`<div class="placeholder">img</div>`;
+  const logoHtml=p.logo_url
+    ?`<img src="${esc(p.logo_url)}" alt="">`
+    :`${esc(p.logo_emoji)||'✦'}`;
+
+  // Find category name
+  const etiq=ETIQ_MAP[p.etiqueta_id]||ETIQ_MAP[p.categoria]||{};
+  const catName=etiq.nombre||'';
+
+  let socialHtml='';
+  if(p.instagram)socialHtml+=`<a href="https://instagram.com/${esc(p.instagram)}" target="_blank" rel="noopener">📷 Instagram</a>`;
+  if(p.facebook)socialHtml+=`<a href="${esc(p.facebook)}" target="_blank" rel="noopener">📘 Facebook</a>`;
+  if(p.tiktok)socialHtml+=`<a href="https://tiktok.com/@${esc(p.tiktok)}" target="_blank" rel="noopener">🎵 TikTok</a>`;
+  if(p.youtube)socialHtml+=`<a href="${esc(p.youtube)}" target="_blank" rel="noopener">▶️ YouTube</a>`;
+  if(p.web)socialHtml+=`<a href="${esc(p.web)}" target="_blank" rel="noopener">🌐 Web</a>`;
+
+  content.innerHTML=`
+    <div class="modal-cover">
+      ${imgHtml}
+      <div class="modal-ribbon">✦ Destacado</div>
+      <div class="modal-logo">${logoHtml}</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-name">${esc(p.nombre)}</div>
+      ${catName?`<div style="font-size:13px;color:var(--muted);margin-bottom:4px">${esc(catName)}</div>`:''}
+      ${p.tagline?`<div class="modal-tagline">${esc(p.tagline)}</div>`:''}
+
+      ${p.descripcion?`<div class="modal-section"><div class="modal-section-title">Descripción</div><p>${esc(p.descripcion)}</p></div>`:''}
+      ${p.diferenciador?`<div class="modal-section"><div class="modal-section-title">¿Qué nos diferencia?</div><p>${esc(p.diferenciador)}</p></div>`:''}
+
+      <div class="modal-price-row">
+        ${p.precio_minimo?`<div class="modal-price-item">Desde <strong>${esc(p.precio_minimo)}</strong></div>`:''}
+        ${p.precio_maximo?`<div class="modal-price-item">Hasta <strong>${esc(p.precio_maximo)}</strong></div>`:''}
+      </div>
+
+      <div class="modal-details-grid">
+        ${p.incluye?`<div class="modal-detail"><strong>Incluye</strong>${esc(p.incluye)}</div>`:''}
+        ${p.no_incluye?`<div class="modal-detail"><strong>No incluye</strong>${esc(p.no_incluye)}</div>`:''}
+        ${p.experiencia?`<div class="modal-detail"><strong>Experiencia</strong>${esc(p.experiencia)}</div>`:''}
+        ${p.capacidad?`<div class="modal-detail"><strong>Capacidad</strong>${esc(p.capacidad)}</div>`:''}
+        ${p.comunas?`<div class="modal-detail"><strong>Comunas</strong>${esc(p.comunas)}</div>`:''}
+        ${p.responsable?`<div class="modal-detail"><strong>Responsable</strong>${esc(p.responsable)}</div>`:''}
+      </div>
+
+      ${socialHtml?`<div class="modal-social">${socialHtml}</div>`:''}
+
+      <div class="modal-btns">
+        ${p.whatsapp?`<a href="https://wa.me/${esc(p.whatsapp)}" class="modal-btn-wa" target="_blank" rel="noopener">💬 Contactar por WhatsApp</a>`:''}
+        ${p.telefono?`<a href="tel:${esc(p.telefono)}" class="modal-btn-call">📞 Llamar</a>`:''}
+        ${p.email?`<a href="mailto:${esc(p.email)}" class="modal-btn-call">✉️ Email</a>`:''}
+      </div>
+    </div>`;
+
+  overlay.classList.add('open');
+  document.body.classList.add('modal-open');
+}
+
+function openModalBasic(id){
+  const p=PROVIDERS_MAP[id];
+  if(!p)return;
+
+  // If it's actually Destacado, use full modal
+  if(p.pos===1){openModal(id);return}
+
+  const overlay=document.getElementById('modalOverlay');
+  const box=document.getElementById('modalBox');
+  const content=document.getElementById('modalContent');
+
+  box.classList.add('modal-basic');
+
+  const logoHtml=p.logo_url
+    ?`<img src="${esc(p.logo_url)}" alt="" style="width:56px;height:56px;border-radius:14px;object-fit:cover">`
+    :`<span style="font-size:36px">${esc(p.logo_emoji)||'📋'}</span>`;
+
+  const etiq=ETIQ_MAP[p.etiqueta_id]||ETIQ_MAP[p.categoria]||{};
+
+  content.innerHTML=`
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+        <div>${logoHtml}</div>
+        <div>
+          <div class="modal-name" style="margin-bottom:2px">${esc(p.nombre)}</div>
+          ${etiq.nombre?`<div style="font-size:13px;color:var(--muted)">${esc(etiq.nombre)}</div>`:''}
+        </div>
+      </div>
+
+      ${p.tagline?`<p style="font-size:15px;color:var(--ink2);margin-bottom:12px">${esc(p.tagline)}</p>`:''}
+      ${p.diferenciador?`<div class="modal-section"><div class="modal-section-title">¿Qué nos diferencia?</div><p>${esc(p.diferenciador)}</p></div>`:''}
+
+      <div class="modal-price-row">
+        ${p.precio_minimo?`<div class="modal-price-item">Desde <strong>${esc(p.precio_minimo)}</strong></div>`:''}
+        ${p.precio_maximo?`<div class="modal-price-item">Hasta <strong>${esc(p.precio_maximo)}</strong></div>`:''}
+      </div>
+
+      <div class="modal-details-grid">
+        ${p.comunas?`<div class="modal-detail"><strong>Comunas</strong>${esc(p.comunas)}</div>`:''}
+        ${p.experiencia?`<div class="modal-detail"><strong>Experiencia</strong>${esc(p.experiencia)}</div>`:''}
+      </div>
+
+      <div class="modal-btns">
+        ${p.whatsapp?`<a href="https://wa.me/${esc(p.whatsapp)}" class="modal-btn-wa" target="_blank" rel="noopener">💬 WhatsApp</a>`:''}
+        ${p.telefono?`<a href="tel:${esc(p.telefono)}" class="modal-btn-call">📞 Llamar</a>`:''}
+      </div>
+
+      <div class="modal-upgrade">
+        ¿Es este tu negocio? Mejora tu visibilidad con un perfil <strong>Destacado</strong>: foto, descripción completa y botón directo a WhatsApp. <a href="form.html">Saber más →</a>
+      </div>
+    </div>`;
+
+  overlay.classList.add('open');
+  document.body.classList.add('modal-open');
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.classList.remove('modal-open');
+  // Clean URL if deep-linked
+  if(window.history.replaceState){
+    const u=new URL(window.location);
+    u.searchParams.delete('open');
+    window.history.replaceState(null,'',u.toString());
+  }
+}
+
+// Escape key closes modal
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')closeModal();
+});
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* URL PARAMS                                                        */
+/* ══════════════════════════════════════════════════════════════════ */
+let pendingOpen=null;
+
+function handleUrlParams(){
+  const params=new URLSearchParams(window.location.search);
+  const cat=params.get('cat');
+  const open=params.get('open');
+
+  if(cat)setView(cat);
+  if(open)pendingOpen=open;
+}
+
+function checkDeepLink(){
+  if(!pendingOpen)return;
+  const id=pendingOpen;
+  pendingOpen=null;
+  const p=PROVIDERS_MAP[id];
+  if(!p)return;
+  if(p.pos===1)openModal(id);
+  else openModalBasic(id);
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* INIT                                                              */
+/* ══════════════════════════════════════════════════════════════════ */
+loadProviders();
+</script>
+</body>
+</html>

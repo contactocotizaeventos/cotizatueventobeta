@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CotizaEventos.cl — Proveedores de eventos en Santiago</title>
+<meta name="description" content="Encuentra los mejores proveedores de eventos en Santiago de Chile. Catering, DJ, fotógrafos, arriendo y más. Contacto directo, sin intermediarios.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="CotizaEventos.cl">
+<meta property="og:site_name" content="CotizaEventos.cl">
+<meta property="og:locale" content="es_CL">
+<meta property="og:title" content="CotizaEventos.cl — Celebra con los mejores de Santiago">
+<meta property="og:description" content="Directorio de proveedores de eventos verificados. Contacto directo, gratis para clientes.">
+<link rel="canonical" href="https://www.cotizaeventos.cl/index.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & Variables ──────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --coral:#E8542A;--coral2:#FF7A54;--coral-lt:#FFF0EB;--coral-md:#FFCFC2;
+  --sun:#F0A500;--teal:#06C7A5;
+  --bg:#FAFAF8;--bg2:#F5F3EF;--white:#FFFFFF;
+  --ink:#1A1714;--ink2:#3D3733;--muted:#8A8278;
+  --border:#E8E4DF;--border2:#D4CFC9;
+  --r:14px;--ease:cubic-bezier(.4,0,.2,1);
+  --shadow:0 2px 12px rgba(0,0,0,.07);
+  --shadow-md:0 8px 32px rgba(0,0,0,.1);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.12);
+  --font-title:'Fraunces',serif;
+  --font-body:'Outfit',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+::selection{background:var(--coral);color:#fff}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--coral);border-radius:9px}
+
+/* ── Utilities ──────────────────────────────────────────────────── */
+.container{width:100%;max-width:1140px;margin:0 auto;padding:0 20px}
+.section{padding:80px 0}
+.section-label{font-family:var(--font-body);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:2px;color:var(--coral);margin-bottom:12px}
+.section-title{font-family:var(--font-title);font-weight:700;font-size:clamp(28px,4vw,42px);color:var(--ink);line-height:1.15;margin-bottom:16px}
+.section-desc{font-size:17px;color:var(--ink2);max-width:560px;line-height:1.7}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:var(--r);font-weight:600;font-size:15px;transition:all .3s var(--ease)}
+.btn-coral{background:var(--coral);color:#fff}
+.btn-coral:hover{background:var(--coral2);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-outline{border:2px solid var(--border2);color:var(--ink);background:var(--white)}
+.btn-outline:hover{border-color:var(--coral);color:var(--coral)}
+.btn-white{background:#fff;color:var(--ink)}
+.btn-white:hover{background:var(--coral-lt);color:var(--coral)}
+.btn-sm{padding:10px 20px;font-size:14px}
+
+/* ── Animations ─────────────────────────────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+.anim-up{animation:fadeUp .7s var(--ease) both}
+.anim-up-d1{animation-delay:.1s}
+.anim-up-d2{animation-delay:.2s}
+.anim-up-d3{animation-delay:.3s}
+.anim-up-d4{animation-delay:.4s}
+
+/* ── Nav ────────────────────────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:100;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:1140px;margin:0 auto;padding:0 20px}
+.nav-logo{font-family:var(--font-title);font-weight:700;font-size:20px;color:var(--ink)}
+.nav-logo span{color:var(--coral)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:14px;font-weight:500;color:var(--ink2);transition:color .2s}
+.nav-links a:hover{color:var(--coral)}
+.nav-cta{padding:8px 18px;background:var(--coral);color:#fff!important;border-radius:var(--r);font-weight:600;font-size:13px;transition:all .3s var(--ease)}
+.nav-cta:hover{background:var(--coral2);transform:translateY(-1px)}
+.nav-burger{display:none;width:32px;height:32px;flex-direction:column;justify-content:center;gap:5px;cursor:pointer}
+.nav-burger span{display:block;height:2px;background:var(--ink);border-radius:2px;transition:all .3s var(--ease)}
+.nav-mobile{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);z-index:200;flex-direction:column;padding:80px 32px 32px}
+.nav-mobile.open{display:flex;animation:fadeIn .25s var(--ease)}
+.nav-mobile a{font-size:22px;font-weight:500;padding:16px 0;border-bottom:1px solid var(--border);color:var(--ink)}
+.nav-mobile a:hover{color:var(--coral)}
+.nav-mobile-close{position:absolute;top:16px;right:20px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--ink)}
+
+@media(max-width:860px){
+  .nav-links{display:none}
+  .nav-burger{display:flex}
+}
+
+/* ── Hero ───────────────────────────────────────────────────────── */
+.hero{background:#1A1410;color:#fff;padding:100px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(232,84,42,.15) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1140px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+.hero-title{font-family:var(--font-title);font-weight:700;font-size:clamp(36px,5.5vw,64px);line-height:1.08;margin-bottom:20px;max-width:700px}
+.hero-title em{font-style:normal;color:var(--coral2)}
+.hero-sub{font-size:clamp(16px,2vw,19px);color:rgba(255,255,255,.72);max-width:520px;line-height:1.7;margin-bottom:36px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:10px}
+.hero-pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:8px 18px;font-size:13px;color:rgba(255,255,255,.65);font-weight:400}
+
+/* ── Gallery ────────────────────────────────────────────────────── */
+.gallery{padding:60px 0;overflow:hidden;background:var(--bg)}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:1140px;margin:0 auto;padding:0 20px}
+.gallery-img{border-radius:var(--r);overflow:hidden;aspect-ratio:4/3;background:var(--bg2)}
+.gallery-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.gallery-img:hover img{transform:scale(1.05)}
+@media(max-width:560px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ── Categories ─────────────────────────────────────────────────── */
+.cats{background:var(--white)}
+.cats-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.cat-group{position:relative}
+.cat-chip{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border:1px solid var(--border);border-radius:100px;font-size:14px;font-weight:500;color:var(--ink2);background:var(--white);cursor:pointer;transition:all .25s var(--ease);user-select:none}
+.cat-chip:hover,.cat-chip.active{border-color:var(--coral);color:var(--coral);background:var(--coral-lt)}
+.cat-chip .ico{font-size:16px}
+.cat-chip .arrow{font-size:10px;transition:transform .2s var(--ease);margin-left:2px}
+.cat-chip.active .arrow{transform:rotate(180deg)}
+.cat-dropdown{display:none;position:absolute;top:calc(100% + 6px);left:0;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:8px 0;min-width:220px;box-shadow:var(--shadow-md);z-index:20;animation:slideDown .2s var(--ease)}
+.cat-dropdown.open{display:block}
+.cat-drop-item{display:flex;align-items:center;gap:8px;padding:10px 18px;font-size:14px;color:var(--ink2);cursor:pointer;transition:background .15s}
+.cat-drop-item:hover{background:var(--coral-lt);color:var(--coral)}
+.cat-drop-item .ico{font-size:15px}
+
+/* skeleton loader for categories */
+.skel{display:inline-block;height:42px;width:120px;border-radius:100px;background:linear-gradient(90deg,var(--bg2) 25%,var(--border) 50%,var(--bg2) 75%);background-size:400px 100%;animation:shimmer 1.5s infinite}
+
+/* ── Highlighted Providers (4×4 grid) ───────────────────────────── */
+.highlighted{background:var(--bg2)}
+.hl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px}
+.hl-card{background:var(--white);border-radius:var(--r);overflow:hidden;border:1px solid var(--border);transition:all .35s var(--ease);cursor:pointer;position:relative}
+.hl-card:hover{border-color:var(--coral-md);box-shadow:var(--shadow-md);transform:translateY(-4px)}
+.hl-card-img{aspect-ratio:3/2;background:#1A1410;position:relative;overflow:hidden}
+.hl-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.hl-card:hover .hl-card-img img{transform:scale(1.06)}
+.hl-card-img .placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:28px;color:rgba(255,255,255,.08)}
+.hl-card-badge{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,var(--coral),var(--coral2));color:#fff;font-size:11px;font-weight:600;padding:4px 10px;border-radius:100px;letter-spacing:.3px}
+.hl-card-logo{position:absolute;bottom:-18px;right:12px;width:40px;height:40px;border-radius:10px;background:var(--white);border:2px solid var(--coral);display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:var(--shadow)}
+.hl-card-body{padding:24px 16px 16px}
+.hl-card-cat{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600;margin-bottom:4px}
+.hl-card-name{font-family:var(--font-title);font-weight:600;font-size:16px;color:var(--ink);margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.hl-card-tagline{font-size:13px;color:var(--ink2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:10px;min-height:39px}
+.hl-card-footer{display:flex;align-items:center;justify-content:space-between}
+.hl-card-price{font-size:13px;font-weight:600;color:var(--coral)}
+.hl-card-wa{display:inline-flex;align-items:center;gap:4px;background:#25D366;color:#fff;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;transition:all .2s var(--ease)}
+.hl-card-wa:hover{background:#1da851;transform:scale(1.04)}
+
+.hl-empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);font-size:16px}
+
+/* Skeleton for highlighted */
+.hl-skel{border-radius:var(--r);background:linear-gradient(90deg,var(--bg) 25%,var(--border) 50%,var(--bg) 75%);background-size:400px 100%;animation:shimmer 1.5s infinite;aspect-ratio:3/4}
+
+@media(max-width:1080px){.hl-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.hl-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.hl-grid{grid-template-columns:1fr}}
+
+.hl-more{text-align:center;margin-top:36px}
+
+/* ── How it works ───────────────────────────────────────────────── */
+.how{background:var(--white)}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:40px}
+.how-step{text-align:center;padding:32px 20px}
+.how-num{width:52px;height:52px;border-radius:50%;background:var(--coral-lt);color:var(--coral);font-family:var(--font-title);font-weight:700;font-size:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.how-step h3{font-family:var(--font-title);font-size:20px;font-weight:600;margin-bottom:10px}
+.how-step p{font-size:15px;color:var(--ink2);line-height:1.7}
+@media(max-width:680px){.how-grid{grid-template-columns:1fr;gap:20px}}
+
+/* ── Preview Nosotros ───────────────────────────────────────────── */
+.about-preview{background:var(--bg2)}
+.about-card{background:var(--white);border-radius:var(--r);padding:48px;display:flex;align-items:center;gap:48px;border:1px solid var(--border)}
+.about-card-text{flex:1}
+.about-card-text h3{font-family:var(--font-title);font-size:26px;font-weight:600;margin-bottom:12px}
+.about-card-text p{color:var(--ink2);font-size:16px;line-height:1.7;margin-bottom:24px}
+.about-card-visual{width:180px;height:180px;border-radius:50%;background:linear-gradient(135deg,var(--coral-lt),var(--coral-md));flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:64px}
+@media(max-width:680px){.about-card{flex-direction:column;text-align:center;padding:32px 24px}.about-card-visual{width:120px;height:120px;font-size:48px}}
+
+/* ── Contact ────────────────────────────────────────────────────── */
+.contact{background:var(--white)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:36px}
+.contact-form{display:flex;flex-direction:column;gap:16px}
+.contact-form label{font-size:14px;font-weight:500;color:var(--ink2)}
+.contact-form input,.contact-form textarea{padding:12px 16px;border:1px solid var(--border);border-radius:var(--r);font-family:var(--font-body);font-size:15px;background:var(--bg);transition:border-color .2s}
+.contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:var(--coral);background:var(--white)}
+.contact-form textarea{resize:vertical;min-height:120px}
+.contact-info{display:flex;flex-direction:column;justify-content:center;gap:24px}
+.contact-info-item{display:flex;align-items:flex-start;gap:14px}
+.contact-info-ico{width:44px;height:44px;border-radius:12px;background:var(--coral-lt);color:var(--coral);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.contact-info-item h4{font-size:15px;font-weight:600;margin-bottom:2px}
+.contact-info-item p{font-size:14px;color:var(--ink2)}
+@media(max-width:680px){.contact-grid{grid-template-columns:1fr}}
+
+/* ── CTA Final ──────────────────────────────────────────────────── */
+.cta-final{background:#1A1410;color:#fff;padding:80px 0;text-align:center}
+.cta-final h2{font-family:var(--font-title);font-size:clamp(28px,4vw,40px);font-weight:700;margin-bottom:14px}
+.cta-final p{color:rgba(255,255,255,.65);font-size:17px;margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto}
+
+/* ── Footer ─────────────────────────────────────────────────────── */
+.footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 0 32px}
+.footer-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:32px}
+.footer-logo{font-family:var(--font-title);font-weight:700;font-size:18px;margin-bottom:8px}
+.footer-logo span{color:var(--coral)}
+.footer-copy{font-size:13px;color:var(--muted)}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-links a{font-size:14px;color:var(--ink2);transition:color .2s}
+.footer-links a:hover{color:var(--coral)}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ═══════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Cotiza<span>Eventos</span>.cl</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="proveedores.html">Proveedores</a>
+      <a href="#como">¿Cómo funciona?</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+      <a href="form.html" class="nav-cta">✦ Publica tu negocio</a>
+    </div>
+    <div class="nav-burger" onclick="toggleMobile()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="nav-mobile" id="navMobile">
+  <button class="nav-mobile-close" onclick="toggleMobile()">✕</button>
+  <a href="index.html" onclick="toggleMobile()">Inicio</a>
+  <a href="proveedores.html" onclick="toggleMobile()">Proveedores</a>
+  <a href="#como" onclick="toggleMobile()">¿Cómo funciona?</a>
+  <a href="nosotros.html" onclick="toggleMobile()">Nosotros</a>
+  <a href="#contacto" onclick="toggleMobile()">Contacto</a>
+  <a href="form.html" onclick="toggleMobile()">✦ Publica tu negocio</a>
+</div>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1 class="hero-title anim-up">Celebra con los <em>mejores</em> de Santiago</h1>
+    <p class="hero-sub anim-up anim-up-d1">Encuentra proveedores verificados para tu evento. Compara, elige y contacta directo — sin intermediarios ni comisiones.</p>
+    <div class="hero-btns anim-up anim-up-d2">
+      <a href="proveedores.html" class="btn btn-coral">🔍 Ver proveedores</a>
+      <a href="#como" class="btn btn-outline" style="border-color:rgba(255,255,255,.2);color:#fff">¿Cómo funciona?</a>
+    </div>
+    <div class="hero-pills anim-up anim-up-d3">
+      <span class="hero-pill">Proveedores verificados</span>
+      <span class="hero-pill">Contacto directo</span>
+      <span class="hero-pill">Gratis para clientes</span>
+      <span class="hero-pill">Región Metropolitana</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALLERY ═══════════════════════════════════════════════════════ -->
+<section class="gallery">
+  <div class="gallery-grid">
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&q=80" alt="Evento" loading="lazy"></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80" alt="Celebración" loading="lazy"></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80" alt="Catering" loading="lazy"></div>
+    <div class="gallery-img"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=80" alt="Fiesta" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- ══ CATEGORIES ════════════════════════════════════════════════════ -->
+<section class="cats section" id="categorias">
+  <div class="container">
+    <p class="section-label">Explora por categoría</p>
+    <h2 class="section-title">¿Qué necesitas para tu evento?</h2>
+    <p class="section-desc">Navega por nuestras categorías y encuentra exactamente lo que buscas.</p>
+    <div class="cats-grid" id="catsGrid">
+      <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+      <div class="skel"></div><div class="skel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HIGHLIGHTED PROVIDERS ═════════════════════════════════════════ -->
+<section class="highlighted section" id="destacados">
+  <div class="container">
+    <p class="section-label">Descubre proveedores</p>
+    <h2 class="section-title">Recomendados para ti</h2>
+    <p class="section-desc">Proveedores destacados seleccionados aleatoriamente. Cada visita es una nueva oportunidad para descubrir servicios increíbles.</p>
+    <div class="hl-grid" id="hlGrid">
+      <div class="hl-skel"></div><div class="hl-skel"></div><div class="hl-skel"></div><div class="hl-skel"></div>
+      <div class="hl-skel"></div><div class="hl-skel"></div><div class="hl-skel"></div><div class="hl-skel"></div>
+    </div>
+    <div class="hl-more">
+      <a href="proveedores.html" class="btn btn-coral">Ver todos los proveedores →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ═════════════════════════════════════════════════ -->
+<section class="how section" id="como">
+  <div class="container">
+    <p class="section-label">Simple y rápido</p>
+    <h2 class="section-title">¿Cómo funciona?</h2>
+    <div class="how-grid">
+      <div class="how-step anim-up">
+        <div class="how-num">1</div>
+        <h3>¿Qué necesitas?</h3>
+        <p>Explora nuestras categorías: catering, DJ, fotografía, arriendo de mobiliario y mucho más.</p>
+      </div>
+      <div class="how-step anim-up anim-up-d1">
+        <div class="how-num">2</div>
+        <h3>Compara y elige</h3>
+        <p>Revisa perfiles con fotos, precios, descripciones y lo que incluye cada servicio.</p>
+      </div>
+      <div class="how-step anim-up anim-up-d2">
+        <div class="how-num">3</div>
+        <h3>Contacta directo</h3>
+        <p>Habla por WhatsApp o teléfono con el proveedor. Sin intermediarios, sin comisiones.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ABOUT PREVIEW ════════════════════════════════════════════════ -->
+<section class="about-preview section">
+  <div class="container">
+    <div class="about-card">
+      <div class="about-card-text">
+        <p class="section-label">Sobre nosotros</p>
+        <h3>Conectamos personas con los mejores proveedores de eventos</h3>
+        <p>Creemos que organizar un evento no debería ser estresante. Por eso creamos un directorio transparente donde puedes comparar y contactar proveedores verificados de forma directa y gratuita.</p>
+        <a href="nosotros.html" class="btn btn-outline btn-sm">Conoce más →</a>
+      </div>
+      <div class="about-card-visual">🎉</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══════════════════════════════════════════════════════ -->
+<section class="contact section" id="contacto">
+  <div class="container">
+    <p class="section-label">Escríbenos</p>
+    <h2 class="section-title">Contacto</h2>
+    <div class="contact-grid">
+      <form class="contact-form" id="contactForm" onsubmit="handleContact(event)">
+        <div>
+          <label for="cNombre">Nombre</label>
+          <input type="text" id="cNombre" placeholder="Tu nombre" required>
+        </div>
+        <div>
+          <label for="cEmail">Email</label>
+          <input type="email" id="cEmail" placeholder="tu@email.com" required>
+        </div>
+        <div>
+          <label for="cMsg">Mensaje</label>
+          <textarea id="cMsg" placeholder="¿En qué podemos ayudarte?" required></textarea>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button type="submit" class="btn btn-coral btn-sm">Enviar por WhatsApp</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="handleContactEmail()">Enviar por Email</button>
+        </div>
+      </form>
+      <div class="contact-info">
+        <div class="contact-info-item">
+          <div class="contact-info-ico">💬</div>
+          <div>
+            <h4>WhatsApp</h4>
+            <p><a href="https://wa.me/56991999301" target="_blank" rel="noopener">+56 9 9199 9301</a></p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-ico">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <p><a href="mailto:contactocotizaeventos@gmail.com">contactocotizaeventos@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-ico">📍</div>
+          <div>
+            <h4>Cobertura</h4>
+            <p>Región Metropolitana, Santiago de Chile</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA FINAL ════════════════════════════════════════════════════ -->
+<section class="cta-final">
+  <div class="container">
+    <h2>¿Tienes un negocio de eventos?</h2>
+    <p>Únete al directorio y consigue nuevos clientes sin comisiones ni intermediarios.</p>
+    <a href="form.html" class="btn btn-coral">✦ Publica tu negocio gratis</a>
+  </div>
+</section>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">Cotiza<span>Eventos</span>.cl</div>
+        <p class="footer-copy">&copy; 2025 CotizaEventos.cl — Todos los derechos reservados.</p>
+      </div>
+      <div class="footer-links">
+        <a href="proveedores.html">Proveedores</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="terminos.html">Términos</a>
+        <a href="form.html">Publicar negocio</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Escape HTML ──────────────────────────────────────────────────── */
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;')}
+
+/* ── Shuffle (Fisher-Yates) ───────────────────────────────────────── */
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* ── Mobile menu ──────────────────────────────────────────────────── */
+function toggleMobile(){document.getElementById('navMobile').classList.toggle('open')}
+
+/* ── Contact form handlers ────────────────────────────────────────── */
+function handleContact(e){
+  e.preventDefault();
+  const n=document.getElementById('cNombre').value.trim();
+  const m=document.getElementById('cMsg').value.trim();
+  const text=encodeURIComponent(`Hola, soy ${n}. ${m}`);
+  window.open(`https://wa.me/56991999301?text=${text}`,'_blank');
+}
+function handleContactEmail(){
+  const n=document.getElementById('cNombre').value.trim();
+  const em=document.getElementById('cEmail').value.trim();
+  const m=document.getElementById('cMsg').value.trim();
+  const subject=encodeURIComponent(`Contacto desde CotizaEventos.cl — ${n}`);
+  const body=encodeURIComponent(`Nombre: ${n}\nEmail: ${em}\n\n${m}`);
+  window.location.href=`mailto:contactocotizaeventos@gmail.com?subject=${subject}&body=${body}`;
+}
+
+/* ── Load data from API ───────────────────────────────────────────── */
+let GRUPOS=[];
+let PROVIDERS=[];
+
+async function loadData(){
+  try{
+    const res=await fetch('/api/get-providers');
+    const data=await res.json();
+    if(!data.ok)throw new Error(data.error||'Error');
+    GRUPOS=data.grupos||[];
+    PROVIDERS=data.providers||[];
+    renderCategories();
+    renderHighlighted();
+  }catch(e){
+    console.error('Error loading data:',e);
+    document.getElementById('catsGrid').innerHTML='<p style="color:var(--muted);padding:20px 0">Error al cargar categorías. Intenta recargar la página.</p>';
+    document.getElementById('hlGrid').innerHTML='<p class="hl-empty">Error al cargar proveedores.</p>';
+  }
+}
+
+/* ── Render category chips ────────────────────────────────────────── */
+function renderCategories(){
+  const grid=document.getElementById('catsGrid');
+  if(!GRUPOS.length){grid.innerHTML='<p style="color:var(--muted)">No hay categorías disponibles.</p>';return}
+  let html='';
+  for(const g of GRUPOS){
+    if(!g.etiquetas||!g.etiquetas.length){
+      html+=`<a href="proveedores.html?cat=${esc(g.id)}" class="cat-chip"><span class="ico">${esc(g.ico)}</span>${esc(g.nombre)}</a>`;
+      continue;
+    }
+    html+=`<div class="cat-group">`;
+    html+=`<div class="cat-chip" onclick="toggleDrop(this)"><span class="ico">${esc(g.ico)}</span>${esc(g.nombre)}<span class="arrow">▾</span></div>`;
+    html+=`<div class="cat-dropdown">`;
+    for(const et of g.etiquetas){
+      html+=`<a href="proveedores.html?cat=${esc(et.id)}" class="cat-drop-item"><span class="ico">${esc(et.ico)}</span>${esc(et.nombre)}<span style="margin-left:auto;font-size:12px;color:var(--muted)">${et.total}</span></a>`;
+    }
+    html+=`</div></div>`;
+  }
+  grid.innerHTML=html;
+}
+
+function toggleDrop(chip){
+  const wasActive=chip.classList.contains('active');
+  // Close all
+  document.querySelectorAll('.cat-chip.active').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.cat-dropdown.open').forEach(d=>d.classList.remove('open'));
+  if(!wasActive){
+    chip.classList.add('active');
+    chip.nextElementSibling.classList.add('open');
+  }
+}
+
+// Close dropdowns on outside click
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.cat-group')){
+    document.querySelectorAll('.cat-chip.active').forEach(c=>c.classList.remove('active'));
+    document.querySelectorAll('.cat-dropdown.open').forEach(d=>d.classList.remove('open'));
+  }
+});
+
+/* ── Render highlighted providers (4×4 grid, shuffled) ────────────── */
+function renderHighlighted(){
+  const grid=document.getElementById('hlGrid');
+
+  // Filter only Destacados (pos === 1)
+  const destacados=PROVIDERS.filter(p=>p.pos===1);
+
+  if(!destacados.length){
+    grid.innerHTML='<p class="hl-empty">Aún no hay proveedores destacados. ¡Sé el primero!</p>';
+    return;
+  }
+
+  // Shuffle and take up to 16
+  const shuffled=shuffle(destacados).slice(0,16);
+
+  // Find etiqueta names for category labels
+  const etiqMap={};
+  for(const g of GRUPOS){
+    for(const et of (g.etiquetas||[])){
+      etiqMap[et.id]=et.nombre;
+    }
+  }
+
+  let html='';
+  for(const p of shuffled){
+    const catLabel=etiqMap[p.etiqueta_id]||etiqMap[p.categoria]||'';
+    const imgHtml=p.cover_url
+      ?`<img src="${esc(p.cover_url)}" alt="${esc(p.nombre)}" loading="lazy">`
+      :`<div class="placeholder">img</div>`;
+    const logoHtml=p.logo_url
+      ?`<img src="${esc(p.logo_url)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:8px">`
+      :`${esc(p.logo_emoji)||'✦'}`;
+    const price=p.precio_minimo?`Desde ${esc(p.precio_minimo)}`:'';
+    const waLink=p.whatsapp?`https://wa.me/${esc(p.whatsapp)}`:'#';
+
+    html+=`
+    <div class="hl-card" onclick="window.location.href='proveedores.html?open=${esc(p.id)}'">
+      <div class="hl-card-img">
+        ${imgHtml}
+        <div class="hl-card-badge">✦ Destacado</div>
+        <div class="hl-card-logo">${logoHtml}</div>
+      </div>
+      <div class="hl-card-body">
+        <div class="hl-card-cat">${esc(catLabel)}</div>
+        <div class="hl-card-name">${esc(p.nombre)}</div>
+        <div class="hl-card-tagline">${esc(p.tagline||p.diferenciador||'')}</div>
+        <div class="hl-card-footer">
+          <span class="hl-card-price">${price}</span>
+          ${p.whatsapp?`<a href="${waLink}" class="hl-card-wa" onclick="event.stopPropagation()" target="_blank" rel="noopener">💬 WhatsApp</a>`:''}
+        </div>
+      </div>
+    </div>`;
+  }
+  grid.innerHTML=html;
+}
+
+/* ── Init ──────────────────────────────────────────────────────────── */
+loadData();
+</script>
+</body>
+</html>

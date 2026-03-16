@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Publica tu negocio — CotizaEventos.cl</title>
+<meta name="description" content="Registra tu negocio de eventos en CotizaEventos.cl. Consigue clientes sin comisiones ni intermediarios.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="CotizaEventos.cl">
+<meta property="og:site_name" content="CotizaEventos.cl">
+<meta property="og:locale" content="es_CL">
+<link rel="canonical" href="https://www.cotizaeventos.cl/form.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --coral:#E8542A;--coral2:#FF7A54;--coral-lt:#FFF0EB;--coral-md:#FFCFC2;
+  --sun:#F0A500;--teal:#06C7A5;
+  --bg:#FAFAF8;--bg2:#F5F3EF;--white:#FFFFFF;
+  --ink:#1A1714;--ink2:#3D3733;--muted:#8A8278;
+  --border:#E8E4DF;--border2:#D4CFC9;
+  --r:14px;--ease:cubic-bezier(.4,0,.2,1);
+  --shadow:0 2px 12px rgba(0,0,0,.07);
+  --shadow-md:0 8px 32px rgba(0,0,0,.1);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.12);
+  --font-title:'Fraunces',serif;
+  --font-body:'Outfit',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+::selection{background:var(--coral);color:#fff}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--coral);border-radius:9px}
+
+/* ── Nav ────────────────────────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:100;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:1140px;margin:0 auto;padding:0 20px}
+.nav-logo{font-family:var(--font-title);font-weight:700;font-size:20px;color:var(--ink)}
+.nav-logo span{color:var(--coral)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:14px;font-weight:500;color:var(--ink2);transition:color .2s}
+.nav-links a:hover{color:var(--coral)}
+.nav-cta{padding:8px 18px;background:var(--coral);color:#fff!important;border-radius:var(--r);font-weight:600;font-size:13px}
+.nav-burger{display:none;width:32px;height:32px;flex-direction:column;justify-content:center;gap:5px;cursor:pointer}
+.nav-burger i{display:block;height:2px;background:var(--ink);border-radius:2px}
+.nav-mobile{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);z-index:200;flex-direction:column;padding:80px 32px 32px}
+.nav-mobile.open{display:flex}
+.nav-mobile a{font-size:22px;font-weight:500;padding:16px 0;border-bottom:1px solid var(--border);color:var(--ink)}
+.nav-mobile-close{position:absolute;top:16px;right:20px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--ink)}
+@media(max-width:860px){.nav-links{display:none}.nav-burger{display:flex}}
+
+/* ── Form Layout ────────────────────────────────────────────────── */
+.form-wrap{max-width:680px;margin:0 auto;padding:40px 20px 80px}
+.form-header{text-align:center;margin-bottom:36px}
+.form-header h1{font-family:var(--font-title);font-weight:700;font-size:clamp(26px,4vw,36px);margin-bottom:8px}
+.form-header p{font-size:16px;color:var(--ink2)}
+
+/* ── Progress Bar ───────────────────────────────────────────────── */
+.progress{display:flex;align-items:center;gap:4px;margin-bottom:40px}
+.progress-step{flex:1;height:6px;border-radius:3px;background:var(--border);transition:background .4s var(--ease)}
+.progress-step.done{background:var(--coral)}
+.progress-step.current{background:var(--coral2)}
+.progress-label{text-align:center;font-size:13px;color:var(--muted);margin-bottom:24px}
+
+/* ── Steps ──────────────────────────────────────────────────────── */
+.step{display:none}
+.step.active{display:block;animation:fadeUp .4s var(--ease)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.step h2{font-family:var(--font-title);font-weight:600;font-size:22px;margin-bottom:6px}
+.step .step-desc{font-size:15px;color:var(--ink2);margin-bottom:28px}
+
+/* ── Form Fields ────────────────────────────────────────────────── */
+.field{margin-bottom:20px}
+.field label{display:block;font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:6px}
+.field label .req{color:var(--coral)}
+.field input,.field textarea,.field select{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:var(--r);font-family:var(--font-body);font-size:15px;background:var(--white);transition:border-color .2s}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--coral)}
+.field textarea{resize:vertical;min-height:100px}
+.field .hint{font-size:12px;color:var(--muted);margin-top:4px}
+.field.error input,.field.error textarea,.field.error select{border-color:#e53e3e}
+.field .error-msg{font-size:12px;color:#e53e3e;margin-top:4px;display:none}
+.field.error .error-msg{display:block}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:560px){.field-row{grid-template-columns:1fr}}
+
+/* ── Category Pills ─────────────────────────────────────────────── */
+.cat-pills{display:flex;flex-wrap:wrap;gap:8px}
+.cat-pill{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border:2px solid var(--border);border-radius:100px;font-size:14px;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .2s var(--ease);user-select:none}
+.cat-pill:hover{border-color:var(--coral-md);background:var(--coral-lt)}
+.cat-pill.selected{border-color:var(--coral);background:var(--coral-lt);color:var(--coral);font-weight:600}
+.cat-pill input{display:none}
+.cat-pills-loading{color:var(--muted);font-size:14px;padding:12px 0}
+
+/* ── Comunas Chips ──────────────────────────────────────────────── */
+.comunas-input-wrap{display:flex;gap:8px;margin-bottom:8px}
+.comunas-input-wrap input{flex:1}
+.comunas-input-wrap button{padding:10px 18px;background:var(--coral);color:#fff;border-radius:var(--r);font-weight:600;font-size:14px;white-space:nowrap}
+.comunas-chips{display:flex;flex-wrap:wrap;gap:6px}
+.comuna-chip{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:var(--coral-lt);border:1px solid var(--coral-md);border-radius:100px;font-size:13px;color:var(--coral)}
+.comuna-chip button{background:none;border:none;color:var(--coral);font-size:16px;cursor:pointer;padding:0;line-height:1}
+
+/* ── Plan Cards ─────────────────────────────────────────────────── */
+.plan-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:480px){.plan-cards{grid-template-columns:1fr}}
+.plan-card{border:2px solid var(--border);border-radius:var(--r);padding:28px 24px;cursor:pointer;transition:all .3s var(--ease);text-align:center;position:relative}
+.plan-card:hover{border-color:var(--coral-md);background:var(--coral-lt)}
+.plan-card.selected{border-color:var(--coral);background:linear-gradient(160deg,#FFF9F7,#fff);box-shadow:0 4px 20px rgba(232,84,42,.12)}
+.plan-card input{display:none}
+.plan-card-ico{font-size:36px;margin-bottom:12px}
+.plan-card h3{font-family:var(--font-title);font-size:20px;font-weight:600;margin-bottom:6px}
+.plan-card p{font-size:14px;color:var(--ink2);line-height:1.6}
+.plan-card .plan-badge{display:inline-block;background:var(--coral);color:#fff;font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;margin-top:10px}
+.plan-card-check{position:absolute;top:12px;right:12px;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;transition:all .2s}
+.plan-card.selected .plan-card-check{background:var(--coral);border-color:var(--coral);color:#fff}
+
+/* ── Image Upload ───────────────────────────────────────────────── */
+.upload-area{border:2px dashed var(--border2);border-radius:var(--r);padding:32px;text-align:center;cursor:pointer;transition:all .2s var(--ease);background:var(--white)}
+.upload-area:hover{border-color:var(--coral);background:var(--coral-lt)}
+.upload-area.has-file{border-style:solid;border-color:var(--teal)}
+.upload-area .ico{font-size:32px;margin-bottom:8px}
+.upload-area p{font-size:14px;color:var(--ink2)}
+.upload-area .filename{font-size:13px;color:var(--teal);font-weight:600;margin-top:6px}
+.upload-area input{display:none}
+.upload-preview{margin-top:12px;max-height:120px;border-radius:8px;object-fit:cover;display:none}
+.upload-area.has-file .upload-preview{display:block;margin:12px auto 0}
+
+/* ── Summary ────────────────────────────────────────────────────── */
+.summary{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:28px}
+.summary-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px}
+.summary-row:last-child{border-bottom:none}
+.summary-row .label{color:var(--muted);flex-shrink:0;margin-right:16px}
+.summary-row .value{color:var(--ink);font-weight:500;text-align:right;word-break:break-word}
+
+/* ── Nav Buttons ────────────────────────────────────────────────── */
+.form-nav{display:flex;justify-content:space-between;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:var(--r);font-weight:600;font-size:15px;transition:all .3s var(--ease)}
+.btn-coral{background:var(--coral);color:#fff}
+.btn-coral:hover{background:var(--coral2);transform:translateY(-1px)}
+.btn-coral:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-outline{border:2px solid var(--border2);color:var(--ink);background:var(--white)}
+.btn-outline:hover{border-color:var(--coral);color:var(--coral)}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-teal:hover{filter:brightness(1.1)}
+
+/* ── Success Panel ──────────────────────────────────────────────── */
+.success-panel{display:none;text-align:center;padding:60px 20px;animation:fadeUp .5s var(--ease)}
+.success-panel.show{display:block}
+.success-ico{font-size:56px;margin-bottom:20px}
+.success-panel h2{font-family:var(--font-title);font-size:28px;font-weight:700;color:var(--ink);margin-bottom:12px}
+.success-panel .msg{font-size:16px;color:var(--ink2);line-height:1.7;max-width:500px;margin:0 auto 28px}
+.success-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* ── Footer ─────────────────────────────────────────────────────── */
+.footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 0 32px}
+.footer-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:32px;max-width:1140px;margin:0 auto;padding:0 20px}
+.footer-logo{font-family:var(--font-title);font-weight:700;font-size:18px;margin-bottom:8px}
+.footer-logo span{color:var(--coral)}
+.footer-copy{font-size:13px;color:var(--muted)}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-links a{font-size:14px;color:var(--ink2);transition:color .2s}
+.footer-links a:hover{color:var(--coral)}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ═══════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Cotiza<span>Eventos</span>.cl</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="proveedores.html">Proveedores</a>
+      <a href="index.html#como">¿Cómo funciona?</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="index.html#contacto">Contacto</a>
+      <a href="form.html" class="nav-cta">✦ Publica tu negocio</a>
+    </div>
+    <div class="nav-burger" onclick="toggleMobile()"><i></i><i></i><i></i></div>
+  </div>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <button class="nav-mobile-close" onclick="toggleMobile()">✕</button>
+  <a href="index.html">Inicio</a>
+  <a href="proveedores.html">Proveedores</a>
+  <a href="nosotros.html">Nosotros</a>
+  <a href="form.html">Publica tu negocio</a>
+</div>
+
+<!-- ══ FORM ═════════════════════════════════════════════════════════ -->
+<div class="form-wrap" id="formWrap">
+  <div class="form-header">
+    <h1>Publica tu negocio</h1>
+    <p>Completa el formulario y en máximo 48 horas hábiles revisaremos tu solicitud.</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress" id="progress">
+    <div class="progress-step current"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+  </div>
+  <div class="progress-label" id="progressLabel">Paso 1 de 6 — Datos del negocio</div>
+
+  <!-- ── STEP 1: Datos del negocio ─────────────────────────────── -->
+  <div class="step active" data-step="1">
+    <h2>Datos del negocio</h2>
+    <p class="step-desc">Cuéntanos sobre tu negocio.</p>
+    <div class="field">
+      <label>Nombre del negocio <span class="req">*</span></label>
+      <input type="text" id="f_nombre" placeholder="Ej: Pizzas Don Mario" required>
+      <span class="error-msg">Este campo es obligatorio</span>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Nombre del responsable</label>
+        <input type="text" id="f_responsable" placeholder="Nombre y apellido">
+      </div>
+      <div class="field">
+        <label>RUT del negocio</label>
+        <input type="text" id="f_rut" placeholder="12.345.678-9">
+      </div>
+    </div>
+    <div class="form-nav">
+      <span></span>
+      <button class="btn btn-coral" onclick="nextStep()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: Categoría y descripción ───────────────────────── -->
+  <div class="step" data-step="2">
+    <h2>Categoría y descripción</h2>
+    <p class="step-desc">Selecciona la categoría que mejor describe tu servicio.</p>
+    <div class="field">
+      <label>Categoría <span class="req">*</span></label>
+      <div class="cat-pills" id="catPills">
+        <span class="cat-pills-loading">Cargando categorías...</span>
+      </div>
+      <span class="error-msg" id="catError" style="display:none">Selecciona una categoría</span>
+    </div>
+    <div class="field">
+      <label>Descripción de tu servicio</label>
+      <textarea id="f_descripcion" placeholder="Describe qué ofreces, cómo trabajas, qué tipo de eventos atiendes..." rows="4"></textarea>
+    </div>
+    <div class="field">
+      <label>¿Qué te diferencia?</label>
+      <textarea id="f_diferenciador" placeholder="¿Qué hace único a tu servicio? ¿Por qué deberían elegirte?" rows="3"></textarea>
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-outline" onclick="prevStep()">← Atrás</button>
+      <button class="btn btn-coral" onclick="nextStep()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: Precios y capacidad ───────────────────────────── -->
+  <div class="step" data-step="3">
+    <h2>Precios y capacidad</h2>
+    <p class="step-desc">Información sobre tus tarifas y servicios.</p>
+    <div class="field-row">
+      <div class="field">
+        <label>Precio mínimo</label>
+        <input type="text" id="f_precio_minimo" placeholder="Ej: $150.000">
+      </div>
+      <div class="field">
+        <label>Precio máximo</label>
+        <input type="text" id="f_precio_maximo" placeholder="Ej: $800.000">
+      </div>
+    </div>
+    <div class="field">
+      <label>¿Qué incluye?</label>
+      <textarea id="f_incluye" placeholder="Detalla qué incluye tu servicio base..." rows="3"></textarea>
+    </div>
+    <div class="field">
+      <label>¿Qué NO incluye?</label>
+      <textarea id="f_no_incluye" placeholder="Detalla qué no está incluido..." rows="2"></textarea>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Anticipación requerida</label>
+        <input type="text" id="f_anticipacion" placeholder="Ej: 2 semanas">
+      </div>
+      <div class="field">
+        <label>% de anticipo</label>
+        <input type="text" id="f_anticipo" placeholder="Ej: 50%">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Capacidad</label>
+        <input type="text" id="f_capacidad" placeholder="Ej: hasta 200 personas">
+      </div>
+      <div class="field">
+        <label>Experiencia</label>
+        <input type="text" id="f_experiencia" placeholder="Ej: 5 años">
+      </div>
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-outline" onclick="prevStep()">← Atrás</button>
+      <button class="btn btn-coral" onclick="nextStep()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: Contacto y ubicación ──────────────────────────── -->
+  <div class="step" data-step="4">
+    <h2>Contacto y ubicación</h2>
+    <p class="step-desc">¿Cómo te contactan tus clientes?</p>
+    <div class="field">
+      <label>Comunas donde ofreces servicio</label>
+      <div class="comunas-input-wrap">
+        <input type="text" id="comunaInput" placeholder="Escribe y agrega comunas...">
+        <button type="button" onclick="addComuna()">Agregar</button>
+      </div>
+      <div class="comunas-chips" id="comunasChips"></div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="f_whatsapp" placeholder="56912345678">
+        <span class="hint">Sin +, ej: 56912345678</span>
+        <span class="error-msg">El WhatsApp es obligatorio</span>
+      </div>
+      <div class="field">
+        <label>Teléfono</label>
+        <input type="tel" id="f_telefono" placeholder="Otro número de contacto">
+      </div>
+    </div>
+    <div class="field">
+      <label>Email de contacto <span class="req">*</span></label>
+      <input type="email" id="f_email" placeholder="tu@negocio.com">
+      <span class="hint">Usaremos este email para tu cuenta y notificaciones.</span>
+      <span class="error-msg">El email es obligatorio</span>
+    </div>
+    <div class="field">
+      <label>Dirección</label>
+      <input type="text" id="f_direccion" placeholder="Opcional">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Sitio web</label>
+        <input type="url" id="f_web" placeholder="https://...">
+      </div>
+      <div class="field">
+        <label>Instagram</label>
+        <input type="text" id="f_instagram" placeholder="@tu_cuenta">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Facebook</label>
+        <input type="text" id="f_facebook" placeholder="URL de tu página">
+      </div>
+      <div class="field">
+        <label>TikTok</label>
+        <input type="text" id="f_tiktok" placeholder="@tu_cuenta">
+      </div>
+    </div>
+    <div class="field">
+      <label>YouTube</label>
+      <input type="text" id="f_youtube" placeholder="URL de tu canal">
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-outline" onclick="prevStep()">← Atrás</button>
+      <button class="btn btn-coral" onclick="nextStep()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 5: Tipo de cuenta + imágenes ─────────────────────── -->
+  <div class="step" data-step="5">
+    <h2>Tu plan e imágenes</h2>
+    <p class="step-desc">Elige el tipo de cuenta y sube tus imágenes.</p>
+    <div class="field">
+      <label>Tipo de cuenta</label>
+      <div class="plan-cards">
+        <label class="plan-card selected" onclick="selectPlan(this,'0')">
+          <input type="radio" name="posicion" value="0" checked>
+          <div class="plan-card-check">✓</div>
+          <div class="plan-card-ico">📋</div>
+          <h3>Listado Básico</h3>
+          <p>Apareces en el directorio con nombre, contacto y precio. Ideal para empezar.</p>
+          <span class="plan-badge" style="background:var(--muted)">Gratis</span>
+        </label>
+        <label class="plan-card" onclick="selectPlan(this,'1')">
+          <input type="radio" name="posicion" value="1">
+          <div class="plan-card-check">✓</div>
+          <div class="plan-card-ico">✦</div>
+          <h3>Destacado</h3>
+          <p>Card completa con foto, descripción, logo y botón directo a WhatsApp. Máxima visibilidad.</p>
+          <span class="plan-badge">Recomendado</span>
+        </label>
+      </div>
+    </div>
+    <div class="field-row" style="margin-top:24px">
+      <div class="field">
+        <label>Logo del negocio</label>
+        <div class="upload-area" id="logoUpload" onclick="document.getElementById('logoFile').click()">
+          <div class="ico">📷</div>
+          <p>Clic para subir logo</p>
+          <span class="filename" id="logoName"></span>
+          <img class="upload-preview" id="logoPreview" alt="">
+          <input type="file" id="logoFile" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" onchange="handleUpload('logo',this)">
+        </div>
+      </div>
+      <div class="field">
+        <label>Foto de portada</label>
+        <div class="upload-area" id="coverUpload" onclick="document.getElementById('coverFile').click()">
+          <div class="ico">🖼️</div>
+          <p>Clic para subir portada</p>
+          <span class="filename" id="coverName"></span>
+          <img class="upload-preview" id="coverPreview" alt="">
+          <input type="file" id="coverFile" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" onchange="handleUpload('cover',this)">
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios adicionales</label>
+      <textarea id="f_comentarios" placeholder="¿Algo más que quieras decirnos?" rows="2"></textarea>
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-outline" onclick="prevStep()">← Atrás</button>
+      <button class="btn btn-coral" onclick="nextStep()">Revisar resumen →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 6: Resumen y envío ───────────────────────────────── -->
+  <div class="step" data-step="6">
+    <h2>Resumen de tu solicitud</h2>
+    <p class="step-desc">Revisa que todo esté correcto antes de enviar.</p>
+    <div class="summary" id="summary"></div>
+    <div class="form-nav" style="margin-top:24px">
+      <button class="btn btn-outline" onclick="prevStep()">← Corregir</button>
+      <button class="btn btn-teal" id="submitBtn" onclick="submitForm()">✓ Confirmar y enviar</button>
+    </div>
+  </div>
+
+  <!-- ── Success Panel ─────────────────────────────────────────── -->
+  <div class="success-panel" id="successPanel">
+    <div class="success-ico">🎉</div>
+    <h2>¡Solicitud enviada!</h2>
+    <p class="msg">Recibimos tu solicitud. En máximo <strong>48 horas hábiles</strong> revisaremos tu información. La admisión no es automática — evaluamos cada solicitud para garantizar la calidad del directorio. Te notificaremos por email.</p>
+    <div class="success-btns">
+      <a href="suscripciones.html" class="btn btn-coral">Gestionar mi suscripción</a>
+      <a href="proveedores.html" class="btn btn-outline">Ver directorio</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Cotiza<span>Eventos</span>.cl</div>
+      <p class="footer-copy">&copy; 2025 CotizaEventos.cl — Todos los derechos reservados.</p>
+    </div>
+    <div class="footer-links">
+      <a href="proveedores.html">Proveedores</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="terminos.html">Términos</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════ */
+/* GLOBALS                                                           */
+/* ══════════════════════════════════════════════════════════════════ */
+let currentStep=1;
+const totalSteps=6;
+let selectedCat=null;
+let comunas=[];
+let logoUrl='';
+let coverUrl='';
+let etiquetas=[];
+
+const STEP_LABELS=[
+  'Datos del negocio','Categoría y descripción','Precios y capacidad',
+  'Contacto y ubicación','Plan e imágenes','Resumen y envío'
+];
+
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;')}
+function toggleMobile(){document.getElementById('navMobile').classList.toggle('open')}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* PROGRESS & STEPS                                                  */
+/* ══════════════════════════════════════════════════════════════════ */
+function updateProgress(){
+  const steps=document.querySelectorAll('.progress-step');
+  steps.forEach((s,i)=>{
+    s.classList.remove('done','current');
+    if(i<currentStep-1)s.classList.add('done');
+    if(i===currentStep-1)s.classList.add('current');
+  });
+  document.getElementById('progressLabel').textContent=`Paso ${currentStep} de ${totalSteps} — ${STEP_LABELS[currentStep-1]}`;
+}
+
+function showStep(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  const target=document.querySelector(`.step[data-step="${n}"]`);
+  if(target)target.classList.add('active');
+  currentStep=n;
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function nextStep(){
+  if(!validateStep(currentStep))return;
+  if(currentStep===5)buildSummary();
+  if(currentStep<totalSteps)showStep(currentStep+1);
+}
+
+function prevStep(){
+  if(currentStep>1)showStep(currentStep-1);
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* VALIDATION                                                        */
+/* ══════════════════════════════════════════════════════════════════ */
+function validateStep(step){
+  clearErrors();
+  let ok=true;
+
+  if(step===1){
+    if(!val('f_nombre')){ok=false}
+  }
+  if(step===2){
+    if(!selectedCat){
+      document.getElementById('catError').style.display='block';
+      ok=false;
+    }
+  }
+  if(step===4){
+    if(!val('f_whatsapp'))ok=false;
+    if(!val('f_email'))ok=false;
+  }
+  return ok;
+}
+
+function val(id){
+  const el=document.getElementById(id);
+  if(!el.value.trim()){
+    el.closest('.field').classList.add('error');
+    return false;
+  }
+  return true;
+}
+
+function clearErrors(){
+  document.querySelectorAll('.field.error').forEach(f=>f.classList.remove('error'));
+  const catErr=document.getElementById('catError');
+  if(catErr)catErr.style.display='none';
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* CATEGORIES                                                        */
+/* ══════════════════════════════════════════════════════════════════ */
+async function loadCategories(){
+  try{
+    const res=await fetch('/api/get-providers');
+    const data=await res.json();
+    if(!data.ok)throw new Error();
+    const grupos=data.grupos||[];
+    etiquetas=[];
+    for(const g of grupos){
+      for(const et of(g.etiquetas||[])){
+        etiquetas.push(et);
+      }
+    }
+    renderCatPills();
+  }catch(e){
+    document.getElementById('catPills').innerHTML='<span class="cat-pills-loading">Error al cargar categorías. Recarga la página.</span>';
+  }
+}
+
+function renderCatPills(){
+  const container=document.getElementById('catPills');
+  if(!etiquetas.length){container.innerHTML='<span class="cat-pills-loading">No hay categorías disponibles.</span>';return}
+  let html='';
+  for(const et of etiquetas){
+    html+=`<div class="cat-pill" onclick="selectCat(this,'${esc(et.id)}')" data-id="${esc(et.id)}"><span>${esc(et.ico)}</span>${esc(et.nombre)}</div>`;
+  }
+  container.innerHTML=html;
+}
+
+function selectCat(el,id){
+  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedCat=id;
+  document.getElementById('catError').style.display='none';
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* COMUNAS                                                           */
+/* ══════════════════════════════════════════════════════════════════ */
+function addComuna(){
+  const input=document.getElementById('comunaInput');
+  const val=input.value.trim();
+  if(!val||comunas.includes(val))return;
+  comunas.push(val);
+  input.value='';
+  renderComunas();
+}
+
+function removeComuna(idx){
+  comunas.splice(idx,1);
+  renderComunas();
+}
+
+function renderComunas(){
+  const container=document.getElementById('comunasChips');
+  container.innerHTML=comunas.map((c,i)=>`<span class="comuna-chip">${esc(c)}<button onclick="removeComuna(${i})">✕</button></span>`).join('');
+}
+
+// Allow enter key in comuna input
+document.addEventListener('DOMContentLoaded',()=>{
+  const ci=document.getElementById('comunaInput');
+  if(ci)ci.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addComuna()}});
+});
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* PLAN SELECTION                                                    */
+/* ══════════════════════════════════════════════════════════════════ */
+function selectPlan(card,val){
+  document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  card.querySelector('input').checked=true;
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* IMAGE UPLOAD                                                      */
+/* ══════════════════════════════════════════════════════════════════ */
+async function handleUpload(type,input){
+  const file=input.files[0];
+  if(!file)return;
+
+  const area=document.getElementById(type+'Upload');
+  const nameEl=document.getElementById(type+'Name');
+  const previewEl=document.getElementById(type+'Preview');
+
+  // Show preview locally
+  const reader=new FileReader();
+  reader.onload=function(e){
+    previewEl.src=e.target.result;
+    area.classList.add('has-file');
+    nameEl.textContent=file.name;
+  };
+  reader.readAsDataURL(file);
+
+  // Upload to server
+  nameEl.textContent='Subiendo...';
+  try{
+    const fd=new FormData();
+    fd.append('file',file);
+    const res=await fetch('/api/upload-image',{method:'POST',body:fd});
+    const data=await res.json();
+    if(!data.ok)throw new Error(data.error||'Error');
+    if(type==='logo')logoUrl=data.url;
+    else coverUrl=data.url;
+    nameEl.textContent=`✓ ${file.name}`;
+  }catch(e){
+    nameEl.textContent=`Error: ${e.message}`;
+    area.classList.remove('has-file');
+    if(type==='logo')logoUrl='';
+    else coverUrl='';
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* SUMMARY                                                           */
+/* ══════════════════════════════════════════════════════════════════ */
+function buildSummary(){
+  const pos=document.querySelector('input[name="posicion"]:checked').value;
+  const catObj=etiquetas.find(e=>e.id===selectedCat);
+  const catName=catObj?catObj.nombre:selectedCat;
+
+  const rows=[
+    ['Negocio',g('f_nombre')],
+    ['Responsable',g('f_responsable')],
+    ['Categoría',catName],
+    ['Precio',`${g('f_precio_minimo')||'—'} ~ ${g('f_precio_maximo')||'—'}`],
+    ['Comunas',comunas.join(', ')||'—'],
+    ['WhatsApp',g('f_whatsapp')],
+    ['Email',g('f_email')],
+    ['Plan',pos==='1'?'✦ Destacado':'📋 Básico'],
+    ['Logo',logoUrl?'✓ Subido':'No'],
+    ['Portada',coverUrl?'✓ Subida':'No'],
+  ];
+
+  const html=rows.map(([l,v])=>`<div class="summary-row"><span class="label">${esc(l)}</span><span class="value">${esc(v)}</span></div>`).join('');
+  document.getElementById('summary').innerHTML=html;
+}
+
+function g(id){return(document.getElementById(id)||{}).value||''}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* SUBMIT                                                            */
+/* ══════════════════════════════════════════════════════════════════ */
+async function submitForm(){
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;
+  btn.textContent='Enviando...';
+
+  const pos=document.querySelector('input[name="posicion"]:checked').value;
+
+  const payload={
+    nombre:g('f_nombre'),
+    responsable:g('f_responsable'),
+    rut:g('f_rut'),
+    descripcion:g('f_descripcion'),
+    diferenciador:g('f_diferenciador'),
+    experiencia:g('f_experiencia'),
+    capacidad:g('f_capacidad'),
+    categorias:selectedCat?[selectedCat]:[],
+    comunas:comunas.join(', '),
+    precio_minimo:g('f_precio_minimo'),
+    precio_maximo:g('f_precio_maximo'),
+    incluye:g('f_incluye'),
+    no_incluye:g('f_no_incluye'),
+    anticipacion:g('f_anticipacion'),
+    anticipo:g('f_anticipo'),
+    whatsapp:g('f_whatsapp'),
+    telefono:g('f_telefono'),
+    email:g('f_email'),
+    web:g('f_web'),
+    instagram:g('f_instagram'),
+    facebook:g('f_facebook'),
+    tiktok:g('f_tiktok'),
+    youtube:g('f_youtube'),
+    direccion:g('f_direccion'),
+    posicion_deseada:pos,
+    logo_url:logoUrl,
+    cover_url:coverUrl,
+    logo_emoji:'',
+    comentarios:g('f_comentarios'),
+  };
+
+  try{
+    const res=await fetch('/api/submit-form',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const data=await res.json();
+    if(!data.ok)throw new Error(data.error||'Error al enviar');
+
+    // Show success
+    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+    document.querySelector('.progress').style.display='none';
+    document.getElementById('progressLabel').style.display='none';
+    document.getElementById('successPanel').classList.add('show');
+  }catch(e){
+    alert('Error: '+e.message);
+    btn.disabled=false;
+    btn.textContent='✓ Confirmar y enviar';
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* INIT                                                              */
+/* ══════════════════════════════════════════════════════════════════ */
+loadCategories();
+</script>
+</body>
+</html>

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin — CotizaEventos.cl</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --coral:#E8542A;--coral2:#FF7A54;--coral-lt:#FFF0EB;--coral-md:#FFCFC2;
+  --sun:#F0A500;--teal:#06C7A5;
+  --bg:#FAFAF8;--bg2:#F5F3EF;--white:#FFFFFF;
+  --ink:#1A1714;--ink2:#3D3733;--muted:#8A8278;
+  --border:#E8E4DF;--border2:#D4CFC9;
+  --r:14px;--ease:cubic-bezier(.4,0,.2,1);
+  --shadow:0 2px 12px rgba(0,0,0,.07);
+  --shadow-md:0 8px 32px rgba(0,0,0,.1);
+  --font-title:'Fraunces',serif;
+  --font-body:'Outfit',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:var(--font-body)}
+::selection{background:var(--coral);color:#fff}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--coral);border-radius:9px}
+
+/* ── Login ──────────────────────────────────────────────────────── */
+.login-wrap{max-width:380px;margin:80px auto;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:36px 28px}
+.login-wrap h1{font-family:var(--font-title);font-size:24px;font-weight:700;margin-bottom:4px}
+.login-wrap p{font-size:14px;color:var(--muted);margin-bottom:24px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:500;color:var(--ink2);margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--coral);background:#fff}
+.field textarea{resize:vertical;min-height:70px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;transition:all .2s var(--ease)}
+.btn-coral{background:var(--coral);color:#fff;width:100%}
+.btn-coral:hover{background:var(--coral2)}
+.btn-coral:disabled{opacity:.5;cursor:not-allowed}
+.btn-sm{padding:7px 14px;font-size:13px}
+.btn-outline{border:1px solid var(--border2);color:var(--ink2);background:#fff}
+.btn-outline:hover{border-color:var(--coral);color:var(--coral)}
+.btn-green{background:var(--teal);color:#fff}
+.btn-green:hover{filter:brightness(1.1)}
+.btn-red{background:#e53e3e;color:#fff}
+.btn-red:hover{background:#c53030}
+.btn-ghost{color:var(--muted);padding:6px 10px;font-size:13px}
+.btn-ghost:hover{color:var(--coral)}
+.login-msg{font-size:13px;padding:8px 12px;border-radius:6px;margin-bottom:14px;display:none;background:#FEE2E2;color:#DC2626;border:1px solid #FECACA}
+.login-msg.show{display:block}
+
+/* ── Admin Shell ────────────────────────────────────────────────── */
+.admin{display:none}
+.admin.show{display:block}
+
+/* Top bar */
+.topbar{background:#1A1410;color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:50}
+.topbar-left{display:flex;align-items:center;gap:16px}
+.topbar-logo{font-family:var(--font-title);font-weight:700;font-size:18px}
+.topbar-logo span{color:var(--coral)}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.topbar-logout{font-size:13px;color:rgba(255,255,255,.5);cursor:pointer}
+.topbar-logout:hover{color:#fff}
+
+/* Test mode toggle */
+.test-toggle{display:flex;align-items:center;gap:8px}
+.test-toggle-label{font-size:13px;color:rgba(255,255,255,.7)}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{display:none}
+.toggle-track{position:absolute;inset:0;background:rgba(255,255,255,.2);border-radius:12px;cursor:pointer;transition:background .3s var(--ease)}
+.toggle-track::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .3s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle input:checked+.toggle-track{background:#25D366}
+.toggle input:checked+.toggle-track::after{transform:translateX(20px)}
+.test-banner{background:linear-gradient(90deg,#e53e3e,#F0A500);color:#fff;text-align:center;padding:8px 16px;font-size:13px;font-weight:600;display:none}
+.test-banner.show{display:block}
+
+/* Tabs */
+.tabs{display:flex;border-bottom:2px solid var(--border);background:var(--white);position:sticky;top:52px;z-index:40}
+.tab{padding:14px 24px;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--coral);border-bottom-color:var(--coral)}
+.tab .badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;background:var(--coral);color:#fff;font-size:11px;font-weight:700;border-radius:10px;margin-left:6px}
+@media(max-width:600px){.tab{padding:12px 14px;font-size:13px}}
+
+.tab-content{display:none;padding:24px 20px;max-width:1200px;margin:0 auto}
+.tab-content.active{display:block}
+
+/* ── Tables ─────────────────────────────────────────────────────── */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 12px;background:var(--bg2);color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:hover td{background:var(--coral-lt)}
+tr.inconsistent td{background:#FEF2F2}
+.tag{display:inline-block;padding:2px 8px;border-radius:100px;font-size:11px;font-weight:600}
+.tag-dest{background:var(--coral);color:#fff}
+.tag-bas{background:var(--bg2);color:var(--muted)}
+.tag-act{background:#D1FAE5;color:#059669}
+.tag-venc{background:#FEE2E2;color:#DC2626}
+.tag-sin{background:var(--bg2);color:var(--muted)}
+.tag-pend{background:#FEF3C7;color:#92400E}
+.tag-aprob{background:#D1FAE5;color:#059669}
+
+/* ── Cards (for solicitudes) ────────────────────────────────────── */
+.sol-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px;transition:border-color .2s}
+.sol-card:hover{border-color:var(--coral-md)}
+.sol-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.sol-name{font-family:var(--font-title);font-weight:600;font-size:17px}
+.sol-date{font-size:12px;color:var(--muted)}
+.sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;font-size:13px}
+.sol-grid .label{color:var(--muted)}
+.sol-grid .value{color:var(--ink)}
+@media(max-width:560px){.sol-grid{grid-template-columns:1fr}}
+.sol-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sol-pos-select{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:var(--bg)}
+.sol-test-warn{font-size:12px;color:var(--sun);font-weight:500}
+
+/* ── Modal ──────────────────────────────────────────────────────── */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,23,20,.6);backdrop-filter:blur(10px);z-index:300;justify-content:center;align-items:flex-start;padding:60px 20px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--white);border-radius:var(--r);max-width:560px;width:100%;padding:28px;position:relative}
+.modal-box h3{font-family:var(--font-title);font-size:20px;font-weight:600;margin-bottom:16px}
+.modal-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--ink);cursor:pointer}
+.modal-close:hover{background:var(--border)}
+.modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end}
+
+/* Filters */
+.filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.filter-btn{padding:7px 16px;border:1px solid var(--border);border-radius:100px;font-size:13px;color:var(--ink2);cursor:pointer;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{border-color:var(--coral);color:var(--coral);background:var(--coral-lt)}
+
+/* ── Categorias Panel ───────────────────────────────────────────── */
+.cats-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;min-height:400px}
+@media(max-width:700px){.cats-layout{grid-template-columns:1fr}}
+.cats-left{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:16px;overflow-y:auto;max-height:600px}
+.cats-right{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.cat-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .15s;margin-bottom:4px}
+.cat-item:hover{background:var(--bg2)}
+.cat-item.active{background:var(--coral-lt);color:var(--coral)}
+.cat-item-name{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500}
+.cat-item-actions{display:flex;gap:4px}
+.etiq-item{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid var(--border);font-size:14px}
+.etiq-item:last-child{border-bottom:none}
+.etiq-name{display:flex;align-items:center;gap:6px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-head h4{font-family:var(--font-title);font-size:16px;font-weight:600}
+
+/* ── Utility ────────────────────────────────────────────────────── */
+.empty{text-align:center;padding:48px 20px;color:var(--muted);font-size:14px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ════════════════════════════════════════════════════════ -->
+<div class="login-wrap" id="loginWrap">
+  <h1>Admin</h1>
+  <p>Panel de administración de CotizaEventos.cl</p>
+  <div class="login-msg" id="loginMsg"></div>
+  <div class="field">
+    <label>Usuario</label>
+    <input type="text" id="loginUser" autocomplete="username">
+  </div>
+  <div class="field">
+    <label>Contraseña</label>
+    <input type="password" id="loginPass" autocomplete="current-password">
+  </div>
+  <button class="btn btn-coral" id="loginBtn" onclick="doLogin()">Ingresar</button>
+</div>
+
+<!-- ══ ADMIN SHELL ══════════════════════════════════════════════════ -->
+<div class="admin" id="adminShell">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">Cotiza<span>Eventos</span> Admin</div>
+    </div>
+    <div class="topbar-right">
+      <div class="test-toggle">
+        <span class="test-toggle-label">Modo prueba</span>
+        <label class="toggle">
+          <input type="checkbox" id="testModeToggle" onchange="toggleTestMode(this.checked)">
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+      <span class="topbar-logout" onclick="logout()">Cerrar sesión</span>
+    </div>
+  </div>
+  <div class="test-banner" id="testBanner">⚠️ MODO PRUEBA ACTIVO — Todos los nuevos proveedores aprobados serán Destacado automáticamente</div>
+
+  <!-- Tabs -->
+  <div class="tabs" id="tabsBar">
+    <div class="tab active" onclick="switchTab('solicitudes')">Solicitudes <span class="badge" id="solBadge" style="display:none">0</span></div>
+    <div class="tab" onclick="switchTab('proveedores')">Proveedores</div>
+    <div class="tab" onclick="switchTab('suscripciones')">Suscripciones</div>
+    <div class="tab" onclick="switchTab('categorias')">Categorías</div>
+  </div>
+
+  <!-- Tab: Solicitudes -->
+  <div class="tab-content active" id="tabSolicitudes">
+    <div id="solList"><p class="empty">Cargando solicitudes...</p></div>
+  </div>
+
+  <!-- Tab: Proveedores -->
+  <div class="tab-content" id="tabProveedores">
+    <div class="tbl-wrap" id="provTable"><p class="empty">Cargando proveedores...</p></div>
+  </div>
+
+  <!-- Tab: Suscripciones -->
+  <div class="tab-content" id="tabSuscripciones">
+    <div class="filters" id="subFilters"></div>
+    <div class="tbl-wrap" id="subTable"><p class="empty">Cargando suscripciones...</p></div>
+  </div>
+
+  <!-- Tab: Categorías -->
+  <div class="tab-content" id="tabCategorias">
+    <div class="cats-layout">
+      <div class="cats-left" id="catsLeft"><p class="empty">Cargando...</p></div>
+      <div class="cats-right" id="catsRight"><p class="empty">Selecciona un grupo</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL ════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="modalBox">
+    <span class="modal-close" onclick="closeModal()">✕</span>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════ */
+/* HELPERS                                                           */
+/* ══════════════════════════════════════════════════════════════════ */
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;')}
+function fmtDate(d){if(!d)return'—';return new Date(d).toLocaleDateString('es-CL')}
+function fmtMoney(n){if(!n&&n!==0)return'—';return new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(n)}
+function getToken(){return localStorage.getItem('admin_token')||''}
+function setToken(t){localStorage.setItem('admin_token',t)}
+function clearToken(){localStorage.removeItem('admin_token')}
+
+async function api(method,body){
+  const opts={method,headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()}};
+  if(body)opts.body=JSON.stringify(body);
+  const res=await fetch('/api/admin-manage',opts);
+  if(res.status===401){clearToken();showLogin();throw new Error('Sesión expirada')}
+  return res.json();
+}
+async function apiGet(params){
+  const q=new URLSearchParams(params).toString();
+  const res=await fetch('/api/admin-manage?'+q,{headers:{'Authorization':'Bearer '+getToken()}});
+  if(res.status===401){clearToken();showLogin();throw new Error('Sesión expirada')}
+  return res.json();
+}
+
+let testMode=false;
+let allSolicitudes=[];
+let allProveedores=[];
+let allSubData=[];
+let allGrupos=[];
+let selectedCatId=null;
+let subFilter='todos';
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* LOGIN                                                             */
+/* ══════════════════════════════════════════════════════════════════ */
+function showLogin(){document.getElementById('loginWrap').style.display='';document.getElementById('adminShell').classList.remove('show')}
+function showAdmin(){document.getElementById('loginWrap').style.display='none';document.getElementById('adminShell').classList.add('show')}
+
+async function doLogin(){
+  const user=document.getElementById('loginUser').value.trim();
+  const password=document.getElementById('loginPass').value;
+  if(!user||!password)return;
+  const btn=document.getElementById('loginBtn');
+  btn.disabled=true;
+  const msg=document.getElementById('loginMsg');
+  msg.classList.remove('show');
+  try{
+    const res=await fetch('/api/admin-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user,password})});
+    const data=await res.json();
+    if(!data.ok)throw new Error(data.error||'Error');
+    setToken(data.token);
+    showAdmin();
+    loadAll();
+  }catch(e){
+    msg.textContent=e.message;msg.classList.add('show');
+  }finally{btn.disabled=false}
+}
+
+function logout(){clearToken();showLogin()}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* TABS                                                              */
+/* ══════════════════════════════════════════════════════════════════ */
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    const names=['solicitudes','proveedores','suscripciones','categorias'];
+    t.classList.toggle('active',names[i]===name);
+  });
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab'+name.charAt(0).toUpperCase()+name.slice(1)).classList.add('active');
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* LOAD ALL DATA                                                     */
+/* ══════════════════════════════════════════════════════════════════ */
+async function loadAll(){
+  try{
+    const[solRes,provRes,subRes,catRes,cfgRes]=await Promise.all([
+      apiGet({action:'solicitudes'}),
+      apiGet({action:'proveedores'}),
+      apiGet({action:'suscripciones'}),
+      apiGet({action:'categorias'}),
+      apiGet({action:'config'})
+    ]);
+    allSolicitudes=solRes.solicitudes||[];
+    allProveedores=provRes.proveedores||[];
+    allSubData=subRes.suscripciones||[];
+    allGrupos=catRes.grupos||[];
+
+    // Config
+    const cfg=cfgRes.config||{};
+    testMode=cfg.modo_prueba==='true';
+    document.getElementById('testModeToggle').checked=testMode;
+    document.getElementById('testBanner').classList.toggle('show',testMode);
+
+    renderSolicitudes();
+    renderProveedores();
+    renderSuscripciones();
+    renderCategorias();
+  }catch(e){console.error('loadAll error:',e)}
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* TEST MODE                                                         */
+/* ══════════════════════════════════════════════════════════════════ */
+async function toggleTestMode(val){
+  try{
+    await api('POST',{action:'set_config',clave:'modo_prueba',valor:val?'true':'false'});
+    testMode=val;
+    document.getElementById('testBanner').classList.toggle('show',val);
+    renderSolicitudes();
+  }catch(e){
+    alert('Error: '+e.message);
+    document.getElementById('testModeToggle').checked=!val;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* TAB 1: SOLICITUDES                                                */
+/* ══════════════════════════════════════════════════════════════════ */
+function renderSolicitudes(){
+  const pending=allSolicitudes.filter(s=>s.estado==='pendiente');
+  const badge=document.getElementById('solBadge');
+  if(pending.length){badge.textContent=pending.length;badge.style.display=''}
+  else badge.style.display='none';
+
+  const container=document.getElementById('solList');
+  if(!pending.length){container.innerHTML='<p class="empty">No hay solicitudes pendientes.</p>';return}
+
+  let html='';
+  for(const s of pending){
+    const cats=(s.categorias||[]).join(', ');
+    html+=`
+    <div class="sol-card" id="sol_${s.id}">
+      <div class="sol-top">
+        <span class="sol-name">${esc(s.nombre)}</span>
+        <span class="sol-date">${fmtDate(s.fecha_registro)}</span>
+      </div>
+      <div class="sol-grid">
+        <div><span class="label">Responsable:</span> <span class="value">${esc(s.responsable)}</span></div>
+        <div><span class="label">Email:</span> <span class="value">${esc(s.email)}</span></div>
+        <div><span class="label">WhatsApp:</span> <span class="value">${esc(s.whatsapp)}</span></div>
+        <div><span class="label">Categorías:</span> <span class="value">${esc(cats)}</span></div>
+        <div><span class="label">Precio:</span> <span class="value">${esc(s.precio_minimo||'—')} ~ ${esc(s.precio_maximo||'—')}</span></div>
+        <div><span class="label">Posición deseada:</span> <span class="value">${s.posicion_deseada==='1'?'✦ Destacado':'📋 Básico'}</span></div>
+        ${s.descripcion?`<div style="grid-column:1/-1"><span class="label">Descripción:</span> <span class="value">${esc(s.descripcion)}</span></div>`:''}
+      </div>
+      <div class="sol-actions">
+        <select class="sol-pos-select" id="pos_${s.id}">
+          <option value="0" selected>📋 Básico</option>
+          <option value="1">✦ Destacado</option>
+        </select>
+        ${testMode?'<span class="sol-test-warn">⚠️ Modo prueba: se asignará Destacado</span>':''}
+        <button class="btn btn-green btn-sm" onclick="aprobar('${s.id}')">Aprobar</button>
+        <button class="btn btn-red btn-sm" onclick="rechazar('${s.id}')">Rechazar</button>
+        <button class="btn btn-ghost" onclick="verSolicitud('${s.id}')">Ver todo</button>
+      </div>
+    </div>`;
+  }
+  container.innerHTML=html;
+}
+
+async function aprobar(id){
+  const pos=parseInt(document.getElementById('pos_'+id).value,10);
+  try{
+    await api('POST',{action:'aprobar',id,posicion:pos});
+    allSolicitudes=allSolicitudes.map(s=>s.id===id?{...s,estado:'aprobada'}:s);
+    renderSolicitudes();
+    const provRes=await apiGet({action:'proveedores'});
+    allProveedores=provRes.proveedores||[];
+    renderProveedores();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+async function rechazar(id){
+  if(!confirm('¿Rechazar y eliminar esta solicitud?'))return;
+  try{
+    await api('POST',{action:'rechazar',id});
+    allSolicitudes=allSolicitudes.filter(s=>s.id!==id);
+    renderSolicitudes();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+function verSolicitud(id){
+  const s=allSolicitudes.find(x=>x.id===id);
+  if(!s)return;
+  const fields=Object.entries(s).filter(([k])=>!['id'].includes(k));
+  let html=`<h3>${esc(s.nombre)}</h3><div style="max-height:60vh;overflow-y:auto;margin-top:12px">`;
+  for(const[k,v] of fields){
+    if(v===null||v===undefined||v==='')continue;
+    const val=Array.isArray(v)?v.join(', '):String(v);
+    html+=`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted);flex-shrink:0;margin-right:12px">${esc(k)}</span><span style="text-align:right;word-break:break-word">${esc(val)}</span></div>`;
+  }
+  html+=`</div>`;
+  openModal(html);
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* TAB 2: PROVEEDORES                                                */
+/* ══════════════════════════════════════════════════════════════════ */
+function renderProveedores(){
+  const container=document.getElementById('provTable');
+  if(!allProveedores.length){container.innerHTML='<p class="empty">No hay proveedores.</p>';return}
+  let html=`<table><thead><tr>
+    <th>Nombre</th><th>Categoría</th><th>Posición</th><th>Activo</th><th></th>
+  </tr></thead><tbody>`;
+  for(const p of allProveedores){
+    html+=`<tr>
+      <td><strong>${esc(p.nombre)}</strong></td>
+      <td>${esc(p.categoria)}</td>
+      <td>${p.posicion===1?'<span class="tag tag-dest">✦ Destacado</span>':'<span class="tag tag-bas">Básico</span>'}</td>
+      <td>${p.activo?'<span class="tag tag-act">Sí</span>':'<span class="tag tag-venc">No</span>'}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-outline btn-sm" onclick="editProv('${p.id}')">Editar</button>
+        <button class="btn btn-ghost" onclick="deleteProv('${p.id}')">🗑</button>
+      </td>
+    </tr>`;
+  }
+  html+=`</tbody></table>`;
+  container.innerHTML=html;
+}
+
+function editProv(id){
+  const p=allProveedores.find(x=>x.id===id);
+  if(!p)return;
+  const fields=['nombre','responsable','descripcion','diferenciador','tagline','experiencia','capacidad','categoria','etiqueta_id','comunas','precio_minimo','precio_maximo','incluye','no_incluye','whatsapp','telefono','email','web','instagram','facebook','tiktok','youtube','logo_emoji','logo_url','cover_url'];
+  let html=`<h3>Editar: ${esc(p.nombre)}</h3><form id="editForm" style="max-height:60vh;overflow-y:auto;margin-top:12px">`;
+  for(const f of fields){
+    const val=p[f]||'';
+    html+=`<div class="field"><label>${f}</label><input name="${f}" value="${esc(val)}"></div>`;
+  }
+  // posicion select
+  html+=`<div class="field"><label>posicion</label><select name="posicion"><option value="0"${p.posicion===0?' selected':''}>0 — Básico</option><option value="1"${p.posicion===1?' selected':''}>1 — Destacado</option></select></div>`;
+  // activo checkbox
+  html+=`<div class="field" style="display:flex;align-items:center;gap:8px"><input type="checkbox" name="activo" id="editActivo"${p.activo?' checked':''}><label for="editActivo" style="margin:0">Activo</label></div>`;
+  html+=`</form><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancelar</button><button class="btn btn-green" onclick="saveProv('${id}')">Guardar</button></div>`;
+  openModal(html);
+}
+
+async function saveProv(id){
+  const form=document.getElementById('editForm');
+  if(!form)return;
+  const fields={};
+  const inputs=form.querySelectorAll('input[name],select[name]');
+  inputs.forEach(inp=>{
+    if(inp.name==='activo')fields.activo=inp.checked;
+    else if(inp.name==='posicion')fields.posicion=parseInt(inp.value,10);
+    else fields[inp.name]=inp.value;
+  });
+  try{
+    await api('PUT',{id,fields});
+    closeModal();
+    const res=await apiGet({action:'proveedores'});
+    allProveedores=res.proveedores||[];
+    renderProveedores();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+async function deleteProv(id){
+  const p=allProveedores.find(x=>x.id===id);
+  if(!confirm(`¿Eliminar "${p?p.nombre:id}" permanentemente?`))return;
+  try{
+    await api('DELETE',{id});
+    allProveedores=allProveedores.filter(x=>x.id!==id);
+    renderProveedores();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* TAB 3: SUSCRIPCIONES                                              */
+/* ══════════════════════════════════════════════════════════════════ */
+function renderSuscripciones(){
+  // Filters
+  const filtersEl=document.getElementById('subFilters');
+  const filterOpts=[['todos','Todos'],['activas','Activas'],['vencidas','Vencidas'],['sin','Sin suscripción']];
+  filtersEl.innerHTML=filterOpts.map(([k,l])=>`<button class="filter-btn${subFilter===k?' active':''}" onclick="setSubFilter('${k}')">${l}</button>`).join('');
+
+  // Merge providers without suscriptores too
+  const container=document.getElementById('subTable');
+  const provMap={};
+  for(const p of allProveedores)provMap[p.id]=p;
+
+  // Build rows from subData
+  let rows=allSubData.map(item=>{
+    const prov=item.proveedor;
+    const sub=item.suscripcion_activa;
+    let status='sin';
+    if(sub&&sub.estado==='activa'){
+      const venc=new Date(sub.fecha_vencimiento);
+      status=venc>new Date()?'activas':'vencidas';
+    }
+    return{...item,_status:status,_provName:prov?prov.nombre:item.suscriptor.nombre};
+  });
+
+  // Filter
+  if(subFilter!=='todos')rows=rows.filter(r=>r._status===subFilter);
+
+  if(!rows.length){container.innerHTML='<p class="empty">No hay resultados.</p>';return}
+
+  let html=`<table><thead><tr>
+    <th>Negocio</th><th>Email</th><th>Plan</th><th>Estado</th><th>Vencimiento</th><th>Auto-pago</th><th></th>
+  </tr></thead><tbody>`;
+
+  for(const r of rows){
+    const sub=r.suscripcion_activa;
+    const prov=r.proveedor;
+    const isInconsistent=prov&&prov.posicion===1&&r._status!=='activas';
+    html+=`<tr${isInconsistent?' class="inconsistent"':''}>
+      <td><strong>${esc(r._provName)}</strong></td>
+      <td>${esc(r.suscriptor.email)}</td>
+      <td>${sub?esc(sub.plan):'—'}</td>
+      <td>${r._status==='activas'?'<span class="tag tag-act">Activa</span>':r._status==='vencidas'?'<span class="tag tag-venc">Vencida</span>':'<span class="tag tag-sin">Sin suscripción</span>'}</td>
+      <td>${sub?fmtDate(sub.fecha_vencimiento):'—'}</td>
+      <td>${sub?(sub.pago_automatico?'Sí':'No'):'—'}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-green btn-sm" onclick="marcarPagado('${r.suscriptor.id}')">Marcar pagado</button>
+        ${prov&&prov.posicion===1?`<button class="btn btn-red btn-sm" onclick="quitarDestacado('${prov.id}')">Quitar ✦</button>`:''}
+      </td>
+    </tr>`;
+  }
+  html+=`</tbody></table>`;
+  container.innerHTML=html;
+}
+
+function setSubFilter(f){subFilter=f;renderSuscripciones()}
+
+function marcarPagado(suscriptorId){
+  let html=`<h3>Registrar pago</h3>
+    <div class="field"><label>Plan</label><select id="mpPlan"><option value="mensual">Mensual</option><option value="anual">Anual</option></select></div>
+    <div class="field"><label>Monto (CLP)</label><input type="number" id="mpMonto" placeholder="9990"></div>
+    <div class="field"><label>Fecha inicio</label><input type="date" id="mpInicio" value="${new Date().toISOString().split('T')[0]}"></div>
+    <div class="field"><label>Fecha vencimiento</label><input type="date" id="mpVenc"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-green" onclick="confirmarPago('${suscriptorId}')">Confirmar pago</button>
+    </div>`;
+  openModal(html);
+
+  // Auto-set vencimiento when plan changes
+  const planEl=document.getElementById('mpPlan');
+  const inicioEl=document.getElementById('mpInicio');
+  const vencEl=document.getElementById('mpVenc');
+  const montoEl=document.getElementById('mpMonto');
+  function autoVenc(){
+    const d=new Date(inicioEl.value);
+    if(isNaN(d))return;
+    if(planEl.value==='mensual'){d.setMonth(d.getMonth()+1);montoEl.value='9990'}
+    else{d.setFullYear(d.getFullYear()+1);montoEl.value='99900'}
+    vencEl.value=d.toISOString().split('T')[0];
+  }
+  planEl.onchange=autoVenc;
+  inicioEl.onchange=autoVenc;
+  autoVenc();
+}
+
+async function confirmarPago(suscriptorId){
+  const plan=document.getElementById('mpPlan').value;
+  const monto=document.getElementById('mpMonto').value;
+  const inicio=document.getElementById('mpInicio').value;
+  const venc=document.getElementById('mpVenc').value;
+  if(!monto||!inicio||!venc){alert('Completa todos los campos');return}
+  try{
+    await api('POST',{action:'set_suscripcion',suscriptor_id:suscriptorId,plan,fecha_inicio:inicio,fecha_vencimiento:venc,monto:parseInt(monto,10)});
+    closeModal();
+    // Reload subs + proveedores
+    const[subRes,provRes]=await Promise.all([apiGet({action:'suscripciones'}),apiGet({action:'proveedores'})]);
+    allSubData=subRes.suscripciones||[];
+    allProveedores=provRes.proveedores||[];
+    renderSuscripciones();
+    renderProveedores();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+async function quitarDestacado(provId){
+  if(!confirm('¿Quitar Destacado y cancelar suscripción activa?'))return;
+  try{
+    await api('POST',{action:'quitar_destacado',proveedor_id:provId});
+    const[subRes,provRes]=await Promise.all([apiGet({action:'suscripciones'}),apiGet({action:'proveedores'})]);
+    allSubData=subRes.suscripciones||[];
+    allProveedores=provRes.proveedores||[];
+    renderSuscripciones();
+    renderProveedores();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* TAB 4: CATEGORÍAS                                                 */
+/* ══════════════════════════════════════════════════════════════════ */
+function renderCategorias(){
+  const left=document.getElementById('catsLeft');
+  let html=`<div class="section-head"><h4>Grupos</h4><button class="btn btn-green btn-sm" onclick="addCatModal()">+ Grupo</button></div>`;
+  if(!allGrupos.length)html+='<p class="empty">Sin categorías.</p>';
+  for(const g of allGrupos){
+    html+=`<div class="cat-item${selectedCatId===g.id?' active':''}" onclick="selectCatGroup('${esc(g.id)}')">
+      <span class="cat-item-name"><span>${esc(g.ico)}</span> ${esc(g.nombre)}</span>
+      <span class="cat-item-actions">
+        <button class="btn-ghost" onclick="event.stopPropagation();editCatModal('${esc(g.id)}')">✏️</button>
+        <button class="btn-ghost" onclick="event.stopPropagation();deleteCat('${esc(g.id)}')">🗑</button>
+      </span>
+    </div>`;
+  }
+  left.innerHTML=html;
+  if(selectedCatId)renderEtiquetas();
+}
+
+function selectCatGroup(id){
+  selectedCatId=id;
+  renderCategorias();
+}
+
+function renderEtiquetas(){
+  const right=document.getElementById('catsRight');
+  const grupo=allGrupos.find(g=>g.id===selectedCatId);
+  if(!grupo){right.innerHTML='<p class="empty">Selecciona un grupo</p>';return}
+
+  let html=`<div class="section-head"><h4>${esc(grupo.ico)} ${esc(grupo.nombre)} — Etiquetas</h4><button class="btn btn-green btn-sm" onclick="addEtiqModal()">+ Etiqueta</button></div>`;
+  const etqs=grupo.etiquetas||[];
+  if(!etqs.length)html+='<p class="empty">Sin etiquetas en este grupo.</p>';
+  for(const e of etqs){
+    html+=`<div class="etiq-item">
+      <span class="etiq-name"><span>${esc(e.ico)}</span> ${esc(e.nombre)} <span style="color:var(--muted);font-size:12px">(${e.proveedores_count||0})</span></span>
+      <span>
+        <button class="btn-ghost" onclick="editEtiqModal('${esc(e.id)}')">✏️</button>
+        <button class="btn-ghost" onclick="deleteEtiq('${esc(e.id)}')">🗑</button>
+      </span>
+    </div>`;
+  }
+  right.innerHTML=html;
+}
+
+// ── Cat CRUD modals ──────────────────────────────────────────────
+function addCatModal(){
+  openModal(`<h3>Nuevo grupo</h3>
+    <div class="field"><label>ID (slug)</label><input id="ncId" placeholder="catering"></div>
+    <div class="field"><label>Nombre</label><input id="ncNombre" placeholder="Catering"></div>
+    <div class="field"><label>Emoji</label><input id="ncIco" placeholder="🍽️" style="width:60px"></div>
+    <div class="field"><label>Descripción</label><input id="ncDesc"></div>
+    <div class="field"><label>Orden</label><input type="number" id="ncOrden" value="0"></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancelar</button><button class="btn btn-green" onclick="createCat()">Crear</button></div>`);
+}
+
+async function createCat(){
+  try{
+    await api('POST',{action:'create_categoria',id:document.getElementById('ncId').value.trim(),nombre:document.getElementById('ncNombre').value.trim(),ico:document.getElementById('ncIco').value.trim(),descripcion:document.getElementById('ncDesc').value.trim(),orden:parseInt(document.getElementById('ncOrden').value)||0});
+    closeModal();
+    const res=await apiGet({action:'categorias'});allGrupos=res.grupos||[];renderCategorias();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+function editCatModal(id){
+  const g=allGrupos.find(x=>x.id===id);if(!g)return;
+  openModal(`<h3>Editar grupo: ${esc(g.nombre)}</h3>
+    <div class="field"><label>Nombre</label><input id="ecNombre" value="${esc(g.nombre)}"></div>
+    <div class="field"><label>Emoji</label><input id="ecIco" value="${esc(g.ico)}" style="width:60px"></div>
+    <div class="field"><label>Descripción</label><input id="ecDesc" value="${esc(g.descripcion||'')}"></div>
+    <div class="field"><label>Orden</label><input type="number" id="ecOrden" value="${g.orden||0}"></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancelar</button><button class="btn btn-green" onclick="updateCat('${esc(id)}')">Guardar</button></div>`);
+}
+
+async function updateCat(id){
+  try{
+    await api('POST',{action:'update_categoria',id,nombre:document.getElementById('ecNombre').value.trim(),ico:document.getElementById('ecIco').value.trim(),descripcion:document.getElementById('ecDesc').value.trim(),orden:parseInt(document.getElementById('ecOrden').value)||0});
+    closeModal();
+    const res=await apiGet({action:'categorias'});allGrupos=res.grupos||[];renderCategorias();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+async function deleteCat(id){
+  if(!confirm('¿Eliminar este grupo y todas sus etiquetas?'))return;
+  try{
+    await api('POST',{action:'delete_categoria',id});
+    allGrupos=allGrupos.filter(g=>g.id!==id);
+    if(selectedCatId===id)selectedCatId=null;
+    renderCategorias();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+// ── Etiqueta CRUD modals ─────────────────────────────────────────
+function addEtiqModal(){
+  openModal(`<h3>Nueva etiqueta</h3>
+    <div class="field"><label>ID (slug)</label><input id="neId" placeholder="pizzas"></div>
+    <div class="field"><label>Nombre</label><input id="neNombre" placeholder="Catering Pizzas"></div>
+    <div class="field"><label>Emoji</label><input id="neIco" placeholder="🍕" style="width:60px"></div>
+    <div class="field"><label>Descripción</label><input id="neDesc"></div>
+    <div class="field"><label>Orden</label><input type="number" id="neOrden" value="0"></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancelar</button><button class="btn btn-green" onclick="createEtiq()">Crear</button></div>`);
+}
+
+async function createEtiq(){
+  try{
+    await api('POST',{action:'create_etiqueta',id:document.getElementById('neId').value.trim(),nombre:document.getElementById('neNombre').value.trim(),ico:document.getElementById('neIco').value.trim(),descripcion:document.getElementById('neDesc').value.trim(),categoria_id:selectedCatId,orden:parseInt(document.getElementById('neOrden').value)||0});
+    closeModal();
+    const res=await apiGet({action:'categorias'});allGrupos=res.grupos||[];renderCategorias();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+function editEtiqModal(id){
+  const g=allGrupos.find(x=>x.id===selectedCatId);
+  const e=(g?g.etiquetas:[]).find(x=>x.id===id);if(!e)return;
+  openModal(`<h3>Editar: ${esc(e.nombre)}</h3>
+    <div class="field"><label>Nombre</label><input id="eeNombre" value="${esc(e.nombre)}"></div>
+    <div class="field"><label>Emoji</label><input id="eeIco" value="${esc(e.ico)}" style="width:60px"></div>
+    <div class="field"><label>Descripción</label><input id="eeDesc" value="${esc(e.descripcion||'')}"></div>
+    <div class="field"><label>Orden</label><input type="number" id="eeOrden" value="${e.orden||0}"></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancelar</button><button class="btn btn-green" onclick="updateEtiq('${esc(id)}')">Guardar</button></div>`);
+}
+
+async function updateEtiq(id){
+  try{
+    await api('POST',{action:'update_etiqueta',id,nombre:document.getElementById('eeNombre').value.trim(),ico:document.getElementById('eeIco').value.trim(),descripcion:document.getElementById('eeDesc').value.trim(),orden:parseInt(document.getElementById('eeOrden').value)||0});
+    closeModal();
+    const res=await apiGet({action:'categorias'});allGrupos=res.grupos||[];renderCategorias();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+async function deleteEtiq(id){
+  if(!confirm('¿Eliminar esta etiqueta?'))return;
+  try{
+    await api('POST',{action:'delete_etiqueta',id});
+    const res=await apiGet({action:'categorias'});allGrupos=res.grupos||[];renderCategorias();
+  }catch(e){alert('Error: '+e.message)}
+}
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* MODAL                                                             */
+/* ══════════════════════════════════════════════════════════════════ */
+function openModal(html){
+  document.getElementById('modalContent').innerHTML=html;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+/* ══════════════════════════════════════════════════════════════════ */
+/* INIT                                                              */
+/* ══════════════════════════════════════════════════════════════════ */
+(function(){
+  if(getToken()){showAdmin();loadAll()}
+  else showLogin();
+  document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+})();
+</script>
+</body>
+</html>
