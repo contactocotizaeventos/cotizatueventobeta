@@ -1,8 +1,0 @@
-{
-  "name": "cotizatufiesta",
-  "version": "1.0.0",
-  "description": "CotizaTuFiesta.cl - Backend con Netlify Functions + Supabase",
-  "dependencies": {
-    "@supabase/supabase-js": "^2.39.0"
-  }
-}
