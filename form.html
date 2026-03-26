@@ -268,11 +268,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     <div class="field-row">
       <div class="field">
         <label>Precio mínimo</label>
-        <input type="text" id="f_precio_minimo" placeholder="Ej: $150.000">
+        <div style="display:flex;align-items:center;gap:0">
+          <span style="padding:12px 12px;background:var(--bg2);border:1px solid var(--border);border-right:none;border-radius:var(--r) 0 0 var(--r);font-size:14px;color:var(--ink2)">$</span>
+          <input type="text" id="f_precio_minimo" placeholder="150000" maxlength="10" style="border-radius:0 var(--r) var(--r) 0" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+        </div>
       </div>
       <div class="field">
         <label>Precio máximo</label>
-        <input type="text" id="f_precio_maximo" placeholder="Ej: $800.000">
+        <div style="display:flex;align-items:center;gap:0">
+          <span style="padding:12px 12px;background:var(--bg2);border:1px solid var(--border);border-right:none;border-radius:var(--r) 0 0 var(--r);font-size:14px;color:var(--ink2)">$</span>
+          <input type="text" id="f_precio_maximo" placeholder="800000" maxlength="10" style="border-radius:0 var(--r) var(--r) 0" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+        </div>
       </div>
     </div>
     <div class="field">
@@ -324,20 +330,28 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     <div class="field-row">
       <div class="field">
         <label>WhatsApp <span class="req">*</span></label>
-        <input type="tel" id="f_whatsapp" placeholder="56912345678">
-        <span class="hint">Sin +, ej: 56912345678</span>
+        <div style="display:flex;align-items:center;gap:0">
+          <span style="padding:12px 12px;background:var(--bg2);border:1px solid var(--border);border-right:none;border-radius:var(--r) 0 0 var(--r);font-size:14px;color:var(--ink2);white-space:nowrap">+56 9</span>
+          <input type="tel" id="f_whatsapp" placeholder="1234 5678" maxlength="9" style="border-radius:0 var(--r) var(--r) 0" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+        </div>
+        <span class="hint">Solo los 8 dígitos después del 9. Ej: 91999301</span>
         <span class="error-msg">El WhatsApp es obligatorio</span>
       </div>
       <div class="field">
         <label>Teléfono</label>
-        <input type="tel" id="f_telefono" placeholder="Otro número de contacto">
+        <input type="tel" id="f_telefono" placeholder="Ej: 221234567" maxlength="15" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
       </div>
     </div>
     <div class="field">
       <label>Email de contacto <span class="req">*</span></label>
       <input type="email" id="f_email" placeholder="tu@negocio.com">
-      <span class="hint">Usaremos este email para tu cuenta y notificaciones.</span>
       <span class="error-msg">El email es obligatorio</span>
+    </div>
+    <div style="background:linear-gradient(135deg,#EEF2FF,#fff);border:1.5px solid #C7D2FE;border-radius:12px;padding:16px 18px;margin-bottom:18px;display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:20px;flex-shrink:0">🔑</span>
+      <div style="font-size:13px;color:#3D3733;line-height:1.6">
+        <strong style="color:#4338CA">Tu cuenta se crea automáticamente.</strong> Cuando tu solicitud sea aprobada, recibirás una <strong>contraseña provisoria</strong> en el email que ingreses arriba. Con ella podrás acceder a tu panel en <a href="/suscripciones.html" style="color:#4338CA;text-decoration:underline">Mi Cuenta</a> para gestionar tu perfil y suscripción.
+      </div>
     </div>
     <div class="field">
       <label>Dirección</label>
@@ -443,13 +457,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
   <!-- ── Success Panel ─────────────────────────────────────────── -->
   <div class="success-panel" id="successPanel">
-    <div class="success-ico">🎉</div>
-    <h2>¡Solicitud enviada!</h2>
-    <p class="msg">Recibimos tu solicitud. En máximo <strong>48 horas hábiles</strong> revisaremos tu información. La admisión no es automática — evaluamos cada solicitud para garantizar la calidad del directorio. Te notificaremos por email.</p>
-    <div class="success-btns">
-      <a href="suscripciones.html" class="btn btn-coral">Gestionar mi suscripción</a>
-      <a href="proveedores.html" class="btn btn-outline">Ver directorio</a>
-    </div>
+    <div id="successContent"></div>
   </div>
 </div>
 
@@ -686,14 +694,15 @@ function buildSummary(){
     ['Categoría',catName],
     ['Precio',`${g('f_precio_minimo')||'—'} ~ ${g('f_precio_maximo')||'—'}`],
     ['Comunas',comunas.join(', ')||'—'],
-    ['WhatsApp',g('f_whatsapp')],
+    ['WhatsApp','+569 '+g('f_whatsapp')],
     ['Email',g('f_email')],
     ['Plan',pos==='1'?'✦ Destacado':'📋 Básico'],
     ['Logo',logoUrl?'✓ Subido':'No'],
     ['Portada',coverUrl?'✓ Subida':'No'],
   ];
 
-  const html=rows.map(([l,v])=>`<div class="summary-row"><span class="label">${esc(l)}</span><span class="value">${esc(v)}</span></div>`).join('');
+  const html=rows.map(([l,v])=>`<div class="summary-row"><span class="label">${esc(l)}</span><span class="value">${esc(v)}</span></div>`).join('')
+    + '<div style="background:linear-gradient(135deg,#EEF2FF,#fff);border:1.5px solid #C7D2FE;border-radius:12px;padding:14px 16px;margin-top:16px;display:flex;gap:10px;align-items:flex-start"><span style="font-size:18px;flex-shrink:0">🔑</span><div style="font-size:13px;color:#3D3733;line-height:1.5">Tu contraseña provisoria se enviará a <strong>' + esc(g('f_email')) + '</strong> cuando tu solicitud sea aprobada.</div></div>';
   document.getElementById('summary').innerHTML=html;
 }
 
@@ -706,54 +715,37 @@ async function submitForm(){
   const btn=document.getElementById('submitBtn');
   btn.disabled=true;
   btn.textContent='Enviando...';
-
   const pos=document.querySelector('input[name="posicion"]:checked').value;
-
   const payload={
-    nombre:g('f_nombre'),
-    responsable:g('f_responsable'),
-    rut:g('f_rut'),
-    descripcion:g('f_descripcion'),
-    diferenciador:g('f_diferenciador'),
-    experiencia:g('f_experiencia'),
-    capacidad:g('f_capacidad'),
-    categorias:selectedCat?[selectedCat]:[],
-    comunas:comunas.join(', '),
-    precio_minimo:g('f_precio_minimo'),
-    precio_maximo:g('f_precio_maximo'),
-    incluye:g('f_incluye'),
-    no_incluye:g('f_no_incluye'),
-    anticipacion:g('f_anticipacion'),
-    anticipo:g('f_anticipo'),
-    whatsapp:g('f_whatsapp'),
-    telefono:g('f_telefono'),
-    email:g('f_email'),
-    web:g('f_web'),
-    instagram:g('f_instagram'),
-    facebook:g('f_facebook'),
-    tiktok:g('f_tiktok'),
-    youtube:g('f_youtube'),
-    direccion:g('f_direccion'),
-    posicion_deseada:pos,
-    logo_url:logoUrl,
-    cover_url:coverUrl,
-    logo_emoji:'',
-    comentarios:g('f_comentarios'),
+    nombre:g('f_nombre'),responsable:g('f_responsable'),rut:g('f_rut'),
+    descripcion:g('f_descripcion'),diferenciador:g('f_diferenciador'),
+    experiencia:g('f_experiencia'),capacidad:g('f_capacidad'),
+    categorias:selectedCat?[selectedCat]:[],comunas:comunas.join(', '),
+    precio_minimo:g('f_precio_minimo'),precio_maximo:g('f_precio_maximo'),
+    incluye:g('f_incluye'),no_incluye:g('f_no_incluye'),
+    anticipacion:g('f_anticipacion'),anticipo:g('f_anticipo'),
+    whatsapp:'569'+g('f_whatsapp').replace(/[^0-9]/g,''),
+    telefono:g('f_telefono'),email:g('f_email'),
+    web:g('f_web'),instagram:g('f_instagram'),facebook:g('f_facebook'),
+    tiktok:g('f_tiktok'),youtube:g('f_youtube'),direccion:g('f_direccion'),
+    posicion_deseada:pos,logo_url:logoUrl,cover_url:coverUrl,
+    logo_emoji:'',comentarios:g('f_comentarios'),
   };
-
   try{
-    const res=await fetch('/api/submit-form',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
-    });
+    const res=await fetch('/api/submit-form',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     const data=await res.json();
     if(!data.ok)throw new Error(data.error||'Error al enviar');
-
-    // Show success
     document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
     document.querySelector('.progress').style.display='none';
     document.getElementById('progressLabel').style.display='none';
+    var nombre=esc(g('f_nombre'));
+    var sEl=document.getElementById('successContent');
+    if(pos==='1'){
+      var wm=encodeURIComponent('Hola, acabo de registrar mi negocio "'+g('f_nombre')+'" en CotizaEventos.cl y quiero activar el plan Destacado.');
+      sEl.innerHTML='<div class="success-ico">🎉</div><h2>¡Solicitud enviada!</h2><p class="msg">Recibimos tu solicitud para <strong>'+nombre+'</strong>. En máximo <strong>48 horas hábiles</strong> revisaremos tu información.</p><div style="background:linear-gradient(135deg,#EEF2FF,#fff);border:1.5px solid #C7D2FE;border-radius:var(--r);padding:20px;margin:16px 0;display:flex;gap:12px;align-items:flex-start;text-align:left"><span style="font-size:20px;flex-shrink:0">🔑</span><div style="font-size:14px;color:var(--ink2);line-height:1.6">Cuando tu solicitud sea aprobada, recibirás un <strong>email con tu contraseña</strong> para acceder a tu cuenta y gestionar tu perfil.</div></div><div style="background:linear-gradient(160deg,#FFF9F7,#fff);border:2px solid var(--coral);border-radius:var(--r);padding:28px;margin:24px 0;text-align:left"><h3 style="font-family:var(--font-title);font-size:20px;margin-bottom:8px;color:var(--coral)">✦ Elegiste el plan Destacado</h3><p style="font-size:15px;color:var(--ink2);line-height:1.7;margin-bottom:16px">Para activar tu perfil Destacado y conseguir máxima visibilidad con foto, descripción completa y botón directo a WhatsApp, debes activar tu suscripción:</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px"><div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center"><div style="font-size:13px;color:var(--muted);margin-bottom:4px">Mensual</div><div style="font-size:24px;font-weight:700;color:var(--coral)">$15.000</div><div style="font-size:12px;color:var(--muted)">por mes</div></div><div style="background:var(--coral-lt);border:2px solid var(--coral);border-radius:var(--r);padding:16px;text-align:center;position:relative"><div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--coral);color:#fff;font-size:11px;font-weight:600;padding:2px 10px;border-radius:100px">Ahorra 2 meses</div><div style="font-size:13px;color:var(--muted);margin-bottom:4px">Anual</div><div style="font-size:24px;font-weight:700;color:var(--coral)">$95.000</div><div style="font-size:12px;color:var(--muted)">por año</div></div></div><p style="font-size:14px;color:var(--ink2);margin-bottom:16px">Puedes activar tu plan de dos formas:</p><div style="display:flex;gap:10px;flex-wrap:wrap"><a href="https://wa.me/56991999301?text='+wm+'" target="_blank" rel="noopener" class="btn btn-coral" style="font-size:14px">💬 Activar por WhatsApp</a><a href="suscripciones.html" class="btn btn-outline" style="font-size:14px">Ir a mi cuenta →</a></div></div>';
+    }else{
+      sEl.innerHTML='<div class="success-ico">🎉</div><h2>¡Solicitud enviada!</h2><p class="msg">Recibimos tu solicitud para <strong>'+nombre+'</strong>. En máximo <strong>48 horas hábiles</strong> revisaremos tu información. La admisión no es automática — evaluamos cada solicitud para garantizar la calidad del directorio.</p><div style="background:linear-gradient(135deg,#EEF2FF,#fff);border:1.5px solid #C7D2FE;border-radius:var(--r);padding:20px;margin:16px 0;display:flex;gap:12px;align-items:flex-start;text-align:left"><span style="font-size:20px;flex-shrink:0">🔑</span><div style="font-size:14px;color:var(--ink2);line-height:1.6">Cuando tu solicitud sea aprobada, recibirás un <strong>email con tu contraseña provisoria</strong> para acceder a tu cuenta y gestionar tu perfil. Podrás cambiarla después desde tu panel.</div></div><div class="success-btns"><a href="suscripciones.html" class="btn btn-coral">Ir a mi cuenta</a><a href="proveedores.html" class="btn btn-outline">Ver directorio</a></div>';
+    }
     document.getElementById('successPanel').classList.add('show');
   }catch(e){
     alert('Error: '+e.message);
